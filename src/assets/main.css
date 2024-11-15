@@ -554,14 +554,6 @@ video {
   display: none;
 }
 
-.absolute {
-  position: absolute;
-}
-
-.relative {
-  position: relative;
-}
-
 .flex {
   display: flex;
 }
@@ -576,10 +568,6 @@ video {
 
 .flex-row {
   flex-direction: row;
-}
-
-.border {
-  border-width: 1px;
 }
 
 .bg-red-200 {

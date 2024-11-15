@@ -7,6 +7,7 @@
     <div class="basis-1/4">02</div>
     <div class="basis-1/2">03</div>
   </div>
+  <Button label="Submit" />
 </template>
 
 <style scoped>
