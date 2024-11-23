@@ -558,6 +558,18 @@ video {
   display: flex;
 }
 
+.grid {
+  display: grid;
+}
+
+.h-\[200px\] {
+  height: 200px;
+}
+
+.w-full {
+  width: 100%;
+}
+
 .basis-1\/2 {
   flex-basis: 50%;
 }
@@ -568,6 +580,10 @@ video {
 
 .flex-row {
   flex-direction: row;
+}
+
+.border {
+  border-width: 1px;
 }
 
 .bg-red-200 {
