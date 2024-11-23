@@ -6,11 +6,18 @@
     <div v-else class="grid">
       <div
         v-for="week in weeks"
-        :key="week"
+        :key="`${week.year}-${week.weekNumber}`"
         class="week-cell"
-        :title="`Týden ${week}`"
+        :class="{ current: week.isCurrentWeek }"
       >
-        {{ week }}
+        <span class="week-number">{{ week.weekNumber }}</span>
+        <!-- Tooltip obsahující informace o týdnu -->
+        <div class="tooltip">
+          <p><strong>Rok:</strong> {{ week.year }}</p>
+          <p><strong>Týden:</strong> {{ week.weekNumber }}</p>
+          <p><strong>Rozsah:</strong> {{ formatDate(week.startDate) }} - {{ formatDate(week.endDate) }}</p>
+          <!-- Přidejte další informace zde podle potřeby -->
+        </div>
       </div>
     </div>
   </div>
@@ -20,25 +27,14 @@
 import { computed } from 'vue';
 import { useLifeStore } from '../stores/lifeStore';
 
-// Použití Pinia storeu
 const lifeStore = useLifeStore();
 
-// Vypočítat počet týdnů
-const weeks = computed(() => {
-  if (!lifeStore.dateOfBirth || !lifeStore.expectedDeathDate) {
-    return [];
-  }
+const weeks = computed(() => lifeStore.weeks);
 
-  const oneWeekInMs = 1000 * 60 * 60 * 24 * 7;
-  const diffInMs = lifeStore.expectedDeathDate.getTime() - lifeStore.dateOfBirth.getTime();
-
-  if (diffInMs < 0) {
-    return [];
-  }
-
-  const totalWeeks = Math.floor(diffInMs / oneWeekInMs);
-  return Array.from({ length: totalWeeks }, (_, i) => i + 1);
-});
+// Pomocná funkce pro formátování dat
+const formatDate = (date: Date): string => {
+  return date.toLocaleDateString('cs-CZ');
+};
 </script>
 
 <style scoped>
@@ -53,20 +49,70 @@ const weeks = computed(() => {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
   gap: 2px;
 }
 
 .week-cell {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   background-color: #4caf50;
   border: 1px solid #fff;
   box-sizing: border-box;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible; /* Umožňuje tooltip zobrazit se mimo políčko */
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.week-cell.current {
+  background-color: #ff9800; /* Změna barvy pozadí pro aktuální týden */
+  border: 2px solid #ff5722; /* Zvýraznění okraje */
+  transform: scale(1.1); /* Zvýšení velikosti */
 }
 
 .week-cell:hover {
   background-color: #45a049;
+}
+
+.week-number {
+  z-index: 1; /* Zajištění, že číslo týdne je nad tooltipem */
+}
+
+.tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-align: left;
+  border-radius: 4px;
+  padding: 10px;
+  position: absolute;
+  z-index: 10;
+  bottom: 110%; /* Umístění nad políčkem */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none; /* Zajišťuje, že tooltip nepřijímá myš */
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; /* Umístění trojúhelníku na spodní část tooltipu */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+.week-cell:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 </style>
