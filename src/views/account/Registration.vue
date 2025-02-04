@@ -39,7 +39,7 @@ async function handleRegistration() {
     })
 
     if (status === 201 || status === 200) {
-      // await router.push('/login')
+      await router.push('/login')
       console.log("Registrace proběhla oka status: ", status)
     }
   } catch (error: any) {

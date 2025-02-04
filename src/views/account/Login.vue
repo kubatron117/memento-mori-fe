@@ -1,11 +1,43 @@
 <script setup lang="ts">
-import Button from 'primevue/button';
-import Checkbox from 'primevue/checkbox';
-import InputText from 'primevue/inputtext';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import Button from 'primevue/button'
+import Checkbox from 'primevue/checkbox'
+import InputText from 'primevue/inputtext'
+import { AccountLoginApiService } from '@/api/accountLoginApiService'
 
-import { ref } from 'vue';
+const router = useRouter()
 
-const checked1 = ref(true);
+const email = ref('')
+const password = ref('')
+const checked1 = ref(true)
+const loading = ref(false)
+const errorMessage = ref('')
+
+async function handleLogin() {
+  errorMessage.value = ''
+
+  if (!email.value || !password.value) {
+    errorMessage.value = 'Vyplňte prosím email a heslo.'
+    return
+  }
+
+  loading.value = true
+  try {
+    const status = await AccountLoginApiService.login({
+      email: email.value,
+      password: password.value
+    })
+
+    if (status === 200 || status === 201) {
+      await router.push('/weeks-in-life')
+    }
+  } catch (error: any) {
+    errorMessage.value = error.message || 'Přihlášení selhalo.'
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
@@ -22,30 +54,54 @@ const checked1 = ref(true);
 
         <div class="text-surface-900 text-3xl font-medium mb-4">Welcome Back</div>
         <span class="text-surface-600 font-medium leading-normal">Don't have an account?</span>
-        <a class="font-medium no-underline ml-2 text-primary cursor-pointer">Create today!</a>
+        <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="$router.push('/registration')">Create today!</a>
       </div>
+
+      <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
 
       <div>
         <label for="email1" class="text-surface-900 font-medium mb-2 block">Email</label>
-        <InputText id="email1" type="text" placeholder="Email address" class="w-full mb-4" />
+        <InputText
+          id="email1"
+          type="text"
+          placeholder="Email address"
+          class="w-full mb-4"
+          v-model="email"
+        />
 
         <label for="password1" class="text-surface-900 font-medium mb-2 block">Password</label>
-        <InputText id="password1" type="password" placehoder="Password" class="w-full mb-4" />
+        <InputText
+          id="password1"
+          type="password"
+          placeholder="Password"
+          class="w-full mb-4"
+          v-model="password"
+        />
 
         <div class="flex items-center justify-between mb-12">
           <div class="flex items-center">
-            <Checkbox id="rememberme1" v-model="checked1" :binary="true" class="mr-2" />
+            <Checkbox
+              id="rememberme1"
+              v-model="checked1"
+              :binary="true"
+              class="mr-2"
+            />
             <label for="rememberme1">Remember me</label>
           </div>
-          <a class="font-medium no-underline ml-2 text-primary text-right cursor-pointer">Forgot password?</a>
+          <a class="font-medium no-underline ml-2 text-primary text-right cursor-pointer" @click="$router.push('/forgot-password')">Forgot password?</a>
         </div>
 
-        <Button label="Sign In" icon="pi pi-user" class="w-full" />
+        <Button
+          label="Sign In"
+          icon="pi pi-user"
+          class="w-full"
+          :loading="loading"
+          @click="handleLogin"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-
 </style>
