@@ -45,11 +45,13 @@ const PostVerifyAccountPasswordChangeSchema = z.object({
 })
 
 const backendApi = axios.create({
-  baseURL: BACKEND_API_URL
+  baseURL: BACKEND_API_URL,
+  withCredentials: true
 })
 
 const accountApi = axios.create({
-  baseURL: `${BASE_API_URL}/accounts`
+  baseURL: `${BASE_API_URL}/accounts`,
+  withCredentials: true
 })
 
 export class AccountLoginApiService {
@@ -106,9 +108,6 @@ export class AccountLoginApiService {
       backendApi.post(endpoint, validatedData),
       endpoint
     )
-
-    console.log(response);
-
     return response.status
   }
 

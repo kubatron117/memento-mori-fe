@@ -5,9 +5,9 @@ export interface AccountCredentials {
 }
 
 export interface AccountInfo {
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
   dateOfBirth: Date;
   estimatedLifespan: Date;
 }

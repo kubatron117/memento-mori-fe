@@ -5,9 +5,12 @@ import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import InputText from 'primevue/inputtext'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
+import { useLoginStore } from '@/stores/loginStore'
 
 const router = useRouter()
+const loginStore = useLoginStore()
 
+// Reaktivní proměnné
 const email = ref('')
 const password = ref('')
 const checked1 = ref(true)
@@ -30,6 +33,8 @@ async function handleLogin() {
     })
 
     if (status === 200 || status === 201) {
+      const accountInfo = await AccountLoginApiService.getAccountInfo()
+      loginStore.setAccountInfo(accountInfo)
       await router.push('/weeks-in-life')
     }
   } catch (error: any) {
@@ -57,6 +62,7 @@ async function handleLogin() {
         <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="$router.push('/registration')">Create today!</a>
       </div>
 
+      <!-- Zobrazení chybové zprávy -->
       <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
 
       <div>
@@ -104,4 +110,5 @@ async function handleLogin() {
 </template>
 
 <style scoped>
+/* Můžeš přidat své styly */
 </style>
