@@ -20,10 +20,6 @@ const PostAccountCredentialsSchema = z.object({
 
 const PostVerifyAccountCredentialsSchema = z.object({
   key: z.string().min(1).max(255),
-  first_name: z.string().min(1).max(50),
-  last_name: z.string().min(1).max(50),
-  password: z.string().min(12).max(64),
-  'password-confirm': z.string().min(12).max(64),
 })
 
 const PostAccountEmailRequestSchema = z.object({

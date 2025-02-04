@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import WeeksInLifeView from '@/views/WeeksInLifeView.vue'
 import Login from '@/views/account/Login.vue'
 import Registration from '@/views/account/Registration.vue'
+import AccountVerification from '@/views/account/AccountVerification.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/registration',
       name: 'Registration',
       component: Registration,
+    },
+    {
+      path: '/verify-account',
+      name: 'AccountVerification',
+      component: AccountVerification,
     },
   ],
 })

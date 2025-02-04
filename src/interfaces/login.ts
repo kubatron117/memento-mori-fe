@@ -14,10 +14,6 @@ export interface AccountInfo {
 
 export interface AccountVerification {
   key: string;
-  'first_name': string;
-  'last_name': string;
-  password: string;
-  'password-confirm': string;
 }
 
 export interface AccountRegistration {
