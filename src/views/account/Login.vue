@@ -33,8 +33,6 @@ async function handleLogin() {
     })
 
     if (status === 200 || status === 201) {
-      const accountInfo = await AccountLoginApiService.getAccountInfo()
-      loginStore.setAccountInfo(accountInfo)
       await router.push('/weeks-in-life')
     }
   } catch (error: any) {

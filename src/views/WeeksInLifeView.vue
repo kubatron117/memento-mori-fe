@@ -1,4 +1,5 @@
 <template>
+  <Navbar></Navbar>
   <div class="life-calculator">
     <h1>Kalkulačka životních týdnů</h1>
     <form @submit.prevent="submitDates">
@@ -22,6 +23,7 @@
 import { ref } from 'vue';
 import { useLifeStore } from '../stores/lifeStore';
 import LifeWeeksGrid from '../components/WeeksInLife.vue';
+import Navbar from '@/components/Navbar.vue'
 
 const dob = ref<string>('');
 const dod = ref<string>('');
