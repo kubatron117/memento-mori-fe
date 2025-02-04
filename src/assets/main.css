@@ -619,10 +619,6 @@ video {
   height: 4rem;
 }
 
-.h-full {
-  height: 100%;
-}
-
 .h-screen {
   height: 100vh;
 }
@@ -722,6 +718,11 @@ video {
   color: color-mix(in srgb, var(--p-primary-color) calc(100% * var(--tw-text-opacity, 1)), transparent);
 }
 
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
+
 .text-surface-600 {
   --tw-text-opacity: 1;
   color: color-mix(in srgb, var(--p-surface-600) calc(100% * var(--tw-text-opacity, 1)), transparent);
@@ -769,31 +770,5 @@ video {
   .lg\:px-20 {
     padding-left: 5rem;
     padding-right: 5rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .dark\:bg-surface-900 {
-    --tw-bg-opacity: 1;
-    background-color: color-mix(in srgb, var(--p-surface-900) calc(100% * var(--tw-bg-opacity, 1)), transparent);
-  }
-
-  .dark\:bg-surface-950 {
-    --tw-bg-opacity: 1;
-    background-color: color-mix(in srgb, var(--p-surface-950) calc(100% * var(--tw-bg-opacity, 1)), transparent);
-  }
-
-  .dark\:fill-surface-200 {
-    fill: color-mix(in srgb, var(--p-surface-200) calc(100% * 1), transparent);
-  }
-
-  .dark\:text-surface-0 {
-    --tw-text-opacity: 1;
-    color: color-mix(in srgb, var(--p-surface-0) calc(100% * var(--tw-text-opacity, 1)), transparent);
-  }
-
-  .dark\:text-surface-200 {
-    --tw-text-opacity: 1;
-    color: color-mix(in srgb, var(--p-surface-200) calc(100% * var(--tw-text-opacity, 1)), transparent);
   }
 }

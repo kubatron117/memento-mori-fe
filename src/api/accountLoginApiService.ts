@@ -1,5 +1,6 @@
 // accountLoginApiService.ts
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
+import type { AxiosResponse } from 'axios'
 import { z } from 'zod'
 import { BACKEND_API_URL, BASE_API_URL } from '@/constants/apiUrl'
 import type {
@@ -8,7 +9,8 @@ import type {
   AccountEmailRequest,
   AccountInfo,
   AccountResetPassword,
-  AccountVerification
+  AccountVerification,
+  AccountRegistration
 } from '@/interfaces/login'
 
 const PostAccountCredentialsSchema = z.object({
@@ -32,6 +34,12 @@ const PostVerifyAccountPasswordResetSchema = z.object({
   key: z.string().min(1).max(255),
   password: z.string().min(12).max(64),
   'password-confirm': z.string().min(12).max(64),
+})
+
+const PostAccountRegistrationSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8).max(64),
+  'password-confirm': z.string().min(8).max(64),
 })
 
 const PostVerifyAccountPasswordChangeSchema = z.object({
@@ -92,6 +100,19 @@ export class AccountLoginApiService {
       backendApi.post(endpoint, {}),
       endpoint
     )
+    return response.status
+  }
+
+  static async registration(accountRegistration: AccountRegistration): Promise<number> {
+    const validatedData = this.validate(PostAccountRegistrationSchema, accountRegistration)
+    const endpoint = '/create-account'
+    const response = await this.handleRequest(
+      backendApi.post(endpoint, validatedData),
+      endpoint
+    )
+
+    console.log(response);
+
     return response.status
   }
 

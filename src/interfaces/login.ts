@@ -20,6 +20,13 @@ export interface AccountVerification {
   'password-confirm': string;
 }
 
+export interface AccountRegistration {
+  email: string;
+  password: string;
+  'password-confirm': string;
+}
+
+
 export interface AccountEmailRequest {
   email: string;
 }
