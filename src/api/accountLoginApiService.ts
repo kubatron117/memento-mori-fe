@@ -28,8 +28,8 @@ const PostAccountEmailRequestSchema = z.object({
 
 const PostVerifyAccountPasswordResetSchema = z.object({
   key: z.string().min(1).max(255),
-  password: z.string().min(12).max(64),
-  'password-confirm': z.string().min(12).max(64),
+  password: z.string().min(8).max(64),
+  'password-confirm': z.string().min(8).max(64),
 })
 
 const PostAccountRegistrationSchema = z.object({
@@ -40,8 +40,8 @@ const PostAccountRegistrationSchema = z.object({
 
 const PostVerifyAccountPasswordChangeSchema = z.object({
   password: z.string(),
-  'new-password': z.string().min(12).max(64),
-  'password-confirm': z.string().min(12).max(64),
+  'new-password': z.string().min(8).max(64),
+  'password-confirm': z.string().min(8).max(64),
 })
 
 const backendApi = axios.create({

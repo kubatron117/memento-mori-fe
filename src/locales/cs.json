@@ -23,12 +23,22 @@
       "login": "Přihlásit se"
     },
     "reset-password": {
+      "title": "Reset hesla",
+      "subtitle": "Zadejte nové heslo a potvrďte jej",
+      "new-password": "Nové heslo",
+      "new-password-placeholder": "Zadejte nové heslo",
+      "confirm-password": "Potvrdit heslo",
+      "confirm-password-placeholder": "Zadejte znovu nové heslo",
+      "submit": "Odeslat",
+      "no-key": "Resetovací klíč nebyl poskytnut.",
+      "success": "Heslo bylo úspěšně resetováno.",
       "reset": "Resetovat heslo",
-      "email-was-send": "Email pro reset hesla byl úspěšne odeslán."
+      "email-was-send": "Email pro reset hesla byl úspěšně odeslán."
     },
     "errors": {
       "missing-email-password": "Vyplňte prosím email a heslo.",
       "missing-email": "Vyplňte prosím email.",
+      "missing-password": "Vyplňte prosím heslo.",
       "login-failed": "Přihlášení selhalo.",
       "reset-password-failed": "Reset hesla selhal."
     }
