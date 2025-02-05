@@ -1,3 +1,4 @@
+// src/stores/lifeStore.ts
 import { defineStore } from 'pinia';
 import { shallowRef } from 'vue';
 import type { LifeWeek } from '@/interfaces/LifeWeek';
@@ -104,10 +105,23 @@ export const useLifeStore = defineStore('lifeStore', () => {
   };
 
   const updateWeekMemo = async (week: LifeWeek, newMemo: string) => {
+    const now = new Date();
+    const startOfCurrentWeek = startOfISOWeek(now);
+    const startOfPrevWeek = addWeeks(startOfCurrentWeek, -1);
+
     if (!week.backendId) {
       console.error('Backend id chybí pro tento týden, není možné aktualizovat memo.');
-      return;
+      throw new Error('Backend id chybí pro tento týden.');
     }
+
+    if (
+      week.startDate.getTime() !== startOfCurrentWeek.getTime() &&
+      week.startDate.getTime() !== startOfPrevWeek.getTime()
+    ) {
+      console.error('Aktualizace memo je povolena pouze pro aktuální nebo předchozí týden.');
+      throw new Error('Aktualizace memo je povolena pouze pro aktuální nebo předchozí týden.');
+    }
+
     try {
       const updatedBackendWeek = await WeeksApiService.updateWeekMemo(week.backendId, newMemo);
       const key = `${week.year}-${week.weekNumber}`;

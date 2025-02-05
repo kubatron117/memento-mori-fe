@@ -1,3 +1,4 @@
+<!-- src/components/EditWeekModal.vue -->
 <template>
   <div class="modal-overlay">
     <div class="modal">
@@ -6,18 +7,27 @@
         <strong>Rozsah:</strong>
         {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
       </p>
-      <textarea v-model="memo" placeholder="Zadejte poznámku"></textarea>
-      <div class="buttons">
-        <button @click="saveMemo" :disabled="loading">Uložit</button>
-        <button @click="closeModal" :disabled="loading">Zrušit</button>
-      </div>
-      <p v-if="error" class="error">{{ error }}</p>
+      <template v-if="isEditable">
+        <textarea v-model="memo" placeholder="Zadejte poznámku"></textarea>
+        <div class="buttons">
+          <button @click="saveMemo" :disabled="loading">Uložit</button>
+          <button @click="closeModal" :disabled="loading">Zrušit</button>
+        </div>
+        <p v-if="error" class="error">{{ error }}</p>
+      </template>
+      <template v-else>
+        <p>{{ week.additionalInfo || 'Poznámka není k dispozici.' }}</p>
+        <div class="buttons">
+          <button @click="closeModal">Zavřít</button>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { startOfISOWeek, addWeeks } from 'date-fns';
 import { useLifeStore } from '@/stores/lifeStore';
 
 const props = defineProps<{
@@ -45,6 +55,16 @@ const lifeStore = useLifeStore();
 const formatDate = (date: Date): string => {
   return date.toLocaleDateString('cs-CZ');
 };
+
+const isEditable = computed(() => {
+  const now = new Date();
+  const startOfCurrentWeek = startOfISOWeek(now);
+  const startOfPrevWeek = addWeeks(startOfCurrentWeek, -1);
+  return !!props.week.backendId && (
+    props.week.startDate.getTime() === startOfCurrentWeek.getTime() ||
+    props.week.startDate.getTime() === startOfPrevWeek.getTime()
+  );
+});
 
 const saveMemo = async () => {
   error.value = '';
