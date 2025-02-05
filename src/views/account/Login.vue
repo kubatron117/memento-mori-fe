@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import Button from 'primevue/button'
-import Checkbox from 'primevue/checkbox'
 import InputText from 'primevue/inputtext'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
-import { useLoginStore } from '@/stores/loginStore'
 
 const router = useRouter()
-const loginStore = useLoginStore()
+const { t } = useI18n()
 
-// Reaktivní proměnné
 const email = ref('')
 const password = ref('')
-const checked1 = ref(true)
 const loading = ref(false)
 const errorMessage = ref('')
 
@@ -21,7 +18,7 @@ async function handleLogin() {
   errorMessage.value = ''
 
   if (!email.value || !password.value) {
-    errorMessage.value = 'Vyplňte prosím email a heslo.'
+    errorMessage.value = t('app.errors.missing-email-password')
     return
   }
 
@@ -36,7 +33,7 @@ async function handleLogin() {
       await router.push('/weeks-in-life')
     }
   } catch (error: any) {
-    errorMessage.value = error.message || 'Přihlášení selhalo.'
+    errorMessage.value = error.message || t('app.errors.login-failed')
   } finally {
     loading.value = false
   }
@@ -55,48 +52,42 @@ async function handleLogin() {
           />
         </svg>
 
-        <div class="text-surface-900 text-3xl font-medium mb-4">Welcome Back</div>
-        <span class="text-surface-600 font-medium leading-normal">Don't have an account?</span>
-        <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="$router.push('/registration')">Create today!</a>
+        <div class="text-surface-900 text-3xl font-medium mb-4">{{ t('app.login.welcome-back') }}</div>
+        <span class="text-surface-600 font-medium leading-normal">{{ t('app.login.dont-have-account') }}</span>
+        <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="$router.push('/registration')">
+          {{ t('app.login.create-today') }}
+        </a>
       </div>
 
-      <!-- Zobrazení chybové zprávy -->
       <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
 
       <div>
-        <label for="email1" class="text-surface-900 font-medium mb-2 block">Email</label>
+        <label for="email1" class="text-surface-900 font-medium mb-2 block">{{ t('app.login.email') }}</label>
         <InputText
           id="email1"
           type="text"
-          placeholder="Email address"
+          :placeholder="t('app.login.email')"
           class="w-full mb-4"
           v-model="email"
         />
 
-        <label for="password1" class="text-surface-900 font-medium mb-2 block">Password</label>
+        <label for="password1" class="text-surface-900 font-medium mb-2 block">{{ t('app.login.password') }}</label>
         <InputText
           id="password1"
           type="password"
-          placeholder="Password"
+          :placeholder=" t('app.login.password')"
           class="w-full mb-4"
           v-model="password"
         />
 
         <div class="flex items-center justify-between mb-12">
-          <div class="flex items-center">
-            <Checkbox
-              id="rememberme1"
-              v-model="checked1"
-              :binary="true"
-              class="mr-2"
-            />
-            <label for="rememberme1">Remember me</label>
-          </div>
-          <a class="font-medium no-underline ml-2 text-primary text-right cursor-pointer" @click="$router.push('/forgot-password')">Forgot password?</a>
+          <a class="font-medium no-underline ml-2 text-primary text-right cursor-pointer" @click="$router.push('/forgot-password')">
+            {{ t('app.login.forgot-password') }}
+          </a>
         </div>
 
         <Button
-          label="Sign In"
+          :label="t('app.login.sign-in')"
           icon="pi pi-user"
           class="w-full"
           :loading="loading"
@@ -108,5 +99,4 @@ async function handleLogin() {
 </template>
 
 <style scoped>
-/* Můžeš přidat své styly */
 </style>

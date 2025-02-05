@@ -1,0 +1,17 @@
+{
+  "app": {
+    "login": {
+      "welcome-back": "Vítejte zpátky",
+      "dont-have-account": "Ještě nemáte účet?",
+      "create-today": "Vytvořte si ho dnes!",
+      "email": "Email",
+      "password": "Heslo",
+      "forgot-password": "Zapomenuté heslo",
+      "sign-in": "Přihlásit se"
+    },
+    "errors": {
+      "missing-email-password": "Vyplňte prosím email a heslo.",
+      "login-failed": "Přihlášení selhalo."
+    }
+  }
+}
