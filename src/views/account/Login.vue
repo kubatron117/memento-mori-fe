@@ -45,7 +45,7 @@ function goToRegistration() {
 }
 
 function goToForgotPassword() {
-  router.push('/forgot-password')
+  router.push('/reset-password-request')
 }
 </script>
 

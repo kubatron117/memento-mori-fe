@@ -22,9 +22,15 @@
       "already-have-account": "Již máte účet?",
       "login": "Přihlásit se"
     },
+    "reset-password": {
+      "reset": "Resetovat heslo",
+      "email-was-send": "Email pro reset hesla byl úspěšne odeslán."
+    },
     "errors": {
       "missing-email-password": "Vyplňte prosím email a heslo.",
-      "login-failed": "Přihlášení selhalo."
+      "missing-email": "Vyplňte prosím email.",
+      "login-failed": "Přihlášení selhalo.",
+      "reset-password-failed": "Reset hesla selhal."
     }
   }
 }
