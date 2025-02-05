@@ -18,7 +18,7 @@
             <span class="sr-only">Open user menu</span>
             <img
               class="w-8 h-8 rounded-full"
-              :src="loginStore.avatar || '/docs/images/people/profile-picture-3.jpg'"
+              src="/pexels-shtefutsa-20265009.jpg"
               alt="User photo"
             />
           </button>
@@ -170,10 +170,10 @@ function closeUserDropdown() {
   userDropdownOpen.value = false;
 }
 
-function logout() {
-  loginStore.logoutUser();
+async function logout() {
+  await loginStore.logoutUser();
   closeUserDropdown();
-  router.push('/login');
+  await router.push('/login');
 }
 </script>
 
