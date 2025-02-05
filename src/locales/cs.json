@@ -18,7 +18,9 @@
       "register": "Registrovat",
       "password-mismatch": "Heslo a jeho potvrzení se neshodují",
       "accept-terms": "Musíte souhlasit s podmínkami",
-      "registration-failed": "Chyba při registraci"
+      "registration-failed": "Chyba při registraci",
+      "already-have-account": "Již máte účet?",
+      "login": "Přihlásit se"
     },
     "errors": {
       "missing-email-password": "Vyplňte prosím email a heslo.",

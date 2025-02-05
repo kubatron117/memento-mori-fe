@@ -50,6 +50,11 @@ async function handleRegistration() {
     loading.value = false
   }
 }
+
+function goToLogin() {
+  router.push('/login')
+}
+
 </script>
 
 <template>
@@ -71,6 +76,12 @@ async function handleRegistration() {
         <div class="text-surface-900 text-3xl font-medium mb-4">
           {{ t('app.registration.title') }}
         </div>
+        <span class="text-surface-600 font-medium leading-normal">
+          {{ t('app.registration.already-have-account') }}
+        </span>
+        <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="goToLogin">
+          {{ t('app.registration.login') }}
+        </a>
       </div>
     </template>
 
