@@ -136,9 +136,14 @@ export const useLifeStore = defineStore('lifeStore', () => {
     }
   };
 
+  const reset = () => {
+    weeks.value = [];
+  }
+
   return {
     weeks,
     loadWeeks,
     updateWeekMemo,
+    reset
   };
 });

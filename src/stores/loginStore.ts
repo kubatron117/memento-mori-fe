@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia';
 import { AccountLoginApiService } from '@/api/accountLoginApiService';
 import type { AccountInfo } from '@/interfaces/login';
+import { useLifeStore } from '@/stores/lifeStore'
 
 export const useLoginStore = defineStore('loginStore', {
   state: () => ({
@@ -40,10 +41,14 @@ export const useLoginStore = defineStore('loginStore', {
     },
 
     async logoutUser(): Promise<boolean> {
-      this.accountInfo = null;
-      this.isAuthenticated = false;
       try {
         const status = await AccountLoginApiService.logout();
+
+        this.accountInfo = null;
+        this.isAuthenticated = false;
+        const lifeStore = await useLifeStore();
+        lifeStore.reset();
+
         return status === 200 || status === 201;
       } catch (error) {
         console.error('Chyba při odhlašování:', error);

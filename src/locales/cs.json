@@ -9,6 +9,17 @@
       "forgot-password": "Zapomenuté heslo",
       "sign-in": "Přihlásit se"
     },
+    "registration": {
+      "title": "Registrace",
+      "email": "Email",
+      "password": "Heslo",
+      "passwordConfirm": "Potvrdit heslo",
+      "terms": "Souhlasím s podmínkami",
+      "register": "Registrovat",
+      "password-mismatch": "Heslo a jeho potvrzení se neshodují",
+      "accept-terms": "Musíte souhlasit s podmínkami",
+      "registration-failed": "Chyba při registraci"
+    },
     "errors": {
       "missing-email-password": "Vyplňte prosím email a heslo.",
       "login-failed": "Přihlášení selhalo."

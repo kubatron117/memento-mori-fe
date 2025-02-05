@@ -50,7 +50,6 @@ router.beforeEach(async (to, from, next) => {
   } else if (isAuthenticated && publicRoutes.includes(to.name as string)) {
     next({ name: 'weeks-in-life' });
   }else {
-    console.log("next:", to.fullPath)
     next();
   }
 });

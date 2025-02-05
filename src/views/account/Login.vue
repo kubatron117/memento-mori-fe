@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
+import AuthLayout from '@/components/auth//AuthLayout.vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -38,13 +39,26 @@ async function handleLogin() {
     loading.value = false
   }
 }
+
+function goToRegistration() {
+  router.push('/registration')
+}
+
+function goToForgotPassword() {
+  router.push('/forgot-password')
+}
 </script>
 
 <template>
-  <div class="bg-surface-50 px-6 py-20 md:px-12 lg:px-20 w-full h-screen">
-    <div class="bg-surface-0 p-6 shadow rounded-border w-full lg:w-6/12 mx-auto">
+  <AuthLayout>
+    <template #header>
       <div class="text-center mb-8">
-        <svg class="mb-4 mx-auto fill-surface-600 h-16" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          class="mb-4 mx-auto fill-surface-600 h-16"
+          viewBox="0 0 30 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             fill-rule="evenodd"
             clip-rule="evenodd"
@@ -52,17 +66,25 @@ async function handleLogin() {
           />
         </svg>
 
-        <div class="text-surface-900 text-3xl font-medium mb-4">{{ t('app.login.welcome-back') }}</div>
-        <span class="text-surface-600 font-medium leading-normal">{{ t('app.login.dont-have-account') }}</span>
-        <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="$router.push('/registration')">
+        <div class="text-surface-900 text-3xl font-medium mb-4">
+          {{ t('app.login.welcome-back') }}
+        </div>
+        <span class="text-surface-600 font-medium leading-normal">
+          {{ t('app.login.dont-have-account') }}
+        </span>
+        <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="goToRegistration">
           {{ t('app.login.create-today') }}
         </a>
       </div>
+    </template>
 
+    <template #body>
       <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
 
       <div>
-        <label for="email1" class="text-surface-900 font-medium mb-2 block">{{ t('app.login.email') }}</label>
+        <label for="email1" class="text-surface-900 font-medium mb-2 block">
+          {{ t('app.login.email') }}
+        </label>
         <InputText
           id="email1"
           type="text"
@@ -71,17 +93,19 @@ async function handleLogin() {
           v-model="email"
         />
 
-        <label for="password1" class="text-surface-900 font-medium mb-2 block">{{ t('app.login.password') }}</label>
+        <label for="password1" class="text-surface-900 font-medium mb-2 block">
+          {{ t('app.login.password') }}
+        </label>
         <InputText
           id="password1"
           type="password"
-          :placeholder=" t('app.login.password')"
+          :placeholder="t('app.login.password')"
           class="w-full mb-4"
           v-model="password"
         />
 
         <div class="flex items-center justify-between mb-12">
-          <a class="font-medium no-underline ml-2 text-primary text-right cursor-pointer" @click="$router.push('/forgot-password')">
+          <a class="font-medium no-underline ml-2 text-primary text-right cursor-pointer" @click="goToForgotPassword">
             {{ t('app.login.forgot-password') }}
           </a>
         </div>
@@ -94,8 +118,8 @@ async function handleLogin() {
           @click="handleLogin"
         />
       </div>
-    </div>
-  </div>
+    </template>
+  </AuthLayout>
 </template>
 
 <style scoped>
