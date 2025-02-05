@@ -44,10 +44,12 @@ export const useLoginStore = defineStore('loginStore', {
       try {
         const status = await AccountLoginApiService.logout();
 
-        this.accountInfo = null;
-        this.isAuthenticated = false;
-        const lifeStore = await useLifeStore();
-        lifeStore.reset();
+        if (status === 200 || status === 201) {
+          this.accountInfo = null;
+          this.isAuthenticated = false;
+          const lifeStore = await useLifeStore();
+          lifeStore.reset();
+        }
 
         return status === 200 || status === 201;
       } catch (error) {
