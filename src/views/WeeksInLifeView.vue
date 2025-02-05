@@ -1,81 +1,37 @@
+<!-- src/views/LifeCalculator.vue -->
 <template>
-  <Navbar></Navbar>
   <div class="life-calculator">
+    <Navbar />
     <h1>Kalkulačka životních týdnů</h1>
-    <form @submit.prevent="submitDates">
-      <div>
-        <label for="dob">Datum narození:</label>
-        <input type="date" id="dob" v-model="dob" required />
-      </div>
-      <div>
-        <label for="dod">Očekávané datum úmrtí:</label>
-        <input type="date" id="dod" v-model="dod" required />
-      </div>
-      <button type="submit">Vypočítat týdny</button>
-    </form>
-
-    <LifeWeeksGrid />
-
+    <WeeksInLife />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useLifeStore } from '../stores/lifeStore';
-import LifeWeeksGrid from '../components/WeeksInLife.vue';
-import Navbar from '@/components/Navbar.vue'
-
-const dob = ref<string>('');
-const dod = ref<string>('');
+import { onMounted } from 'vue';
+import { useLifeStore } from '@/stores/lifeStore';
+import { useLoginStore } from '@/stores/loginStore';
+import WeeksInLife from '@/components/WeeksInLife.vue';
+import Navbar from '@/components/Navbar.vue';
 
 const lifeStore = useLifeStore();
+const loginStore = useLoginStore();
 
-const submitDates = () => {
-  const birthDate = new Date(dob.value);
-  const deathDate = new Date(dod.value);
-
-  if (birthDate >= deathDate) {
-    alert('Datum úmrtí musí být po datu narození.');
-    return;
+onMounted(async () => {
+  if (loginStore.dateOfBirth && loginStore.estimatedLifespan) {
+    await lifeStore.loadWeeks();
+  } else {
+    console.error(
+      'Není nastaveno datum narození nebo očekávané datum úmrtí v loginStore.'
+    );
   }
-
-  lifeStore.setDateOfBirth(birthDate);
-  lifeStore.setExpectedDeathDate(deathDate);
-};
+});
 </script>
 
 <style scoped>
 .life-calculator {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-}
-
-.life-calculator form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.life-calculator label {
-  margin-right: 10px;
-}
-
-.life-calculator input {
-  padding: 5px;
-  font-size: 16px;
-}
-
-.life-calculator button {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.life-calculator button:hover {
-  background-color: #45a049;
 }
 </style>

@@ -1,7 +1,8 @@
+<!-- src/components/WeeksInLife.vue -->
 <template>
   <div class="life-weeks-container">
     <div v-if="weeks.length === 0" class="no-data">
-      Prosím, zadejte datum narození a očekávané datum úmrtí.
+      Nebyla nalezena data o týdnech.
     </div>
     <div v-else class="grid">
       <div
@@ -11,12 +12,18 @@
         :class="{ current: week.isCurrentWeek }"
       >
         <span class="week-number">{{ week.weekNumber }}</span>
-        <!-- Tooltip obsahující informace o týdnu -->
+
         <div class="tooltip">
           <p><strong>Rok:</strong> {{ week.year }}</p>
           <p><strong>Týden:</strong> {{ week.weekNumber }}</p>
-          <p><strong>Rozsah:</strong> {{ formatDate(week.startDate) }} - {{ formatDate(week.endDate) }}</p>
-          <!-- Přidejte další informace zde podle potřeby -->
+          <p>
+            <strong>Rozsah:</strong>
+            {{ formatDate(week.startDate) }} -
+            {{ formatDate(week.endDate) }}
+          </p>
+          <p v-if="week.additionalInfo">
+            <strong>Info:</strong> {{ week.additionalInfo }}
+          </p>
         </div>
       </div>
     </div>
@@ -25,13 +32,11 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useLifeStore } from '../stores/lifeStore';
+import { useLifeStore } from '@/stores/lifeStore';
 
 const lifeStore = useLifeStore();
-
 const weeks = computed(() => lifeStore.weeks);
 
-// Pomocná funkce pro formátování dat
 const formatDate = (date: Date): string => {
   return date.toLocaleDateString('cs-CZ');
 };
@@ -64,14 +69,14 @@ const formatDate = (date: Date): string => {
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: visible; /* Umožňuje tooltip zobrazit se mimo políčko */
+  overflow: visible; /* Umožňuje tooltip, aby přesahoval buňku */
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .week-cell.current {
-  background-color: #ff9800; /* Změna barvy pozadí pro aktuální týden */
-  border: 2px solid #ff5722; /* Zvýraznění okraje */
-  transform: scale(1.1); /* Zvýšení velikosti */
+  background-color: #ff9800;
+  border: 2px solid #ff5722;
+  transform: scale(1.1);
 }
 
 .week-cell:hover {
@@ -79,7 +84,7 @@ const formatDate = (date: Date): string => {
 }
 
 .week-number {
-  z-index: 1; /* Zajištění, že číslo týdne je nad tooltipem */
+  z-index: 1;
 }
 
 .tooltip {
@@ -92,18 +97,18 @@ const formatDate = (date: Date): string => {
   padding: 10px;
   position: absolute;
   z-index: 10;
-  bottom: 110%; /* Umístění nad políčkem */
+  bottom: 110%;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
   transition: opacity 0.3s;
-  pointer-events: none; /* Zajišťuje, že tooltip nepřijímá myš */
+  pointer-events: none;
 }
 
 .tooltip::after {
   content: '';
   position: absolute;
-  top: 100%; /* Umístění trojúhelníku na spodní část tooltipu */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   border-width: 5px;

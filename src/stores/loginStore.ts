@@ -18,6 +18,12 @@ export const useLoginStore = defineStore('loginStore', {
     email(state): string {
       return state.accountInfo?.email || '';
     },
+    dateOfBirth(state): Date | null {
+      return state.accountInfo?.date_of_birth || null;
+    },
+    estimatedLifespan(state): Date | null {
+      return state.accountInfo?.estimated_lifespan || null;
+    },
   },
 
   actions: {

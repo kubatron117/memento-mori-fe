@@ -1,5 +1,6 @@
+// src/stores/lifeStore.ts
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 import type { LifeWeek } from '@/interfaces/LifeWeek';
 import {
   startOfISOWeek,
@@ -9,32 +10,38 @@ import {
   getISOWeek,
   getISOWeekYear,
 } from 'date-fns';
+import { WeeksApiService } from '@/api/weeksApiService';
+import { useLoginStore } from './loginStore';
 
 export const useLifeStore = defineStore('lifeStore', () => {
-  const dateOfBirth = ref<Date | null>(null);
-  const expectedDeathDate = ref<Date | null>(null);
+  const weeks = shallowRef<LifeWeek[]>([]);
+  const loginStore = useLoginStore();
 
-  const weeks = ref<LifeWeek[]>([]);
+  const loadWeeks = async () => {
+    const rawBirthDate = loginStore.dateOfBirth;
+    const rawDeathDate = loginStore.estimatedLifespan;
 
-  // Metody pro nastavení dat narození a očekávaného úmrtí
-  const setDateOfBirth = (date: Date) => {
-    dateOfBirth.value = date;
-    computeWeeks();
-  };
+    console.log('rawBirthDate:', rawBirthDate, typeof rawBirthDate);
+    console.log('rawDeathDate:', rawDeathDate, typeof rawDeathDate);
 
-  const setExpectedDeathDate = (date: Date) => {
-    expectedDeathDate.value = date;
-    computeWeeks();
-  };
-
-  // Metoda pro výpočet všech týdnů mezi datem narození a očekávaným úmrtím
-  const computeWeeks = () => {
-    if (!dateOfBirth.value || !expectedDeathDate.value) {
+    if (!rawBirthDate || !rawDeathDate) {
+      console.error('Datum narození nebo očekávané datum úmrtí není nastaveno.');
       weeks.value = [];
       return;
     }
 
-    if (dateOfBirth.value >= expectedDeathDate.value) {
+    const birthDate =
+      rawBirthDate instanceof Date ? rawBirthDate : new Date(rawBirthDate);
+    const deathDate =
+      rawDeathDate instanceof Date ? rawDeathDate : new Date(rawDeathDate);
+
+    if (isNaN(birthDate.getTime()) || isNaN(deathDate.getTime())) {
+      console.error('Neplatné datum narození nebo úmrtí.', { birthDate, deathDate });
+      weeks.value = [];
+      return;
+    }
+
+    if (birthDate >= deathDate) {
       console.error('Datum úmrtí musí být po datu narození.');
       weeks.value = [];
       return;
@@ -43,59 +50,61 @@ export const useLifeStore = defineStore('lifeStore', () => {
     const computedWeeks: LifeWeek[] = [];
     const today = new Date();
 
-    // Začneme od začátku týdne, kde se nachází datum narození
-    let currentWeekStart = startOfISOWeek(dateOfBirth.value);
+    let currentWeekStart = startOfISOWeek(birthDate);
     let currentWeekEnd = endOfISOWeek(currentWeekStart);
 
-    // Dokud nezačneme týdnem po očekávaném datu úmrtí
-    while (currentWeekStart <= expectedDeathDate.value) {
-      // Pokud je konec týdne po očekávaném datu úmrtí, nastavíme konec na očekávané datum
-      const adjustedWeekEnd =
-        currentWeekEnd > expectedDeathDate.value
-          ? expectedDeathDate.value
-          : currentWeekEnd;
-
+    while (currentWeekStart <= deathDate) {
+      const adjustedWeekEnd = currentWeekEnd > deathDate ? deathDate : currentWeekEnd;
       const weekNumber = getISOWeek(currentWeekStart);
       const year = getISOWeekYear(currentWeekStart);
-
       const isCurrent = isWithinInterval(today, {
         start: currentWeekStart,
         end: currentWeekEnd,
       });
 
-      const lifeWeek: LifeWeek = {
+      computedWeeks.push({
         year,
         weekNumber,
         startDate: new Date(currentWeekStart),
         endDate: new Date(adjustedWeekEnd),
         isCurrentWeek: isCurrent,
-        // Přidejte další informace zde podle potřeby
-      };
+        additionalInfo: undefined,
+      });
 
-      computedWeeks.push(lifeWeek);
-
-      // Posun na další týden
       currentWeekStart = addWeeks(currentWeekStart, 1);
       currentWeekEnd = endOfISOWeek(currentWeekStart);
     }
 
-    // Seřazení týdnů od nejstaršího po nejnovější
-    computedWeeks.sort((a, b) => {
-      if (a.year !== b.year) {
-        return a.year - b.year;
-      }
-      return a.weekNumber - b.weekNumber;
-    });
+    console.log('Generated weeks:', computedWeeks.length);
 
+    try {
+      const backendWeeks = await WeeksApiService.getWeeksInLives();
+      console.log('Fetched backend weeks:', backendWeeks.length);
+
+      const backendMap = new Map<string, typeof backendWeeks[number]>();
+      backendWeeks.forEach((bw) => {
+        const key = `${bw.year}-${bw.week_number}`;
+        backendMap.set(key, bw);
+      });
+      console.log('Backend map:', backendMap);
+
+      computedWeeks.forEach((week) => {
+        const key = `${week.year}-${week.weekNumber}`;
+        const matchingBackend = backendMap.get(key);
+        if (matchingBackend) {
+          week.additionalInfo = matchingBackend.memo || undefined;
+        }
+      });
+    } catch (error) {
+      console.error('Chyba při načítání týdnů z BE:', error);
+    }
+
+    console.log('Final computedWeeks:', computedWeeks.length);
     weeks.value = computedWeeks;
   };
 
   return {
-    dateOfBirth,
-    expectedDeathDate,
     weeks,
-    setDateOfBirth,
-    setExpectedDeathDate,
-    computeWeeks, // Exportujeme metodu pro případné další použití
+    loadWeeks,
   };
 });
