@@ -1,4 +1,3 @@
-<!-- src/views/LifeCalculator.vue -->
 <template>
   <div class="life-calculator">
     <Navbar />

@@ -1,4 +1,3 @@
-<!-- src/components/WeeksInLife.vue -->
 <template>
   <div class="life-weeks-container">
     <div v-if="weeks.length === 0" class="no-data">
@@ -10,16 +9,15 @@
         :key="`${week.year}-${week.weekNumber}`"
         class="week-cell"
         :class="{ current: week.isCurrentWeek }"
+        @click="selectWeek(week)"
       >
         <span class="week-number">{{ week.weekNumber }}</span>
-
         <div class="tooltip">
           <p><strong>Rok:</strong> {{ week.year }}</p>
           <p><strong>Týden:</strong> {{ week.weekNumber }}</p>
           <p>
             <strong>Rozsah:</strong>
-            {{ formatDate(week.startDate) }} -
-            {{ formatDate(week.endDate) }}
+            {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
           </p>
           <p v-if="week.additionalInfo">
             <strong>Info:</strong> {{ week.additionalInfo }}
@@ -27,18 +25,29 @@
         </div>
       </div>
     </div>
+    <EditWeekModal v-if="selectedWeek" :week="selectedWeek" @close="closeModal" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useLifeStore } from '@/stores/lifeStore';
+import EditWeekModal from '@/components/EditWeekModal.vue';
 
 const lifeStore = useLifeStore();
 const weeks = computed(() => lifeStore.weeks);
+const selectedWeek = ref<null | typeof weeks.value[number]>(null);
 
 const formatDate = (date: Date): string => {
   return date.toLocaleDateString('cs-CZ');
+};
+
+const selectWeek = (week: typeof weeks.value[number]) => {
+  selectedWeek.value = week;
+};
+
+const closeModal = () => {
+  selectedWeek.value = null;
 };
 </script>
 

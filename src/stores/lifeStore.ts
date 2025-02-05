@@ -1,4 +1,3 @@
-// src/stores/lifeStore.ts
 import { defineStore } from 'pinia';
 import { shallowRef } from 'vue';
 import type { LifeWeek } from '@/interfaces/LifeWeek';
@@ -93,6 +92,7 @@ export const useLifeStore = defineStore('lifeStore', () => {
         const matchingBackend = backendMap.get(key);
         if (matchingBackend) {
           week.additionalInfo = matchingBackend.memo || undefined;
+          week.backendId = matchingBackend.id;
         }
       });
     } catch (error) {
@@ -103,8 +103,28 @@ export const useLifeStore = defineStore('lifeStore', () => {
     weeks.value = computedWeeks;
   };
 
+  const updateWeekMemo = async (week: LifeWeek, newMemo: string) => {
+    if (!week.backendId) {
+      console.error('Backend id chybí pro tento týden, není možné aktualizovat memo.');
+      return;
+    }
+    try {
+      const updatedBackendWeek = await WeeksApiService.updateWeekMemo(week.backendId, newMemo);
+      const key = `${week.year}-${week.weekNumber}`;
+      const idx = weeks.value.findIndex(w => `${w.year}-${w.weekNumber}` === key);
+      if (idx !== -1) {
+        weeks.value[idx].additionalInfo = updatedBackendWeek.memo || undefined;
+        weeks.value[idx].backendId = updatedBackendWeek.id;
+      }
+    } catch (error) {
+      console.error('Chyba při aktualizaci memo:', error);
+      throw error;
+    }
+  };
+
   return {
     weeks,
     loadWeeks,
+    updateWeekMemo,
   };
 });

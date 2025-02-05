@@ -1,8 +1,7 @@
-// src/api/weeksApiService.ts
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 import { z } from 'zod';
-import { BACKEND_API_URL, BASE_API_URL } from '@/constants/apiUrl'
+import { BASE_API_URL } from '@/constants/apiUrl';
 
 const LifeWeekBackendSchema = z.object({
   id: z.number(),
@@ -18,6 +17,19 @@ const LifeWeekBackendSchema = z.object({
 });
 
 const LifeWeekBackendArraySchema = z.array(LifeWeekBackendSchema);
+
+
+const LifeWeekUpdateResponseSchema = z.object({
+  id: z.number(),
+  start_date: z.string(),
+  end_date: z.string(),
+  week_number: z.number(),
+  year: z.number(),
+  memo: z.string().nullable(),
+  account_id: z.number(),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
 
 const backendApi = axios.create({
   baseURL: BASE_API_URL,
@@ -56,7 +68,16 @@ export class WeeksApiService {
   static async getWeeksInLives(): Promise<z.infer<typeof LifeWeekBackendArraySchema>> {
     const endpoint = '/weeks_in_lives';
     const data = await this.handleRequest(backendApi.get(endpoint), endpoint);
-
     return this.validate(LifeWeekBackendArraySchema, data);
+  }
+
+  static async updateWeekMemo(
+    backendId: number,
+    memo: string
+  ): Promise<z.infer<typeof LifeWeekUpdateResponseSchema>> {
+    const endpoint = `/weeks_in_lives/memo/${backendId}`;
+    const payload = { weeks_in_life: { memo } };
+    const data = await this.handleRequest(backendApi.put(endpoint, payload), endpoint);
+    return this.validate(LifeWeekUpdateResponseSchema, data);
   }
 }

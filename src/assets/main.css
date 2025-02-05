@@ -562,6 +562,10 @@ video {
   position: static;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .absolute {
   position: absolute;
 }
@@ -633,10 +637,6 @@ video {
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
 }
 
 .items-center {

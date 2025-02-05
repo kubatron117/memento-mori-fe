@@ -1,4 +1,3 @@
-// src/interfaces/LifeWeek.ts
 export interface LifeWeek {
   year: number;
   weekNumber: number;
@@ -6,4 +5,5 @@ export interface LifeWeek {
   endDate: Date;
   isCurrentWeek: boolean;
   additionalInfo?: string;
+  backendId?: number;
 }
