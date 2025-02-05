@@ -27,12 +27,12 @@ const router = createRouter({
     },
     {
       path: '/registration',
-      name: 'Registration',
+      name: 'registration',
       component: Registration,
     },
     {
       path: '/verify-account',
-      name: 'AccountVerification',
+      name: 'verify-account',
       component: AccountVerification,
     },
   ],
@@ -50,6 +50,7 @@ router.beforeEach(async (to, from, next) => {
   } else if (isAuthenticated && publicRoutes.includes(to.name as string)) {
     next({ name: 'weeks-in-life' });
   }else {
+    console.log("next:", to.fullPath)
     next();
   }
 });
