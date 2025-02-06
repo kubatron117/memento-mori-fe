@@ -60,16 +60,31 @@ router.beforeEach(async (to, from, next) => {
   const loginStore = useLoginStore();
   const isAuthenticated = await loginStore.checkAuthentication();
 
-
   const publicRoutes = ['login', 'registration', 'verify-account', 'reset-password-request', 'reset-password'];
 
   if (!isAuthenticated && !publicRoutes.includes(to.name as string)) {
     next({ name: 'login', query: { redirect: to.fullPath } });
-  } else if (isAuthenticated && publicRoutes.includes(to.name as string)) {
-    next({ name: 'weeks-in-life' });
-  }else {
-    next();
+    return;
   }
+
+  if (isAuthenticated && publicRoutes.includes(to.name as string)) {
+    next({ name: 'weeks-in-life' });
+    return;
+  }
+
+  const missingDates = !loginStore.dateOfBirth || !loginStore.estimatedLifespan;
+
+  if (isAuthenticated && missingDates && to.name !== 'account-dates') {
+    next({ name: 'account-dates' });
+    return;
+  }
+
+  if (isAuthenticated && !missingDates && to.name === 'account-dates') {
+    next({ name: 'weeks-in-life' });
+    return;
+  }
+
+  next();
 });
 
-export default router
+export default router;

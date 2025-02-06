@@ -4,6 +4,7 @@ import DatePicker from 'primevue/datepicker';
 import Slider from 'primevue/slider';
 import Button from 'primevue/button';
 import { useLoginStore } from '@/stores/loginStore';
+import router from '@/router'
 
 export default defineComponent({
   name: 'AccountDates',
@@ -57,7 +58,7 @@ export default defineComponent({
       });
 
       if (success) {
-        alert('Data byla úspěšně aktualizována.');
+        await router.push('/weeks-in-life');
       } else {
         alert('Chyba při aktualizaci dat.');
       }
