@@ -1,55 +1,112 @@
 <template>
-  <div class="modal-overlay">
-    <div class="modal">
-      <h2>Upravit poznámku pro týden {{ week.weekNumber }}, {{ week.year }}</h2>
-      <p>
-        <strong>Rozsah:</strong>
-        {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
-      </p>
-      <template v-if="isEditable">
-        <textarea v-model="memo" placeholder="Zadejte poznámku"></textarea>
-        <div class="score-inputs">
-          <label>
-            Spokojenost:
-            <input type="number" min="1" max="5" v-model.number="scoreSatisfaction" />
-          </label>
-          <label>
-            Emoční rovnováha:
-            <input type="number" min="1" max="5" v-model.number="scoreEmotionalBalance" />
-          </label>
-          <label>
-            Produktivita:
-            <input type="number" min="1" max="5" v-model.number="scoreProductivity" />
-          </label>
-          <label>
-            Vztahy:
-            <input type="number" min="1" max="5" v-model.number="scoreRelationships" />
-          </label>
-          <label>
-            Soulad hodnot:
-            <input type="number" min="1" max="5" v-model.number="scoreValuesAlignment" />
-          </label>
+  <Dialog
+    v-model:visible="visible"
+    modal
+    :header="dialogHeader"
+    :style="{ width: '40rem' }"
+    class="p-4"
+  >
+    <p class="mb-4">
+      <strong>Rozsah:</strong>
+      {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
+    </p>
+    <div v-if="isEditable">
+      <div class="mb-4">
+        <Textarea
+          id="description"
+          v-model="memo"
+          rows="5"
+          cols="30"
+          class="w-full border border-gray-300 rounded p-2"
+          style="resize: none"
+        />
+        <label for="description" class="block text-sm text-gray-600 mt-1">
+          Poznámka
+        </label>
+      </div>
+
+      <div class="flex flex-col gap-4 mt-4">
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Spokojenost:</label>
+          <Rating
+            v-model="scoreSatisfaction"
+            :cancel="false"
+            v-tooltip.top="'Tooltip pro spokojenost'"
+          />
         </div>
-        <div class="buttons">
-          <button @click="saveMemo" :disabled="loading">Uložit</button>
-          <button @click="closeModal" :disabled="loading">Zrušit</button>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Emoční rovnováha:</label>
+          <Rating
+            v-model="scoreEmotionalBalance"
+            :cancel="false"
+            v-tooltip.top="'Tooltip pro emoční rovnováhu'"
+          />
         </div>
-        <p v-if="error" class="error">{{ error }}</p>
-      </template>
-      <template v-else>
-        <p>{{ week.additionalInfo || 'Poznámka není k dispozici.' }}</p>
-        <div class="buttons">
-          <button @click="closeModal">Zavřít</button>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Produktivita:</label>
+          <Rating
+            v-model="scoreProductivity"
+            :cancel="false"
+            v-tooltip.top="'Tooltip pro produktivitu'"
+          />
         </div>
-      </template>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Vztahy:</label>
+          <Rating
+            v-model="scoreRelationships"
+            :cancel="false"
+            v-tooltip.top="'Tooltip pro vztahy'"
+          />
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Soulad hodnot:</label>
+          <Rating
+            v-model="scoreValuesAlignment"
+            :cancel="false"
+            v-tooltip.top="'Tooltip pro souladu hodnot'"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-4 mt-6">
+        <Button
+          label="Uložit"
+          @click="saveMemo"
+          :disabled="loading"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        />
+        <Button
+          label="Zrušit"
+          @click="closeDialog"
+          :disabled="loading"
+          class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+        />
+      </div>
+      <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
     </div>
-  </div>
+    <div v-else>
+      <p class="mb-4">{{ week.additionalInfo || 'Poznámka není k dispozici.' }}</p>
+      <div class="flex justify-end">
+        <Button
+          label="Zavřít"
+          @click="closeDialog"
+          class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+        />
+      </div>
+    </div>
+  </Dialog>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { startOfISOWeek, addWeeks } from 'date-fns';
 import { useLifeStore } from '@/stores/lifeStore';
+
+import Dialog from 'primevue/dialog';
+import Button from 'primevue/button';
+import Rating from 'primevue/rating';
+import Textarea from 'primevue/textarea';
+
 
 const props = defineProps<{
   week: {
@@ -73,7 +130,17 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-// Iniciační hodnoty – pokud již jsou uloženy, vezmeme je, jinak nastavíme default (např. 1)
+const visible = ref(true);
+watch(visible, (val) => {
+  if (!val) {
+    emit('close');
+  }
+});
+
+const dialogHeader = computed(() => {
+  return `Upravit poznámku pro týden ${props.week.weekNumber}, ${props.week.year}`;
+});
+
 const memo = ref(props.week.additionalInfo || '');
 const scoreSatisfaction = ref(props.week.score_satisfaction ?? 1);
 const scoreEmotionalBalance = ref(props.week.score_emotional_balance ?? 1);
@@ -113,7 +180,7 @@ const saveMemo = async () => {
       scoreRelationships.value,
       scoreValuesAlignment.value
     );
-    emit('close');
+    closeDialog();
   } catch (e: any) {
     error.value = 'Chyba při ukládání poznámky.';
     console.error(e);
@@ -122,67 +189,7 @@ const saveMemo = async () => {
   }
 };
 
-const closeModal = () => {
-  emit('close');
+const closeDialog = () => {
+  visible.value = false;
 };
 </script>
-
-<style scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.modal {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-}
-
-textarea {
-  width: 100%;
-  height: 100px;
-  margin-top: 10px;
-}
-
-.score-inputs {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.score-inputs label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.9em;
-}
-
-.score-inputs input {
-  width: 100%;
-  padding: 4px;
-  font-size: 1em;
-}
-
-.buttons {
-  margin-top: 10px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.error {
-  color: red;
-  margin-top: 10px;
-}
-</style>

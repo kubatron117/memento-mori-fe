@@ -11,6 +11,7 @@ import cs from './locales/cs.json'
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import Button from "primevue/button"
+import Tooltip from 'primevue/tooltip';
 
 import App from './App.vue'
 import router from './router'
@@ -49,6 +50,8 @@ app.use(PrimeVue, {
     }
   }
 });
+
+app.directive('tooltip', Tooltip);
 
 const i18n = createI18n({
   locale: 'cs',
