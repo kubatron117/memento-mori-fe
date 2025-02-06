@@ -6,10 +6,10 @@ export interface LifeWeek {
   isCurrentWeek: boolean;
   additionalInfo?: string;
   backendId?: number;
-  score_satisfaction?: number;
-  score_emotional_balance?: number;
-  score_productivity?: number;
-  score_relationships?: number;
-  score_values_alignment?: number;
+  score_satisfaction?: number | null;
+  score_emotional_balance?: number | null;
+  score_productivity?: number | null;
+  score_relationships?: number | null;
+  score_values_alignment?: number | null;
   total_score?: number | null;
 }

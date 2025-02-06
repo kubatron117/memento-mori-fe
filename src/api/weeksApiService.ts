@@ -15,12 +15,13 @@ const LifeWeekBackendSchema = z.object({
   created_at: z.string(),
   updated_at: z.string(),
   url: z.string(),
-  score_satisfaction: z.number().optional(),
-  score_emotional_balance: z.number().optional(),
-  score_productivity: z.number().optional(),
-  score_relationships: z.number().optional(),
-  score_values_alignment: z.number().optional(),
+  score_satisfaction: z.number().nullable().optional(),
+  score_emotional_balance: z.number().nullable().optional(),
+  score_productivity: z.number().nullable().optional(),
+  score_relationships: z.number().nullable().optional(),
+  score_values_alignment: z.number().nullable().optional(),
 });
+
 
 const LifeWeekBackendArraySchema = z.array(LifeWeekBackendSchema);
 
@@ -31,16 +32,17 @@ const LifeWeekUpdateResponseSchema = z.object({
   week_number: z.number(),
   year: z.number(),
   memo: z.string().nullable(),
-  score_satisfaction: z.number(),
-  score_emotional_balance: z.number(),
-  score_productivity: z.number(),
-  score_relationships: z.number(),
-  score_values_alignment: z.number(),
+  score_satisfaction: z.number().nullable(),
+  score_emotional_balance: z.number().nullable(),
+  score_productivity: z.number().nullable(),
+  score_relationships: z.number().nullable(),
+  score_values_alignment: z.number().nullable(),
   total_score: z.number().nullable(),
   account_id: z.number(),
   created_at: z.string(),
   updated_at: z.string(),
 });
+
 
 const backendApi = axios.create({
   baseURL: BASE_API_URL,
