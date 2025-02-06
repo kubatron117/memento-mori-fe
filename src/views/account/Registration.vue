@@ -11,6 +11,8 @@ import AuthLayout from '@/components/auth/AuthLayout.vue'
 const { t } = useI18n()
 const router = useRouter()
 
+const firstName = ref('')
+const lastName = ref('')
 const email = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
@@ -20,6 +22,15 @@ const loading = ref(false)
 
 async function handleRegistration() {
   errorMessage.value = ''
+
+  if (!firstName.value.trim()) {
+    errorMessage.value = t('app.registration.firstName-required')
+    return
+  }
+  if (!lastName.value.trim()) {
+    errorMessage.value = t('app.registration.lastName-required')
+    return
+  }
 
   if (password.value !== passwordConfirm.value) {
     errorMessage.value = t('app.registration.password-mismatch')
@@ -35,9 +46,12 @@ async function handleRegistration() {
 
   try {
     const status = await AccountLoginApiService.registration({
+      first_name: firstName.value,
+      last_name: lastName.value,
       email: email.value,
       password: password.value,
-      'password-confirm': passwordConfirm.value
+      'password-confirm': passwordConfirm.value,
+      agree_to_terms: acceptTerms.value
     })
 
     if (status === 201 || status === 200) {
@@ -54,7 +68,6 @@ async function handleRegistration() {
 function goToLogin() {
   router.push('/login')
 }
-
 </script>
 
 <template>
@@ -89,6 +102,28 @@ function goToLogin() {
       <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
 
       <div>
+        <label for="firstName" class="text-surface-900 font-medium mb-2 block">
+          {{ t('app.registration.firstName') }}
+        </label>
+        <InputText
+          id="firstName"
+          type="text"
+          :placeholder="t('app.registration.firstName')"
+          class="w-full mb-4"
+          v-model="firstName"
+        />
+
+        <label for="lastName" class="text-surface-900 font-medium mb-2 block">
+          {{ t('app.registration.lastName') }}
+        </label>
+        <InputText
+          id="lastName"
+          type="text"
+          :placeholder="t('app.registration.lastName')"
+          class="w-full mb-4"
+          v-model="lastName"
+        />
+
         <label for="email" class="text-surface-900 font-medium mb-2 block">
           {{ t('app.registration.email') }}
         </label>
@@ -122,10 +157,10 @@ function goToLogin() {
           v-model="passwordConfirm"
         />
 
-        <div class="flex items-center mb-4">
-          <Checkbox id="terms" v-model="acceptTerms" :binary="true" class="mr-2" />
-          <label for="terms">{{ t('app.registration.terms') }}</label>
-        </div>
+        <label class="flex items-center mb-4 cursor-pointer">
+          <Checkbox v-model="acceptTerms" :binary="true" class="mr-2" />
+          <span>{{ t('app.registration.terms') }}</span>
+        </label>
 
         <Button
           :label="t('app.registration.register')"

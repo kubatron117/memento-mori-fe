@@ -17,9 +17,12 @@ export interface AccountVerification {
 }
 
 export interface AccountRegistration {
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   'password-confirm': string;
+  agree_to_terms: boolean;
 }
 
 

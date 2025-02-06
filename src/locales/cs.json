@@ -11,6 +11,8 @@
     },
     "registration": {
       "title": "Registrace",
+      "firstName": "Jméno",
+      "lastName": "Příjmení",
       "email": "Email",
       "password": "Heslo",
       "passwordConfirm": "Potvrdit heslo",
@@ -20,7 +22,9 @@
       "accept-terms": "Musíte souhlasit s podmínkami",
       "registration-failed": "Chyba při registraci",
       "already-have-account": "Již máte účet?",
-      "login": "Přihlásit se"
+      "login": "Přihlásit se",
+      "firstName-required": "Musíte vyplnit jméno",
+      "lastName-required": "Musíte vyplnit příjmení"
     },
     "reset-password": {
       "title": "Reset hesla",

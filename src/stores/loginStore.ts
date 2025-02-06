@@ -2,12 +2,12 @@
 import { defineStore } from 'pinia';
 import { AccountLoginApiService } from '@/api/accountLoginApiService';
 import type { AccountInfo } from '@/interfaces/login';
-import { useLifeStore } from '@/stores/lifeStore'
+import { useLifeStore } from '@/stores/lifeStore';
 
 export const useLoginStore = defineStore('loginStore', {
   state: () => ({
     isAuthenticated: false as boolean,
-    accountInfo: null as AccountInfo | null,
+    accountInfo: null as (AccountInfo | null),
   }),
 
   getters: {
@@ -19,10 +19,10 @@ export const useLoginStore = defineStore('loginStore', {
     email(state): string {
       return state.accountInfo?.email || '';
     },
-    dateOfBirth(state): Date | null {
+    dateOfBirth(state): string | null {
       return state.accountInfo?.date_of_birth || null;
     },
-    estimatedLifespan(state): Date | null {
+    estimatedLifespan(state): string | null {
       return state.accountInfo?.estimated_lifespan || null;
     },
   },
@@ -32,7 +32,6 @@ export const useLoginStore = defineStore('loginStore', {
       try {
         const accountData = await AccountLoginApiService.getAccountInfo();
         this.accountInfo = accountData;
-
         this.isAuthenticated = true;
       } catch (error) {
         console.error('Chyba při načítání uživatele:', error);
@@ -43,14 +42,12 @@ export const useLoginStore = defineStore('loginStore', {
     async logoutUser(): Promise<boolean> {
       try {
         const status = await AccountLoginApiService.logout();
-
         if (status === 200 || status === 201) {
           this.accountInfo = null;
           this.isAuthenticated = false;
           const lifeStore = await useLifeStore();
           lifeStore.reset();
         }
-
         return status === 200 || status === 201;
       } catch (error) {
         console.error('Chyba při odhlašování:', error);
@@ -63,6 +60,17 @@ export const useLoginStore = defineStore('loginStore', {
         await this.setUser();
       }
       return this.isAuthenticated;
+    },
+
+    async updateDates(dates: { date_of_birth: string; estimated_lifespan: string }): Promise<boolean> {
+      try {
+        const accountData = await AccountLoginApiService.updateDates(dates);
+        this.accountInfo = accountData;
+        return true;
+      } catch (error) {
+        console.error('Chyba při aktualizaci data narození a dožití:', error);
+        return false;
+      }
     },
   },
 });

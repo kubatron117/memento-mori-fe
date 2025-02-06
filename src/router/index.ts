@@ -8,6 +8,7 @@ import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import { useLoginStore } from '@/stores/loginStore'
 import ResetPasswordRequest from '@/views/account/ResetPasswordRequest.vue'
 import ResetPassword from '@/views/account/ResetPassword.vue'
+import AccountDates from '@/views/account/AccountDates.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/reset-password',
       name: 'reset-password',
       component: ResetPassword,
+    },
+    {
+      path: '/account-dates',
+      name: 'account-dates',
+      component: AccountDates,
     },
   ],
 })

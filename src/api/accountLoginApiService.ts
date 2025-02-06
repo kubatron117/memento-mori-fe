@@ -1,4 +1,3 @@
-// accountLoginApiService.ts
 import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 import { z } from 'zod'
@@ -19,29 +18,41 @@ const PostAccountCredentialsSchema = z.object({
 })
 
 const PostVerifyAccountCredentialsSchema = z.object({
-  key: z.string().min(1).max(255),
+  key: z.string().min(1).max(255)
 })
 
 const PostAccountEmailRequestSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email()
 })
 
 const PostVerifyAccountPasswordResetSchema = z.object({
   key: z.string().min(1).max(255),
   password: z.string().min(8).max(64),
-  'password-confirm': z.string().min(8).max(64),
+  'password-confirm': z.string().min(8).max(64)
 })
 
 const PostAccountRegistrationSchema = z.object({
+  first_name: z.string().min(1),
+  last_name: z.string().min(1),
   email: z.string().email(),
   password: z.string().min(8).max(64),
   'password-confirm': z.string().min(8).max(64),
+  agree_to_terms: z.boolean().default(true),
 })
 
 const PostVerifyAccountPasswordChangeSchema = z.object({
   password: z.string(),
   'new-password': z.string().min(8).max(64),
-  'password-confirm': z.string().min(8).max(64),
+  'password-confirm': z.string().min(8).max(64)
+})
+
+const PutAccountDatesDataSchema = z.object({
+  date_of_birth: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Neplatný formát data, očekává se YYYY-MM-DD"),
+  estimated_lifespan: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Neplatný formát data, očekává se YYYY-MM-DD")
 })
 
 const backendApi = axios.create({
@@ -103,6 +114,9 @@ export class AccountLoginApiService {
 
   static async registration(accountRegistration: AccountRegistration): Promise<number> {
     const validatedData = this.validate(PostAccountRegistrationSchema, accountRegistration)
+
+    console.log(validatedData)
+
     const endpoint = '/create-account'
     const response = await this.handleRequest(
       backendApi.post(endpoint, validatedData),
@@ -168,5 +182,15 @@ export class AccountLoginApiService {
       endpoint
     )
     return response.status
+  }
+
+  static async updateDates(dates: { date_of_birth: string; estimated_lifespan: string }): Promise<AccountInfo> {
+    const validatedData = this.validate(PutAccountDatesDataSchema, dates)
+    const endpoint = '/dates'
+    const response = await this.handleRequest(
+      accountApi.put(endpoint, { account: validatedData }),
+      endpoint
+    )
+    return response.data
   }
 }
