@@ -1,17 +1,10 @@
-<template>
-  <div class="life-calculator">
-    <Navbar />
-    <h1>Kalkulačka životních týdnů</h1>
-    <WeeksInLife />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { onMounted } from 'vue';
 import { useLifeStore } from '@/stores/lifeStore';
 import { useLoginStore } from '@/stores/loginStore';
 import WeeksInLife from '@/components/WeeksInLife.vue';
 import Navbar from '@/components/Navbar.vue';
+import LifeProgress from '@/components/LifeProgress.vue'
 
 const lifeStore = useLifeStore();
 const loginStore = useLoginStore();
@@ -26,6 +19,15 @@ onMounted(async () => {
   }
 });
 </script>
+
+
+<template>
+  <div class="life-calculator">
+    <Navbar />
+    <LifeProgress></LifeProgress>
+    <WeeksInLife />
+  </div>
+</template>
 
 <style scoped>
 .life-calculator {
