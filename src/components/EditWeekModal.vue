@@ -1,4 +1,3 @@
-<!-- src/components/EditWeekModal.vue -->
 <template>
   <div class="modal-overlay">
     <div class="modal">
@@ -9,6 +8,28 @@
       </p>
       <template v-if="isEditable">
         <textarea v-model="memo" placeholder="Zadejte poznámku"></textarea>
+        <div class="score-inputs">
+          <label>
+            Spokojenost:
+            <input type="number" min="1" max="5" v-model.number="scoreSatisfaction" />
+          </label>
+          <label>
+            Emoční rovnováha:
+            <input type="number" min="1" max="5" v-model.number="scoreEmotionalBalance" />
+          </label>
+          <label>
+            Produktivita:
+            <input type="number" min="1" max="5" v-model.number="scoreProductivity" />
+          </label>
+          <label>
+            Vztahy:
+            <input type="number" min="1" max="5" v-model.number="scoreRelationships" />
+          </label>
+          <label>
+            Soulad hodnot:
+            <input type="number" min="1" max="5" v-model.number="scoreValuesAlignment" />
+          </label>
+        </div>
         <div class="buttons">
           <button @click="saveMemo" :disabled="loading">Uložit</button>
           <button @click="closeModal" :disabled="loading">Zrušit</button>
@@ -39,6 +60,12 @@ const props = defineProps<{
     isCurrentWeek: boolean;
     additionalInfo?: string;
     backendId?: number;
+    score_satisfaction?: number;
+    score_emotional_balance?: number;
+    score_productivity?: number;
+    score_relationships?: number;
+    score_values_alignment?: number;
+    total_score?: number | null;
   }
 }>();
 
@@ -46,7 +73,14 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
+// Iniciační hodnoty – pokud již jsou uloženy, vezmeme je, jinak nastavíme default (např. 1)
 const memo = ref(props.week.additionalInfo || '');
+const scoreSatisfaction = ref(props.week.score_satisfaction ?? 1);
+const scoreEmotionalBalance = ref(props.week.score_emotional_balance ?? 1);
+const scoreProductivity = ref(props.week.score_productivity ?? 1);
+const scoreRelationships = ref(props.week.score_relationships ?? 1);
+const scoreValuesAlignment = ref(props.week.score_values_alignment ?? 1);
+
 const loading = ref(false);
 const error = ref('');
 
@@ -70,7 +104,15 @@ const saveMemo = async () => {
   error.value = '';
   loading.value = true;
   try {
-    await lifeStore.updateWeekMemo(props.week, memo.value);
+    await lifeStore.updateWeekMemo(
+      props.week,
+      memo.value,
+      scoreSatisfaction.value,
+      scoreEmotionalBalance.value,
+      scoreProductivity.value,
+      scoreRelationships.value,
+      scoreValuesAlignment.value
+    );
     emit('close');
   } catch (e: any) {
     error.value = 'Chyba při ukládání poznámky.';
@@ -111,6 +153,25 @@ textarea {
   width: 100%;
   height: 100px;
   margin-top: 10px;
+}
+
+.score-inputs {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.score-inputs label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+}
+
+.score-inputs input {
+  width: 100%;
+  padding: 4px;
+  font-size: 1em;
 }
 
 .buttons {

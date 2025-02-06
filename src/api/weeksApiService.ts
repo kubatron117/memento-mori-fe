@@ -10,14 +10,19 @@ const LifeWeekBackendSchema = z.object({
   week_number: z.number(),
   year: z.number(),
   memo: z.string().nullable(),
+  total_score: z.number().nullable(),
   account_id: z.number(),
   created_at: z.string(),
   updated_at: z.string(),
   url: z.string(),
+  score_satisfaction: z.number().optional(),
+  score_emotional_balance: z.number().optional(),
+  score_productivity: z.number().optional(),
+  score_relationships: z.number().optional(),
+  score_values_alignment: z.number().optional(),
 });
 
 const LifeWeekBackendArraySchema = z.array(LifeWeekBackendSchema);
-
 
 const LifeWeekUpdateResponseSchema = z.object({
   id: z.number(),
@@ -26,6 +31,12 @@ const LifeWeekUpdateResponseSchema = z.object({
   week_number: z.number(),
   year: z.number(),
   memo: z.string().nullable(),
+  score_satisfaction: z.number(),
+  score_emotional_balance: z.number(),
+  score_productivity: z.number(),
+  score_relationships: z.number(),
+  score_values_alignment: z.number(),
+  total_score: z.number().nullable(),
   account_id: z.number(),
   created_at: z.string(),
   updated_at: z.string(),
@@ -73,10 +84,24 @@ export class WeeksApiService {
 
   static async updateWeekMemo(
     backendId: number,
-    memo: string
+    memo: string,
+    scoreSatisfaction: number,
+    scoreEmotionalBalance: number,
+    scoreProductivity: number,
+    scoreRelationships: number,
+    scoreValuesAlignment: number
   ): Promise<z.infer<typeof LifeWeekUpdateResponseSchema>> {
     const endpoint = `/weeks_in_lives/memo/${backendId}`;
-    const payload = { weeks_in_life: { memo } };
+    const payload = {
+      weeks_in_life: {
+        memo,
+        score_satisfaction: scoreSatisfaction,
+        score_emotional_balance: scoreEmotionalBalance,
+        score_productivity: scoreProductivity,
+        score_relationships: scoreRelationships,
+        score_values_alignment: scoreValuesAlignment,
+      },
+    };
     const data = await this.handleRequest(backendApi.put(endpoint, payload), endpoint);
     return this.validate(LifeWeekUpdateResponseSchema, data);
   }

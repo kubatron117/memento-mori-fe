@@ -1,4 +1,3 @@
-// src/stores/lifeStore.ts
 import { defineStore } from 'pinia';
 import { shallowRef } from 'vue';
 import type { LifeWeek } from '@/interfaces/LifeWeek';
@@ -69,6 +68,13 @@ export const useLifeStore = defineStore('lifeStore', () => {
         endDate: new Date(adjustedWeekEnd),
         isCurrentWeek: isCurrent,
         additionalInfo: undefined,
+        // Inicializace nových hodnocení (pokud ještě nejsou z BE)
+        score_satisfaction: 0,
+        score_emotional_balance: 0,
+        score_productivity: 0,
+        score_relationships: 0,
+        score_values_alignment: 0,
+        total_score: null,
       });
 
       currentWeekStart = addWeeks(currentWeekStart, 1);
@@ -94,6 +100,12 @@ export const useLifeStore = defineStore('lifeStore', () => {
         if (matchingBackend) {
           week.additionalInfo = matchingBackend.memo || undefined;
           week.backendId = matchingBackend.id;
+          week.score_satisfaction = matchingBackend.score_satisfaction;
+          week.score_emotional_balance = matchingBackend.score_emotional_balance;
+          week.score_productivity = matchingBackend.score_productivity;
+          week.score_relationships = matchingBackend.score_relationships;
+          week.score_values_alignment = matchingBackend.score_values_alignment;
+          week.total_score = matchingBackend.total_score;
         }
       });
     } catch (error) {
@@ -104,7 +116,15 @@ export const useLifeStore = defineStore('lifeStore', () => {
     weeks.value = computedWeeks;
   };
 
-  const updateWeekMemo = async (week: LifeWeek, newMemo: string) => {
+  const updateWeekMemo = async (
+    week: LifeWeek,
+    newMemo: string,
+    scoreSatisfaction: number,
+    scoreEmotionalBalance: number,
+    scoreProductivity: number,
+    scoreRelationships: number,
+    scoreValuesAlignment: number
+  ) => {
     const now = new Date();
     const startOfCurrentWeek = startOfISOWeek(now);
     const startOfPrevWeek = addWeeks(startOfCurrentWeek, -1);
@@ -123,12 +143,26 @@ export const useLifeStore = defineStore('lifeStore', () => {
     }
 
     try {
-      const updatedBackendWeek = await WeeksApiService.updateWeekMemo(week.backendId, newMemo);
+      const updatedBackendWeek = await WeeksApiService.updateWeekMemo(
+        week.backendId,
+        newMemo,
+        scoreSatisfaction,
+        scoreEmotionalBalance,
+        scoreProductivity,
+        scoreRelationships,
+        scoreValuesAlignment
+      );
       const key = `${week.year}-${week.weekNumber}`;
       const idx = weeks.value.findIndex(w => `${w.year}-${w.weekNumber}` === key);
       if (idx !== -1) {
         weeks.value[idx].additionalInfo = updatedBackendWeek.memo || undefined;
         weeks.value[idx].backendId = updatedBackendWeek.id;
+        weeks.value[idx].score_satisfaction = updatedBackendWeek.score_satisfaction;
+        weeks.value[idx].score_emotional_balance = updatedBackendWeek.score_emotional_balance;
+        weeks.value[idx].score_productivity = updatedBackendWeek.score_productivity;
+        weeks.value[idx].score_relationships = updatedBackendWeek.score_relationships;
+        weeks.value[idx].score_values_alignment = updatedBackendWeek.score_values_alignment;
+        weeks.value[idx].total_score = updatedBackendWeek.total_score;
       }
     } catch (error) {
       console.error('Chyba při aktualizaci memo:', error);
@@ -138,7 +172,7 @@ export const useLifeStore = defineStore('lifeStore', () => {
 
   const reset = () => {
     weeks.value = [];
-  }
+  };
 
   return {
     weeks,
