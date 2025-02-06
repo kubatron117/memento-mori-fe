@@ -4,14 +4,14 @@ import DatePicker from 'primevue/datepicker';
 import Slider from 'primevue/slider';
 import Button from 'primevue/button';
 import { useLoginStore } from '@/stores/loginStore';
-import router from '@/router'
+import router from '@/router';
 
 export default defineComponent({
   name: 'AccountDates',
   components: {
     DatePicker,
     Slider,
-    Button
+    Button,
   },
   setup() {
     const loginStore = useLoginStore();
@@ -74,29 +74,46 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="account-dates">
-    <h2>Nastavení data narození a očekávané délky života</h2>
-    <form @submit.prevent="onSubmit" class="p-fluid p-formgrid p-grid">
-      <div class="p-field p-col-12 p-md-6">
-        <label for="birthDate">Datum narození:</label>
-        <DatePicker v-model="birthDate" inputId="birthDate" dateFormat="dd/mm/yy" showIcon />
+  <div class="max-w-md mx-auto my-10 p-6 bg-white rounded-xl shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
+      Nastavení data narození a očekávané délky života
+    </h2>
+    <form @submit.prevent="onSubmit" class="space-y-6">
+      <div>
+        <label for="birthDate" class="block text-gray-700 font-medium mb-2">
+          Datum narození:
+        </label>
+        <DatePicker
+          v-model="birthDate"
+          inputId="birthDate"
+          dateFormat="dd/mm/yy"
+          showIcon
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
       </div>
-      <div class="p-field p-col-12 p-md-6">
-        <label for="desiredAge">Věk, do kterého se chcete dožít:</label>
-        <Slider v-model="desiredAge" :min="1" :max="140" inputId="desiredAge" />
-        <div>{{ desiredAge }} let</div>
+      <div>
+        <label for="desiredAge" class="block text-gray-700 font-medium mb-2">
+          Věk, do kterého se chcete dožít:
+        </label>
+        <Slider
+          v-model="desiredAge"
+          :min="1"
+          :max="140"
+          inputId="desiredAge"
+          class="w-full"
+        />
+        <div class="text-gray-600 mt-1">{{ desiredAge }} let</div>
       </div>
-      <div class="p-field p-col-12">
-        <Button label="Uložit" type="submit" />
+      <div>
+        <Button
+          label="Uložit"
+          type="submit"
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+        />
       </div>
     </form>
   </div>
 </template>
 
-
 <style scoped>
-.account-dates {
-  max-width: 600px;
-  margin: 2rem auto;
-}
 </style>
