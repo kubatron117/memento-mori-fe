@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-[80%] mx-auto">
     <Stepper v-model:value="activeStep" linear>
       <StepList>
         <Step v-for="step in steps" :key="step.id" :value="step.id">
@@ -13,30 +13,32 @@
           :value="step.id"
           v-slot="{ activateCallback }"
         >
-          <component :is="step.component" />
-          <div class="flex justify-between mt-4">
+          <div class="bg-pink-300 min-h-[80vh]">
+            <component :is="step.component" />
+          </div>
+
+          <Button
+            label="Přeskočit"
+            class="p-button-secondary"
+            @click="activateCallback(getNextStepId(step.id))"
+          />
+
+          <div class="flex justify-between bg-blue-200">
             <Button
-              label="Přeskočit"
-              class="p-button-secondary"
+              :class="['p-button-secondary mr-2', { 'invisible': step.id === steps[0].id }]"
+              label="Zpět"
+              icon="pi pi-arrow-left"
+              @click="activateCallback(getPreviousStepId(step.id))"
+            />
+            <Button
+              :class="{ 'invisible': step.id === steps[steps.length - 1].id }"
+              label="Další"
+              icon="pi pi-arrow-right"
+              iconPos="right"
               @click="activateCallback(getNextStepId(step.id))"
             />
-            <div>
-              <Button
-                v-if="step.id !== steps[0].id"
-                label="Zpět"
-                icon="pi pi-arrow-left"
-                class="p-button-secondary mr-2"
-                @click="activateCallback(getPreviousStepId(step.id))"
-              />
-              <Button
-                v-if="step.id !== steps[steps.length - 1].id"
-                label="Další"
-                icon="pi pi-arrow-right"
-                iconPos="right"
-                @click="activateCallback(getNextStepId(step.id))"
-              />
-            </div>
           </div>
+
         </StepPanel>
       </StepPanels>
     </Stepper>

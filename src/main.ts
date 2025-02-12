@@ -20,6 +20,8 @@ import StepPanel from 'primevue/steppanel';
 import RadioButton from 'primevue/radiobutton';
 import Select from 'primevue/select';
 import Slider from 'primevue/slider';
+import 'primeicons/primeicons.css'
+
 
 import App from './App.vue'
 import router from './router'
