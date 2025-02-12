@@ -12,6 +12,14 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import Button from "primevue/button"
 import Tooltip from 'primevue/tooltip';
+import Stepper from 'primevue/stepper';
+import StepList from 'primevue/steplist';
+import Step from 'primevue/step';
+import StepPanels from 'primevue/steppanels';
+import StepPanel from 'primevue/steppanel';
+import RadioButton from 'primevue/radiobutton';
+import Select from 'primevue/select';
+import Slider from 'primevue/slider';
 
 import App from './App.vue'
 import router from './router'
@@ -65,5 +73,13 @@ const i18n = createI18n({
 app.use(i18n)
 
 app.component('Button', Button);
+app.component('Stepper', Stepper);
+app.component('StepList', StepList);
+app.component('Step', Step);
+app.component('StepPanels', StepPanels);
+app.component('StepPanel', StepPanel);
+app.component('RadioButton', RadioButton);
+app.component('Select', Select);
+app.component('Slider', Slider);
 
 app.mount('#app')
