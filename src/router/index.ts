@@ -7,7 +7,6 @@ import AccountVerification from '@/views/account/AccountVerification.vue'
 import { useLoginStore } from '@/stores/loginStore'
 import ResetPasswordRequest from '@/views/account/ResetPasswordRequest.vue'
 import ResetPassword from '@/views/account/ResetPassword.vue'
-import AccountDates from '@/views/account/AccountDates.vue'
 import Questionnaire from '@/views/questionnaire/Questionnaire.vue'
 
 const router = createRouter({
@@ -47,11 +46,6 @@ const router = createRouter({
       path: '/reset-password',
       name: 'reset-password',
       component: ResetPassword,
-    },
-    {
-      path: '/account-dates',
-      name: 'account-dates',
-      component: AccountDates,
     },
     {
       path: '/questionnaire',
