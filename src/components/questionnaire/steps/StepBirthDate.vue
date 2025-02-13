@@ -12,6 +12,7 @@
           v-model="localBirthDate"
           inputId="birthDate"
           dateFormat="dd.mm.yy"
+          :maxDate="today"
           showIcon
           class="w-full p-2 border border-gray-300 rounded-md"
         />
@@ -31,6 +32,8 @@ const localBirthDate = ref(questionnaireStore.birthDate);
 watch(localBirthDate, (newVal) => {
   questionnaireStore.birthDate = newVal;
 });
+
+const today = new Date();
 </script>
 
 <style scoped>
