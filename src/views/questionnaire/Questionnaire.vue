@@ -78,8 +78,8 @@ import StepFinal from '@/components/questionnaire/steps/StepFinal.vue';
 
 const steps = [
   { id: 1, title: 'Datum narození', component: StepBirthDate, skippable: false, requiredField: 'birthDate' },
-  { id: 2, title: 'Národnost', component: StepNationality },
-  { id: 3, title: 'Pohlaví', component: StepGender },
+  { id: 2, title: 'Pohlaví', component: StepGender },
+  { id: 3, title: 'Národnost', component: StepNationality },
   { id: 4, title: 'Kouření', component: StepSmoking },
   { id: 5, title: 'Alkohol', component: StepAlcohol },
   { id: 6, title: 'Fyzická aktivita', component: StepPhysicalActivity },
