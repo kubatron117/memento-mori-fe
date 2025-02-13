@@ -4,7 +4,6 @@ import WeeksInLifeView from '@/views/WeeksInLifeView.vue'
 import Login from '@/views/account/Login.vue'
 import Registration from '@/views/account/Registration.vue'
 import AccountVerification from '@/views/account/AccountVerification.vue'
-import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import { useLoginStore } from '@/stores/loginStore'
 import ResetPasswordRequest from '@/views/account/ResetPasswordRequest.vue'
 import ResetPassword from '@/views/account/ResetPassword.vue'
@@ -80,12 +79,12 @@ router.beforeEach(async (to, from, next) => {
 
   const missingDates = !loginStore.dateOfBirth || !loginStore.estimatedLifespan;
 
-  if (isAuthenticated && missingDates && to.name !== 'account-dates') {
-    next({ name: 'account-dates' });
+  if (isAuthenticated && missingDates && to.name !== 'questionnaire') {
+    next({ name: 'questionnaire' });
     return;
   }
 
-  if (isAuthenticated && !missingDates && to.name === 'account-dates') {
+  if (isAuthenticated && !missingDates && to.name === 'questionnaire') {
     next({ name: 'weeks-in-life' });
     return;
   }
