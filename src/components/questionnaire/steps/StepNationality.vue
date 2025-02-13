@@ -46,7 +46,17 @@ watch(selectedNationality, async (newVal) => {
         birth_year_eq: birthYear,
         location_id_eq: newVal,
       });
-      console.log('Life Expectancies:', lifeExpectancies);
+      if (lifeExpectancies && lifeExpectancies.length > 0) {
+        const data = lifeExpectancies[0];
+        store.lifeExpectancy = {
+          both: data.life_expectancy_both,
+          male: data.life_expectancy_male,
+          female: data.life_expectancy_female,
+        };
+        console.log('Life Expectancies:', store.lifeExpectancy);
+      } else {
+        console.warn('No life expectancy data found');
+      }
     } catch (error) {
       console.error('Error fetching life expectancies:', error);
     }

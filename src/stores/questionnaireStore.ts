@@ -1,5 +1,11 @@
 import { defineStore } from 'pinia';
 
+export interface LifeExpectancyData {
+  both: number | null;
+  male: number | null;
+  female: number | null;
+}
+
 export interface QuestionnaireState {
   birthDate: Date | null;
   nationality: string | null;
@@ -9,6 +15,7 @@ export interface QuestionnaireState {
   physicalActivity: string | null;
   eatingHabits: string | null;
   desiredAge: number | null;
+  lifeExpectancy: LifeExpectancyData;
 }
 
 export const useQuestionnaireStore = defineStore('questionnaire', {
@@ -21,6 +28,11 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     physicalActivity: null,
     eatingHabits: null,
     desiredAge: null,
+    lifeExpectancy: {
+      both: null,
+      male: null,
+      female: null,
+    },
   }),
   actions: {
     updateField(field: keyof QuestionnaireState, value: any) {
