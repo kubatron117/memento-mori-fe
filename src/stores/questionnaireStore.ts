@@ -16,6 +16,8 @@ export interface QuestionnaireState {
   eatingHabits: string | null;
   desiredAge: number | null;
   lifeExpectancy: LifeExpectancyData;
+  smokingDaysLost: number;
+  smokingAdditionalDaysLost: number;
 }
 
 export const useQuestionnaireStore = defineStore('questionnaire', {
@@ -33,6 +35,8 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       male: null,
       female: null,
     },
+    smokingDaysLost: 0,
+    smokingAdditionalDaysLost: 0
   }),
   actions: {
     updateField(field: keyof QuestionnaireState, value: any) {
