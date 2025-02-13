@@ -18,8 +18,25 @@ import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import Slider from 'primevue/slider';
 
 const store = useQuestionnaireStore();
+
 const desiredAge = computed({
-  get: () => store.desiredAge || 1,
-  set: (val: number) => store.desiredAge = val,
+  get: () => {
+    if (store.desiredAge !== null && store.desiredAge !== undefined) {
+      return store.desiredAge;
+    }
+    if (store.lifeExpectancy) {
+      if (store.gender === 'male' && store.lifeExpectancy.male !== null) {
+        return store.lifeExpectancy.male;
+      }
+      if (store.gender === 'female' && store.lifeExpectancy.female !== null) {
+        return store.lifeExpectancy.female;
+      }
+      return store.lifeExpectancy.both || 1;
+    }
+    return 1;
+  },
+  set: (val: number) => {
+    store.desiredAge = val;
+  },
 });
 </script>

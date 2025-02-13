@@ -26,6 +26,6 @@ const selectedGender = computed({
 const genders = [
   { label: 'Muž', value: 'male' },
   { label: 'Žena', value: 'female' },
-  { label: 'Jiné', value: 'other' },
+  { label: 'Jiné', value: null },
 ];
 </script>
