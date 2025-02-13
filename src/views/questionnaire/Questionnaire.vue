@@ -16,7 +16,6 @@
           <div class="bg-pink-300 min-h-[80vh] p-4">
             <component :is="step.component" />
           </div>
-
           <div class="flex justify-between bg-blue-200 p-2 mt-4">
             <Button
               v-if="step.id !== steps[0].id"
@@ -37,6 +36,7 @@
               label="Další"
               icon="pi pi-arrow-right"
               iconPos="right"
+              :disabled="!isStepValid(step)"
               @click="activateCallback(getNextStepId(step.id))"
             />
             <Button
@@ -44,6 +44,7 @@
               label="Uložit"
               icon="pi pi-check"
               iconPos="right"
+              :disabled="!isStepValid(step)"
               @click="onSubmit"
             />
           </div>
@@ -74,18 +75,21 @@ import StepPhysicalActivity from '@/components/questionnaire/steps/StepPhysicalA
 import StepEatingHabits from '@/components/questionnaire/steps/StepEatingHabits.vue';
 import StepFinal from '@/components/questionnaire/steps/StepFinal.vue';
 
+
 const steps = [
-  { id: 1, title: 'Datum narození', component: StepBirthDate, skippable: false },
+  { id: 1, title: 'Datum narození', component: StepBirthDate, skippable: false, requiredField: 'birthDate' },
   { id: 2, title: 'Národnost', component: StepNationality },
   { id: 3, title: 'Pohlaví', component: StepGender },
   { id: 4, title: 'Kouření', component: StepSmoking },
   { id: 5, title: 'Alkohol', component: StepAlcohol },
   { id: 6, title: 'Fyzická aktivita', component: StepPhysicalActivity },
   { id: 7, title: 'Stravovací návyky', component: StepEatingHabits },
-  { id: 8, title: 'Potvrzení', component: StepFinal },
+  { id: 8, title: 'Potvrzení', component: StepFinal, skippable: false, requiredField: 'desiredAge' },
 ];
 
 const activeStep = ref(1);
+const questionnaireStore = useQuestionnaireStore();
+const loginStore = useLoginStore();
 
 function getNextStepId(currentId: number): number {
   const currentIndex = steps.findIndex((step) => step.id === currentId);
@@ -103,8 +107,12 @@ function getPreviousStepId(currentId: number): number {
   return currentId;
 }
 
-const questionnaireStore = useQuestionnaireStore();
-const loginStore = useLoginStore();
+function isStepValid(step: { requiredField?: string; skippable?: boolean }): boolean {
+  if (step.requiredField) {
+    return Boolean(questionnaireStore[step.requiredField]);
+  }
+  return true;
+}
 
 async function onSubmit() {
   if (!questionnaireStore.birthDate || !questionnaireStore.desiredAge) {

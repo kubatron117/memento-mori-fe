@@ -11,7 +11,7 @@
         <DatePicker
           v-model="localBirthDate"
           inputId="birthDate"
-          dateFormat="dd/mm/yy"
+          dateFormat="dd.mm.yy"
           showIcon
           class="w-full p-2 border border-gray-300 rounded-md"
         />
