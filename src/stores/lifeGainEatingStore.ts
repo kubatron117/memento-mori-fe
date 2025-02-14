@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 export const useDietStore = defineStore('lifeGainDiet', () => {
@@ -29,14 +29,11 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
 
   const OPTIMAL_FEMALE_20 = 10.7;
   const OPTIMAL_MALE_20   = 13.0;
-
   const OPTIMAL_FEMALE_80 = 3.4;
   const OPTIMAL_MALE_80   = 3.4;
 
-
   const FEASIBLE_FEMALE_20 = 6.2;
   const FEASIBLE_MALE_20   = 7.3;
-
   const FEASIBLE_FEMALE_80 = FEASIBLE_FEMALE_20 * (OPTIMAL_FEMALE_80 / OPTIMAL_FEMALE_20);
   const FEASIBLE_MALE_80   = FEASIBLE_MALE_20 * (OPTIMAL_MALE_80 / OPTIMAL_MALE_20);
 
@@ -72,10 +69,19 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
     return 0;
   });
 
+  function updateMainStore() {
+    questionnaireStore.updateField('dietLifeGain', lifeGainYears.value);
+  }
+
+  watch(lifeGainYears, () => {
+    updateMainStore();
+  });
+
   return {
     age,
     sex,
     dietType,
     lifeGainYears,
+    updateMainStore,
   };
 });
