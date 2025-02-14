@@ -14,6 +14,7 @@ export interface QuestionnaireState {
   alcohol: string | null;
   physicalActivity: string | null;
   eatingHabits: string | null;
+  desiredAgeCalculated: number | null;
   desiredAge: number | null;
   lifeExpectancy: LifeExpectancyData;
   // Výsledky výpočtů:
@@ -33,6 +34,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     alcohol: null,
     physicalActivity: null,
     eatingHabits: null,
+    desiredAgeCalculated: null,
     desiredAge: null,
     lifeExpectancy: {
       both: null,
@@ -49,8 +51,8 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
   getters: {
     finalLifeExpectancy(state): number {
       let base = 0;
-      if (state.desiredAge !== null) {
-        base = state.desiredAge;
+      if (state.desiredAgeCalculated !== null) {
+        base = state.desiredAgeCalculated;
       } else if (state.lifeExpectancy) {
         if (state.gender === 'male' && state.lifeExpectancy.male !== null) {
           base = state.lifeExpectancy.male;
@@ -82,8 +84,8 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     },
     calculateAdjustedLifeExpectancy(): number {
       let base = 0;
-      if (this.desiredAge !== null) {
-        base = this.desiredAge;
+      if (this.desiredAgeCalculated !== null) {
+        base = this.desiredAgeCalculated;
       } else if (this.lifeExpectancy) {
         if (this.gender === 'male' && this.lifeExpectancy.male !== null) {
           base = this.lifeExpectancy.male;

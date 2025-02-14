@@ -42,7 +42,9 @@
         inputId="expectedLifetime"
         class="w-full"
       />
-      <p class="mt-2">Zvolená nová doba: {{ roundedAdjustedExpectedLifetime }} let</p>
+      <p class="mt-2">
+        Zvolená nová doba: {{ roundedAdjustedExpectedLifetime }} let
+      </p>
     </div>
 
     <div class="mt-4">
@@ -62,9 +64,24 @@ const questionnaireStore = useQuestionnaireStore();
 
 const roundOneDecimal = (num: number) => Math.round(num * 10) / 10;
 
-const baseLifeExpectancy = computed(() => {
-  if (questionnaireStore.desiredAge !== null) {
+const defaultLifeExpectancy = computed(() => {
+  if (questionnaireStore.desiredAge && questionnaireStore.desiredAge !== 0) {
     return questionnaireStore.desiredAge;
+  } else if (
+    questionnaireStore.desiredAgeCalculated &&
+    questionnaireStore.desiredAgeCalculated !== 0
+  ) {
+    return questionnaireStore.desiredAgeCalculated;
+  } else {
+    return questionnaireStore.calculateAdjustedLifeExpectancy();
+  }
+});
+
+const baseLifeExpectancy = computed(() => {
+  if (questionnaireStore.desiredAge && questionnaireStore.desiredAge !== 0) {
+    return questionnaireStore.desiredAge;
+  } else if (questionnaireStore.desiredAgeCalculated && questionnaireStore.desiredAgeCalculated !== 0) {
+    return questionnaireStore.desiredAgeCalculated;
   } else if (questionnaireStore.lifeExpectancy) {
     if (
       questionnaireStore.gender === 'male' &&
@@ -102,14 +119,10 @@ const roundedAdditionalSmokingLossYears = computed(() =>
   roundOneDecimal(questionnaireStore.smokingAdditionalDaysLost / 365)
 );
 
-const calculatedLifeExpectancy = computed(() =>
-  questionnaireStore.calculateAdjustedLifeExpectancy()
-);
-
-const adjustedExpectedLifetime = ref(calculatedLifeExpectancy.value);
+const adjustedExpectedLifetime = ref(defaultLifeExpectancy.value);
 
 watch(
-  calculatedLifeExpectancy,
+  defaultLifeExpectancy,
   (newVal) => {
     adjustedExpectedLifetime.value = newVal;
   },
