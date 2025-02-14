@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 // Drink alcohol content constants (in grams per drink)
 const SMALL_BEER_10_GRAMS = 10;      // Small 10° beer: 1 drink = 10 g of alcohol
@@ -9,12 +10,10 @@ const LARGE_BEER_12_GRAMS = 20;      // Large 12° beer: 1 drink = 20 g of alcoh
 const SHOT_GRAMS = 12.8;             // Shot: 1 drink = 12.8 g of alcohol
 const WINE_GRAMS = 19.2;             // Wine: 1 drink = 19.2 g of alcohol
 
-// Weekly alcohol thresholds (in grams)
 const THRESHOLD_LOW = 100;
 const THRESHOLD_MODERATE = 200;
 const THRESHOLD_HIGH = 350;
 
-// Life lost constants (in years) based on thresholds
 const LIFE_LOSS_LOW = 0;
 const LIFE_LOSS_MODERATE = 0.5;
 const LIFE_LOSS_ELEVATED = 1.5;
@@ -50,6 +49,15 @@ export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
     return LIFE_LOSS_LOW;
   });
 
+  function updateMainStore() {
+    const questionnaireStore = useQuestionnaireStore();
+    questionnaireStore.updateField('alcoholLifeLoss', lifeLostYears.value);
+  }
+
+  watch(lifeLostYears, () => {
+    updateMainStore();
+  });
+
   return {
     drinksAlcohol,
     smallBeer10,
@@ -60,5 +68,6 @@ export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
     wine,
     totalAlcoholGrams,
     lifeLostYears,
+    updateMainStore,
   };
 });
