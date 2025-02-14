@@ -45,6 +45,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     dietLifeGain: 0,
     alcoholLifeLoss: 0,
   }),
+
   getters: {
     finalLifeExpectancy(state): number {
       let base = 0;
@@ -61,21 +62,47 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       }
       const smokingLossYears = state.smokingDaysLost / 365;
       const additionalSmokingLossYears = state.smokingAdditionalDaysLost / 365;
-      return base + state.activityLifeGain + state.dietLifeGain - state.alcoholLifeLoss - smokingLossYears - additionalSmokingLossYears;
+      return (
+        base +
+        state.activityLifeGain +
+        state.dietLifeGain -
+        state.alcoholLifeLoss -
+        smokingLossYears -
+        additionalSmokingLossYears
+      );
     },
   },
+
   actions: {
-    updateField(field: keyof QuestionnaireState, value: any) {
-      this[field] = value;
+    updateField<K extends keyof QuestionnaireState>(
+      field: K,
+      value: QuestionnaireState[K]
+    ) {
+      this.$patch({ [field]: value });
     },
-    updateResults(results: Partial<Pick<QuestionnaireState,
-      'activityLifeGain' |
-      'dietLifeGain' |
-      'alcoholLifeLoss' |
-      'smokingDaysLost' |
-      'smokingAdditionalDaysLost'
-    >>) {
-      Object.assign(this, results);
+    calculateAdjustedLifeExpectancy(): number {
+      let base = 0;
+      if (this.desiredAge !== null) {
+        base = this.desiredAge;
+      } else if (this.lifeExpectancy) {
+        if (this.gender === 'male' && this.lifeExpectancy.male !== null) {
+          base = this.lifeExpectancy.male;
+        } else if (this.gender === 'female' && this.lifeExpectancy.female !== null) {
+          base = this.lifeExpectancy.female;
+        } else {
+          base = this.lifeExpectancy.both || 0;
+        }
+      }
+      const smokingLossYears = this.smokingDaysLost / 365;
+      const additionalSmokingLossYears = this.smokingAdditionalDaysLost / 365;
+      return (
+        base +
+        this.activityLifeGain +
+        this.dietLifeGain -
+        this.alcoholLifeLoss -
+        smokingLossYears -
+        additionalSmokingLossYears
+      );
     },
   },
 });
