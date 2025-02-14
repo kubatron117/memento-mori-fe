@@ -12,6 +12,13 @@ import {
 import { WeeksApiService } from '@/api/weeksApiService';
 import { useLoginStore } from './loginStore';
 
+function toDate(raw: unknown): Date {
+  if (raw instanceof Date) {
+    return raw;
+  }
+  return new Date(String(raw));
+}
+
 export const useLifeStore = defineStore('lifeStore', () => {
   const weeks = shallowRef<LifeWeek[]>([]);
   const loginStore = useLoginStore();
@@ -29,10 +36,8 @@ export const useLifeStore = defineStore('lifeStore', () => {
       return;
     }
 
-    const birthDate =
-      rawBirthDate instanceof Date ? rawBirthDate : new Date(rawBirthDate);
-    const deathDate =
-      rawDeathDate instanceof Date ? rawDeathDate : new Date(rawDeathDate);
+    const birthDate = toDate(rawBirthDate);
+    const deathDate = toDate(rawDeathDate);
 
     if (isNaN(birthDate.getTime()) || isNaN(deathDate.getTime())) {
       console.error('Neplatné datum narození nebo úmrtí.', { birthDate, deathDate });
