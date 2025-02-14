@@ -64,6 +64,7 @@ app.use(PrimeVue, {
 app.directive('tooltip', Tooltip);
 
 const i18n = createI18n({
+  legacy: false,
   locale: 'cs',
   fallbackLocale: 'en',
   messages: {
