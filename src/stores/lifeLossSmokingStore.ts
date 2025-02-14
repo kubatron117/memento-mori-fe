@@ -1,4 +1,7 @@
+// src/stores/lifeLossSmoking.ts
 import { defineStore } from 'pinia';
+import { useQuestionnaireStore } from '@/stores/questionnaireStore';
+import { watch } from 'vue';
 
 export interface LifeLossSmokingState {
   smoking: boolean | null;
@@ -81,6 +84,12 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', {
 
       const additionalDaysSmoking = additionalYears * DAYS_IN_YEAR;
       this.additionalDaysLost = dailyLossInDays * additionalDaysSmoking;
+    },
+    updateMainStore() {
+      console.log("updated smoking store");
+      const questionnaireStore = useQuestionnaireStore();
+      questionnaireStore.updateField('smokingDaysLost', this.daysLost);
+      questionnaireStore.updateField('smokingAdditionalDaysLost', this.additionalDaysLost);
     },
   },
 });
