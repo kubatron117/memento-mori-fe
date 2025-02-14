@@ -42,9 +42,7 @@
         inputId="expectedLifetime"
         class="w-full"
       />
-      <p class="mt-2">
-        Zvolená nová doba: {{ roundedAdjustedExpectedLifetime }} let
-      </p>
+      <p class="mt-2">Zvolená nová doba: {{ roundedAdjustedExpectedLifetime }} let</p>
     </div>
 
     <div class="mt-4">
@@ -64,60 +62,28 @@ const questionnaireStore = useQuestionnaireStore();
 
 const roundOneDecimal = (num: number) => Math.round(num * 10) / 10;
 
-const defaultLifeExpectancy = computed(() => {
-  if (questionnaireStore.desiredAge && questionnaireStore.desiredAge !== 0) {
-    return questionnaireStore.desiredAge;
-  } else if (
-    questionnaireStore.desiredAgeCalculated &&
-    questionnaireStore.desiredAgeCalculated !== 0
-  ) {
-    return questionnaireStore.desiredAgeCalculated;
-  } else {
-    return questionnaireStore.calculateAdjustedLifeExpectancy();
-  }
-});
-
 const baseLifeExpectancy = computed(() => {
-  if (questionnaireStore.desiredAge && questionnaireStore.desiredAge !== 0) {
-    return questionnaireStore.desiredAge;
-  } else if (questionnaireStore.desiredAgeCalculated && questionnaireStore.desiredAgeCalculated !== 0) {
+  if (questionnaireStore.desiredAgeCalculated && questionnaireStore.desiredAgeCalculated !== 0) {
     return questionnaireStore.desiredAgeCalculated;
   } else if (questionnaireStore.lifeExpectancy) {
-    if (
-      questionnaireStore.gender === 'male' &&
-      questionnaireStore.lifeExpectancy.male !== null
-    ) {
+    if (questionnaireStore.gender === 'male' && questionnaireStore.lifeExpectancy.male !== null) {
       return questionnaireStore.lifeExpectancy.male;
     }
-    if (
-      questionnaireStore.gender === 'female' &&
-      questionnaireStore.lifeExpectancy.female !== null
-    ) {
+    if (questionnaireStore.gender === 'female' && questionnaireStore.lifeExpectancy.female !== null) {
       return questionnaireStore.lifeExpectancy.female;
     }
     return questionnaireStore.lifeExpectancy.both || 0;
   }
   return 0;
 });
+const roundedBaseLifeExpectancy = computed(() => roundOneDecimal(baseLifeExpectancy.value));
+const roundedActivityLifeGain = computed(() => roundOneDecimal(questionnaireStore.activityLifeGain));
+const roundedDietLifeGain = computed(() => roundOneDecimal(questionnaireStore.dietLifeGain));
+const roundedAlcoholLifeLoss = computed(() => roundOneDecimal(questionnaireStore.alcoholLifeLoss));
+const roundedSmokingLossYears = computed(() => roundOneDecimal(questionnaireStore.smokingDaysLost / 365));
+const roundedAdditionalSmokingLossYears = computed(() => roundOneDecimal(questionnaireStore.smokingAdditionalDaysLost / 365));
 
-const roundedBaseLifeExpectancy = computed(() =>
-  roundOneDecimal(baseLifeExpectancy.value)
-);
-const roundedActivityLifeGain = computed(() =>
-  roundOneDecimal(questionnaireStore.activityLifeGain)
-);
-const roundedDietLifeGain = computed(() =>
-  roundOneDecimal(questionnaireStore.dietLifeGain)
-);
-const roundedAlcoholLifeLoss = computed(() =>
-  roundOneDecimal(questionnaireStore.alcoholLifeLoss)
-);
-const roundedSmokingLossYears = computed(() =>
-  roundOneDecimal(questionnaireStore.smokingDaysLost / 365)
-);
-const roundedAdditionalSmokingLossYears = computed(() =>
-  roundOneDecimal(questionnaireStore.smokingAdditionalDaysLost / 365)
-);
+const defaultLifeExpectancy = computed(() => questionnaireStore.finalLifeExpectancy);
 
 const adjustedExpectedLifetime = ref(defaultLifeExpectancy.value);
 
@@ -129,7 +95,12 @@ watch(
   { immediate: true }
 );
 
-const roundedAdjustedExpectedLifetime = computed(() =>
-  Math.round(adjustedExpectedLifetime.value)
+watch(
+  adjustedExpectedLifetime,
+  (newVal) => {
+    questionnaireStore.$patch({ desiredAge: newVal });
+  }
 );
+
+const roundedAdjustedExpectedLifetime = computed(() => Math.round(adjustedExpectedLifetime.value));
 </script>
