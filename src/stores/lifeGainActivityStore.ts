@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 export const useActivityStore = defineStore('lifeGainActivity', () => {
   const exerciseType = ref<'moderate' | 'vigorous'>('moderate');
-
   const exerciseMinutes = ref<number>(0);
 
-  // Konstanty dle mezinárodních doporučení:
   const RECOMMENDED_MODERATE_MINUTES = 150;
   const RECOMMENDED_VIGOROUS_MINUTES = 75;
   const MAX_LIFE_GAIN_YEARS = 5;
@@ -25,9 +24,19 @@ export const useActivityStore = defineStore('lifeGainActivity', () => {
     }
   });
 
+  function updateMainStore() {
+    const questionnaireStore = useQuestionnaireStore();
+    questionnaireStore.updateField('activityLifeGain', lifeGainYears.value);
+  }
+
+  watch(lifeGainYears, () => {
+    updateMainStore();
+  });
+
   return {
     exerciseType,
     exerciseMinutes,
     lifeGainYears,
+    updateMainStore,
   };
 });
