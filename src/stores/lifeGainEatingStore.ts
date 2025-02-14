@@ -71,11 +71,12 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
 
   function updateMainStore() {
     questionnaireStore.updateField('dietLifeGain', lifeGainYears.value);
+    console.log('dietLifeGain', questionnaireStore.dietLifeGain);
   }
 
   watch(lifeGainYears, () => {
     updateMainStore();
-  });
+  },{ immediate: true });
 
   return {
     age,

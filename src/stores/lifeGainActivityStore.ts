@@ -27,11 +27,12 @@ export const useActivityStore = defineStore('lifeGainActivity', () => {
   function updateMainStore() {
     const questionnaireStore = useQuestionnaireStore();
     questionnaireStore.updateField('activityLifeGain', lifeGainYears.value);
+    console.log('activityLifeGain', questionnaireStore.activityLifeGain);
   }
 
   watch(lifeGainYears, () => {
     updateMainStore();
-  });
+  }, { immediate: true });
 
   return {
     exerciseType,
