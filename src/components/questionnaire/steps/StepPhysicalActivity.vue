@@ -1,31 +1,38 @@
 <template>
-  <div class="p-4 max-w-2xl mx-auto">
-    <h2 class="text-2xl font-bold mb-6">{{ t('app.steps.physical-activity.title') }}</h2>
+  <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+      {{ t('app.steps.physical-activity.title') }}
+    </h2>
 
-    <p class="mb-4">{{ t('app.steps.physical-activity.exerciseType') }}</p>
-    <div class="flex items-center space-x-4">
-      <RadioButton
-        v-model="activityStore.exerciseType"
-        value="moderate"
-        inputId="moderate"
-      />
-      <label for="moderate" class="cursor-pointer">
-        {{ t('app.steps.physical-activity.moderateLabel') }}
-      </label>
-    </div>
-    <div class="flex items-center space-x-4 mt-2">
-      <RadioButton
-        v-model="activityStore.exerciseType"
-        value="vigorous"
-        inputId="vigorous"
-      />
-      <label for="vigorous" class="cursor-pointer">
-        {{ t('app.steps.physical-activity.vigorousLabel') }}
-      </label>
+    <p class="text-gray-700 font-medium mb-4">
+      {{ t('app.steps.physical-activity.exerciseType') }}
+    </p>
+
+    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0">
+      <div class="flex items-center">
+        <RadioButton
+          v-model="activityStore.exerciseType"
+          value="moderate"
+          inputId="moderate"
+        />
+        <label for="moderate" class="ml-2 cursor-pointer text-gray-700">
+          {{ t('app.steps.physical-activity.moderateLabel') }}
+        </label>
+      </div>
+      <div class="flex items-center">
+        <RadioButton
+          v-model="activityStore.exerciseType"
+          value="vigorous"
+          inputId="vigorous"
+        />
+        <label for="vigorous" class="ml-2 cursor-pointer text-gray-700">
+          {{ t('app.steps.physical-activity.vigorousLabel') }}
+        </label>
+      </div>
     </div>
 
-    <div class="mt-4">
-      <label class="block mb-1 font-medium">
+    <div class="mt-6">
+      <label class="block text-gray-700 font-medium mb-2">
         {{ t('app.steps.physical-activity.exerciseMinutes') }}
       </label>
       <InputNumber
@@ -37,12 +44,12 @@
       />
     </div>
 
-    <div class="mt-6 p-4 bg-gray-50 rounded shadow">
-      <p class="text-lg">
-        <span class="font-semibold">{{ t('app.steps.physical-activity.lifeGainYears') }}:</span>
+    <div class="mt-6 bg-gray-50 border border-gray-200 rounded p-4">
+      <p class="text-lg text-gray-800">
+        <span class="font-semibold">{{ t('app.steps.physical-activity.lifeGainYears') }}: </span>
         +{{ activityStore.lifeGainYears.toFixed(2) }} let
       </p>
-      <p class="text-sm text-gray-600 mt-1">
+      <p class="text-sm text-gray-600 mt-2">
         {{ t('app.steps.physical-activity.studyNote') }}
       </p>
     </div>

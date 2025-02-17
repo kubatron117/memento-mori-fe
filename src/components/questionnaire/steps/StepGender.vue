@@ -1,16 +1,23 @@
 <template>
-  <div>
-    <h2>{{ t('app.steps.choose-gender')}}</h2>
-    <div v-for="gender in genders" :key="gender.value" class="p-field-radiobutton">
-      <RadioButton
-        v-model="selectedGender"
-        :value="gender.value"
-        :inputId="`gender_${gender.value}`"
-      />
-      <label :for="`gender_${gender.value}`">{{ gender.label }}</label>
+  <div class="bg-white shadow rounded p-6 max-w-md mx-auto">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">
+      {{ t('app.steps.choose-gender') }}
+    </h2>
+    <div class="space-y-4">
+      <div v-for="gender in genders" :key="gender.value" class="flex items-center">
+        <RadioButton
+          v-model="selectedGender"
+          :value="gender.value"
+          :inputId="`gender_${gender.value}`"
+        />
+        <label :for="`gender_${gender.value}`" class="ml-2 cursor-pointer text-gray-700">
+          {{ gender.label }}
+        </label>
+      </div>
     </div>
   </div>
 </template>
+
 
 <script lang="ts" setup>
 import { computed } from 'vue';

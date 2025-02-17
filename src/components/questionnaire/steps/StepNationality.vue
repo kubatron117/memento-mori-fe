@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <h2>Vyberte národnost</h2>
+  <div class="bg-white shadow rounded p-6 max-w-md mx-auto">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Vyberte národnost</h2>
     <Select
       v-model="selectedNationality"
       :options="nationalities"
       optionLabel="location"
       optionValue="id"
       placeholder="Vyberte národnost"
-      class="w-full md:w-56"
+      class="w-full"
       filter
     />
   </div>
