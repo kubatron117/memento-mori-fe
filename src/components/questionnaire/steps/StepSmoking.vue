@@ -35,6 +35,7 @@
           v-model="cigarettesPerDay"
           class="w-full"
           :min="0"
+          :max="150"
           :showButtons="true"
         />
       </div>
@@ -47,6 +48,7 @@
           v-model="plannedQuitAge"
           class="w-full"
           :min="0"
+          :max="140"
           :showButtons="true"
         />
       </div>
