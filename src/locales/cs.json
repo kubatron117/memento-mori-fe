@@ -79,6 +79,15 @@
         "years": "roky",
         "studyNote": "(Podle studie: baseline je ≤100 g/týden; při >100–≤200 g se zkracuje o 6 měsíců, při >200–≤350 g o 1–2 roky, a při >350 g o 4–5 let.)",
         "noConsumption": "Uživatel neuvádí konzumaci alkoholu."
+      },
+      "physical-activity": {
+        "title": "Kalkulačka fyzické aktivity a prodloužení života",
+        "exerciseType": "Vyberte typ cvičení:",
+        "moderateLabel": "Mírná (doporučeno 150 minut týdně)",
+        "vigorousLabel": "Intenzivní (doporučeno 75 minut týdně)",
+        "exerciseMinutes": "Počet minut cvičení za týden",
+        "lifeGainYears": "Odhadované prodloužení života",
+        "studyNote": "(Na základě studie: dosažení doporučené úrovně fyzické aktivity může prodloužit život přibližně o 5 let.)"
       }
     },
     "optional": "volitelně"
