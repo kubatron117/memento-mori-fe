@@ -45,6 +45,10 @@
       "missing-password": "Vyplňte prosím heslo.",
       "login-failed": "Přihlášení selhalo.",
       "reset-password-failed": "Reset hesla selhal."
+    },
+    "steps":{
+      "insert-date-of-birth": "Zadejte datum narození",
+      "date-of-birth": "Datum narození"
     }
   }
 }
