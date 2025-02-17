@@ -59,7 +59,27 @@
       "no": "Ne",
       "start-age-smoking": "Od kolika let kouříte?",
       "cigarettes-per-day": "Kolik cigaret denně?",
-      "planned-quit-age": "Do jakého věku plánujete kouřit?"
+      "planned-quit-age": "Do jakého věku plánujete kouřit?",
+      "alcohol": {
+        "title": "Kalkulačka konzumace alkoholu",
+        "drinksAlcohol": "Pijete alkohol?",
+        "yes": "Ano",
+        "no": "Ne",
+        "instruction": "Zadejte počet jednotlivých nápojů, které za týden vypijete. Výpočet vychází ze studie, podle které je nejnižší riziko při ≤100 g čistého alkoholu týdně.",
+        "smallBeer10": "MALÉ pivo 10° (1 nápoj = 10 g)",
+        "largeBeer10": "VELKÉ pivo 10° (1 nápoj = 10 g)",
+        "smallBeer12": "MALÉ pivo 12° (1 nápoj = 13,2 g)",
+        "largeBeer12": "VELKÉ pivo 12° (1 nápoj = 20 g)",
+        "shot": "Panák (1 nápoj = 12,8 g)",
+        "wine": "Víno (1 nápoj = 19,2 g)",
+        "totalAlcohol": "Celkové množství alkoholu:",
+        "lifeLost": "Zkrácení života od 40 let:",
+        "noLoss": "nejsou evidovány žádné ztráty",
+        "year": "rok",
+        "years": "roky",
+        "studyNote": "(Podle studie: baseline je ≤100 g/týden; při >100–≤200 g se zkracuje o 6 měsíců, při >200–≤350 g o 1–2 roky, a při >350 g o 4–5 let.)",
+        "noConsumption": "Uživatel neuvádí konzumaci alkoholu."
+      }
     },
     "optional": "volitelně"
   }
