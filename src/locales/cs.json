@@ -48,7 +48,11 @@
     },
     "steps":{
       "insert-date-of-birth": "Zadejte datum narození",
-      "date-of-birth": "Datum narození"
+      "date-of-birth": "Datum narození",
+      "choose-gender": "Vyberte pohlaví",
+      "male": "Muž",
+      "female": "Žena",
+      "other": "Jiné"
     }
   }
 }
