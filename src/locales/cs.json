@@ -52,7 +52,15 @@
       "choose-gender": "Vyberte pohlaví",
       "male": "Muž",
       "female": "Žena",
-      "other": "Jiné"
-    }
+      "other": "Jiné",
+      "smoking": "Kouření",
+      "do-you-smoke": "Kouříte?",
+      "yes": "Ano",
+      "no": "Ne",
+      "start-age-smoking": "Od kolika let kouříte?",
+      "cigarettes-per-day": "Kolik cigaret denně?",
+      "planned-quit-age": "Do jakého věku plánujete kouřit?"
+    },
+    "optional": "volitelně"
   }
 }

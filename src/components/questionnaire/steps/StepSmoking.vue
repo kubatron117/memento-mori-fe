@@ -1,20 +1,22 @@
 <template>
   <div class="p-4">
-    <h2 class="text-2xl font-bold mb-4">Kouření</h2>
+    <h2 class="text-2xl font-bold mb-4">{{ t('app.steps.smoking') }}</h2>
 
     <div class="mb-4">
-      <label class="block mb-2 font-medium">Kouříte?</label>
+      <label class="block mb-2 font-medium">{{ t('app.steps.do-you-smoke') }}</label>
       <div class="flex items-center space-x-4">
         <RadioButton v-model="smokes" :value="true" inputId="smoke-yes" />
-        <label for="smoke-yes" class="cursor-pointer">Ano</label>
+        <label for="smoke-yes" class="cursor-pointer">{{ t('app.steps.yes') }}</label>
         <RadioButton v-model="smokes" :value="false" inputId="smoke-no" />
-        <label for="smoke-no" class="cursor-pointer">Ne</label>
+        <label for="smoke-no" class="cursor-pointer">{{ t('app.steps.no') }}</label>
       </div>
     </div>
 
     <div v-if="smokes" class="space-y-4">
       <div>
-        <label for="startAge" class="block mb-2 font-medium">Od kolika let kouříte?</label>
+        <label for="startAge" class="block mb-2 font-medium">
+          {{ t('app.steps.start-age-smoking') }}
+        </label>
         <InputNumber
           id="startAge"
           v-model="startAge"
@@ -25,7 +27,9 @@
         />
       </div>
       <div>
-        <label for="cigarettesPerDay" class="block mb-2 font-medium">Kolik cigaret denně?</label>
+        <label for="cigarettesPerDay" class="block mb-2 font-medium">
+          {{ t('app.steps.cigarettes-per-day') }}
+        </label>
         <InputNumber
           id="cigarettesPerDay"
           v-model="cigarettesPerDay"
@@ -35,7 +39,9 @@
         />
       </div>
       <div>
-        <label for="plannedQuitAge" class="block mb-2 font-medium">Dokud plánujete kouřit? (volitelně)</label>
+        <label for="plannedQuitAge" class="block mb-2 font-medium">
+          {{ t('app.steps.planned-quit-age') }} ({{ t('app.optional') }})
+        </label>
         <InputNumber
           id="plannedQuitAge"
           v-model="plannedQuitAge"
@@ -50,10 +56,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import { useLifeLossSmokingStore } from '@/stores/lifeLossSmokingStore';
-import RadioButton from 'primevue/radiobutton';
-import InputNumber from 'primevue/inputnumber';
+import { useI18n } from 'vue-i18n'
+import { useLifeLossSmokingStore } from '@/stores/lifeLossSmokingStore'
 import { useQuestionnaireStore } from '@/stores/questionnaireStore'
+import RadioButton from 'primevue/radiobutton'
+import InputNumber from 'primevue/inputnumber'
+
+const { t } = useI18n()
 
 const lifeLossSmokingStore = useLifeLossSmokingStore();
 const questionnaireStore = useQuestionnaireStore();
