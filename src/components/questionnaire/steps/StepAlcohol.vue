@@ -14,27 +14,27 @@
       <p class="mb-4">{{ t('app.steps.alcohol.instruction') }}</p>
       <div class="mb-4">
         <label class="block mb-1 font-medium">{{ t('app.steps.alcohol.smallBeer10') }}</label>
-        <InputNumber v-model="alcoholStore.smallBeer10" :min="0" :max="50" showButtons class="w-full" />
+        <InputNumber v-model="alcoholStore.smallBeer10" :min="0" :max="200" showButtons class="w-full" />
       </div>
       <div class="mb-4">
         <label class="block mb-1 font-medium">{{ t('app.steps.alcohol.largeBeer10') }}</label>
-        <InputNumber v-model="alcoholStore.largeBeer10" :min="0" :max="50" showButtons class="w-full" />
+        <InputNumber v-model="alcoholStore.largeBeer10" :min="0" :max="200" showButtons class="w-full" />
       </div>
       <div class="mb-4">
         <label class="block mb-1 font-medium">{{ t('app.steps.alcohol.smallBeer12') }}</label>
-        <InputNumber v-model="alcoholStore.smallBeer12" :min="0" :max="50" showButtons class="w-full" />
+        <InputNumber v-model="alcoholStore.smallBeer12" :min="0" :max="200" showButtons class="w-full" />
       </div>
       <div class="mb-4">
         <label class="block mb-1 font-medium">{{ t('app.steps.alcohol.largeBeer12') }}</label>
-        <InputNumber v-model="alcoholStore.largeBeer12" :min="0" :max="50" showButtons class="w-full" />
+        <InputNumber v-model="alcoholStore.largeBeer12" :min="0" :max="200" showButtons class="w-full" />
       </div>
       <div class="mb-4">
         <label class="block mb-1 font-medium">{{ t('app.steps.alcohol.shot') }}</label>
-        <InputNumber v-model="alcoholStore.shot" :min="0" :max="50" showButtons class="w-full" />
+        <InputNumber v-model="alcoholStore.shot" :min="0" :max="200" showButtons class="w-full" />
       </div>
       <div class="mb-4">
         <label class="block mb-1 font-medium">{{ t('app.steps.alcohol.wine') }}</label>
-        <InputNumber v-model="alcoholStore.wine" :min="0" :max="50" showButtons class="w-full" />
+        <InputNumber v-model="alcoholStore.wine" :min="0" :max="200" showButtons class="w-full" />
       </div>
       <div class="mt-6 p-4 bg-gray-50 rounded shadow">
         <p class="text-lg">
