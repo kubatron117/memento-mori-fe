@@ -8,7 +8,7 @@ vi.mock('@/stores/questionnaireStore', () => ({
   useQuestionnaireStore: vi.fn(),
 }));
 
-describe('Activity Store', () => {
+describe('lifeGainActivityStore', () => {
   let mockQuestionnaireStore: { updateField: ReturnType<typeof vi.fn>; activityLifeGain: number };
 
   beforeEach(() => {
