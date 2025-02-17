@@ -20,6 +20,7 @@
           v-model="startAge"
           class="w-full"
           :min="0"
+          :max="currentAge"
           :showButtons="true"
         />
       </div>
@@ -48,17 +49,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue'
 import { useLifeLossSmokingStore } from '@/stores/lifeLossSmokingStore';
 import RadioButton from 'primevue/radiobutton';
 import InputNumber from 'primevue/inputnumber';
+import { useQuestionnaireStore } from '@/stores/questionnaireStore'
 
 const lifeLossSmokingStore = useLifeLossSmokingStore();
+const questionnaireStore = useQuestionnaireStore();
 
 const smokes = ref<boolean | null>(lifeLossSmokingStore.smoking);
 const startAge = ref<number | null>(lifeLossSmokingStore.startAge);
 const cigarettesPerDay = ref<number | null>(lifeLossSmokingStore.cigarettesPerDay);
 const plannedQuitAge = ref<number | null>(lifeLossSmokingStore.plannedQuitAge);
+const currentAge = computed(() => questionnaireStore.getCurrentAge());
 
 watch(smokes, (newValue) => {
   lifeLossSmokingStore.smoking = newValue;

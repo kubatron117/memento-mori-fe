@@ -106,5 +106,20 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
         additionalSmokingLossYears
       );
     },
+    getCurrentAge(): number {
+      if (!this.birthDate) {
+        return 0;
+      }
+      const today = new Date();
+      let age = today.getFullYear() - this.birthDate.getFullYear();
+      const monthDiff = today.getMonth() - this.birthDate.getMonth();
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < this.birthDate.getDate())
+      ) {
+        age--;
+      }
+      return age;
+    },
   },
 });
