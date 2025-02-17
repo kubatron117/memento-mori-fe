@@ -2,19 +2,74 @@ import { defineStore } from 'pinia';
 import { computed, watch } from 'vue';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
+/**
+ * Helper function for piecewise linear interpolation.
+ * It takes the "userAge" and an array of points (each with an age and a value).
+ * - If userAge is below the smallest age, returns the value of the first point.
+ * - If userAge is above the largest age, returns the value of the last point.
+ * - Otherwise, it finds the two neighboring points and performs linear interpolation between them.
+ */
+function piecewiseInterpolate(
+  userAge: number,
+  points: Array<{ age: number; value: number }>
+): number {
+  // 1) If userAge is less than the first point's age, return the first value
+  if (userAge <= points[0].age) {
+    return points[0].value;
+  }
+  // 2) If userAge is greater than the last point's age, return the last value
+  if (userAge >= points[points.length - 1].age) {
+    return points[points.length - 1].value;
+  }
+  // 3) Otherwise, find the interval in which userAge falls
+  for (let i = 0; i < points.length - 1; i++) {
+    const ageA = points[i].age;
+    const valA = points[i].value;
+    const ageB = points[i + 1].age;
+    const valB = points[i + 1].value;
+    if (userAge >= ageA && userAge <= ageB) {
+      const fraction = (userAge - ageA) / (ageB - ageA);
+      return valA + fraction * (valB - valA);
+    }
+  }
+  return points[points.length - 1].value;
+}
+
+// Constants for life gain estimates (typical -> optimal / typical -> feasible)
+// based on study data (for the US population)
+const GAINS_FEMALE_OPTIMAL = [
+  { age: 20, value: 10.7 },
+  { age: 60, value: 8.0 },
+  { age: 80, value: 3.4 },
+];
+const GAINS_MALE_OPTIMAL = [
+  { age: 20, value: 13.0 },
+  { age: 60, value: 8.8 },
+  { age: 80, value: 3.4 },
+];
+
+// For the feasible diet, values are provided directly for age 20,
+// while for ages 60 and 80 the values are calculated as a ratio to the "optimal" diet.
+//
+// According to the study: a 20-year-old woman gains +6.2 years, and a man gains +7.3 years.
+// The study does not explicitly provide values for ages 60 and 80, so the ratio to optimal is used.
+const GAINS_FEMALE_FEASIBLE = [
+  { age: 20, value: 6.2 }, // (from the study)
+  { age: 60, value: 6.2 * (8.0 / 10.7) },  // ~4.63
+  { age: 80, value: 6.2 * (3.4 / 10.7) },  // ~1.97
+];
+const GAINS_MALE_FEASIBLE = [
+  { age: 20, value: 7.3 },
+  { age: 60, value: 7.3 * (8.8 / 13.0) },  // ~4.94
+  { age: 80, value: 7.3 * (3.4 / 13.0) },  // ~1.91
+];
+
 export const useDietStore = defineStore('lifeGainDiet', () => {
   const questionnaireStore = useQuestionnaireStore();
 
   const age = computed<number>(() => {
-    if (!questionnaireStore.birthDate) return 20;
-    const today = new Date();
-    const birthDate = new Date(questionnaireStore.birthDate);
-    let userAge = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      userAge--;
-    }
-    return userAge;
+    const currentAge = questionnaireStore.getCurrentAge();
+    return currentAge || 20;
   });
 
   const sex = computed<'male' | 'female'>(() => {
@@ -27,46 +82,23 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
     return 'typical';
   });
 
-  const OPTIMAL_FEMALE_20 = 10.7;
-  const OPTIMAL_MALE_20   = 13.0;
-  const OPTIMAL_FEMALE_80 = 3.4;
-  const OPTIMAL_MALE_80   = 3.4;
-
-  const FEASIBLE_FEMALE_20 = 6.2;
-  const FEASIBLE_MALE_20   = 7.3;
-  const FEASIBLE_FEMALE_80 = FEASIBLE_FEMALE_20 * (OPTIMAL_FEMALE_80 / OPTIMAL_FEMALE_20);
-  const FEASIBLE_MALE_80   = FEASIBLE_MALE_20 * (OPTIMAL_MALE_80 / OPTIMAL_MALE_20);
-
-  function linearInterpolation(
-    currentAge: number,
-    age20: number,
-    value20: number,
-    age80: number,
-    value80: number
-  ): number {
-    if (currentAge <= age20) return value20;
-    if (currentAge >= age80) return value80;
-    const fraction = (currentAge - age20) / (age80 - age20);
-    return value20 + fraction * (value80 - value20);
-  }
-
   const lifeGainYears = computed<number>(() => {
     if (dietType.value === 'typical') {
       return 0;
-    } else if (dietType.value === 'optimal') {
-      if (sex.value === 'female') {
-        return linearInterpolation(age.value, 20, OPTIMAL_FEMALE_20, 80, OPTIMAL_FEMALE_80);
+    }
+    if (sex.value === 'female') {
+      if (dietType.value === 'optimal') {
+        return piecewiseInterpolate(age.value, GAINS_FEMALE_OPTIMAL);
       } else {
-        return linearInterpolation(age.value, 20, OPTIMAL_MALE_20, 80, OPTIMAL_MALE_80);
+        return piecewiseInterpolate(age.value, GAINS_FEMALE_FEASIBLE);
       }
-    } else if (dietType.value === 'feasible') {
-      if (sex.value === 'female') {
-        return linearInterpolation(age.value, 20, FEASIBLE_FEMALE_20, 80, FEASIBLE_FEMALE_80);
+    } else {
+      if (dietType.value === 'optimal') {
+        return piecewiseInterpolate(age.value, GAINS_MALE_OPTIMAL);
       } else {
-        return linearInterpolation(age.value, 20, FEASIBLE_MALE_20, 80, FEASIBLE_MALE_80);
+        return piecewiseInterpolate(age.value, GAINS_MALE_FEASIBLE);
       }
     }
-    return 0;
   });
 
   function updateMainStore() {
@@ -75,8 +107,9 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
   }
 
   watch(lifeGainYears, () => {
-    updateMainStore();
-  },{ immediate: true });
+      updateMainStore();
+    }, { immediate: true }
+  );
 
   return {
     age,

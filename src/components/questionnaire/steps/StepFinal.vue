@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h2 class="text-xl font-semibold mb-4">
+  <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
+    <h2 class="text-xl font-semibold text-gray-800 mb-6">
       Finální krok: Zadejte novou očekávanou dobu života
     </h2>
 
-    <div class="mt-6 p-4 border rounded">
-      <h3 class="font-semibold mb-2">Sumarizace výsledků</h3>
-      <ul class="list-disc pl-5">
+    <div class="bg-gray-50 border border-gray-200 rounded p-4">
+      <h3 class="text-lg font-semibold mb-2">Sumarizace výsledků</h3>
+      <ul class="list-disc pl-5 text-gray-700">
         <li>
           <span>Základní očekávaná délka života: </span>
           <strong>{{ roundedBaseLifeExpectancy }} let</strong>
@@ -35,6 +35,9 @@
     </div>
 
     <div class="mt-6">
+      <label for="expectedLifetime" class="block text-gray-700 font-medium mb-2">
+        Nastavte novou očekávanou dobu:
+      </label>
       <Slider
         v-model="adjustedExpectedLifetime"
         :min="1"
@@ -42,16 +45,19 @@
         inputId="expectedLifetime"
         class="w-full"
       />
-      <p class="mt-2">Zvolená nová doba: {{ roundedAdjustedExpectedLifetime }} let</p>
+      <p class="mt-2 text-gray-700">
+        Zvolená nová doba: {{ roundedAdjustedExpectedLifetime }} let
+      </p>
     </div>
 
     <div class="mt-4">
-      <p class="text-lg font-bold">
+      <p class="text-lg font-bold text-gray-800">
         Nová celková očekávaná doba: {{ roundedAdjustedExpectedLifetime }} let
       </p>
     </div>
   </div>
 </template>
+
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
