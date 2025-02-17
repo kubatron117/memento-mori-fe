@@ -21,6 +21,7 @@ import RadioButton from 'primevue/radiobutton';
 import Select from 'primevue/select';
 import Slider from 'primevue/slider';
 import 'primeicons/primeicons.css'
+import csLocale from 'primelocale/cs.json'
 
 
 import App from './App.vue'
@@ -58,7 +59,8 @@ app.use(PrimeVue, {
       darkModeSelector: false || 'none',
       cssLayer: false
     }
-  }
+  },
+  locale: csLocale
 });
 
 app.directive('tooltip', Tooltip);
