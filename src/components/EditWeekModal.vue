@@ -86,6 +86,37 @@
     </div>
     <div v-else>
       <p class="mb-4">{{ week.additionalInfo || 'Poznámka není k dispozici.' }}</p>
+
+      <div
+        v-if="week.total_score !== null && week.total_score !== undefined"
+        class="flex flex-col gap-2 mb-4"
+      >
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Spokojenost:</label>
+          <Rating :model-value="week.score_satisfaction" readonly :cancel="false" />
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Emoční rovnováha:</label>
+          <Rating :model-value="week.score_emotional_balance" readonly :cancel="false" />
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Produktivita:</label>
+          <Rating :model-value="week.score_productivity" readonly :cancel="false" />
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Vztahy:</label>
+          <Rating :model-value="week.score_relationships" readonly :cancel="false" />
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Soulad hodnot:</label>
+          <Rating :model-value="week.score_values_alignment" readonly :cancel="false" />
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Celkové skóre:</label>
+          <Rating :model-value="week.total_score" readonly :cancel="false" />
+        </div>
+      </div>
+
       <div class="flex justify-end">
         <Button
           label="Zavřít"

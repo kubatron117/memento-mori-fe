@@ -19,7 +19,6 @@
         binary
         v-model="scoreVisualizationEnabled"
         inputId="scoreVisualizationCheckbox"
-        @change="onCheckboxChange"
       />
       <label for="scoreVisualizationCheckbox" class="cursor-pointer font-medium">
         {{ t('app.weeks.scoreVisualization') }}
@@ -101,14 +100,6 @@ watch(weeks, (newWeeks) => {
     isLoading.value = false;
   }
 });
-
-watch(scoreVisualizationEnabled, (newVal) => {
-  console.log('scoreVisualizationEnabled změněno na:', newVal);
-});
-
-const onCheckboxChange = () => {
-  console.log('Checkbox změnil hodnotu na:', scoreVisualizationEnabled.value);
-};
 
 const formatDate = (date: Date): string => {
   return date.toLocaleDateString('cs-CZ');
