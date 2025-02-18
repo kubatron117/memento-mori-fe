@@ -8,7 +8,7 @@
         <Slider
           class="w-56"
           id="circleSizeSlider"
-          v-model="circleSize"
+          v-model.lazy="circleSize"
           :min="10"
           :max="30"
         />
