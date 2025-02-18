@@ -101,6 +101,14 @@
       "minutes": "minut",
       "seconds": "sekund"
     },
+    "weeks": {
+      "weekSize": "Velikost týdnů:",
+      "noData": "Nebyla nalezena data o týdnech.",
+      "year": "Rok:",
+      "week": "Týden:",
+      "range": "Rozsah:",
+      "info": "Info:"
+    },
     "optional": "volitelně"
   }
 }

@@ -2,7 +2,7 @@
   <div class="p-5">
     <div class="mb-5 flex items-center gap-3 justify-end">
       <label for="circleSizeSlider" class="font-medium">
-        Velikost týdnů:
+        {{ t('app.weeks.weekSize') }}
       </label>
       <Slider
         class="w-56"
@@ -14,7 +14,7 @@
     </div>
 
     <div v-if="weeks.length === 0" class="text-center text-gray-500">
-      Nebyla nalezena data o týdnech.
+      {{ t('app.weeks.noData') }}
     </div>
     <div v-else>
       <div v-for="group in groupedWeeks" :key="group.label" class="mb-6">
@@ -31,14 +31,14 @@
             <div
               class="invisible absolute z-10 w-48 bg-black bg-opacity-80 text-white text-left rounded p-2 bottom-full left-1/2 transform -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-300 group-hover:visible group-hover:opacity-100"
             >
-              <p><strong>Rok:</strong> {{ week.year }}</p>
-              <p><strong>Týden:</strong> {{ week.weekNumber }}</p>
+              <p><strong>{{ t('app.weeks.year') }}</strong> {{ week.year }}</p>
+              <p><strong>{{ t('app.weeks.week') }}</strong> {{ week.weekNumber }}</p>
               <p>
-                <strong>Rozsah:</strong>
+                <strong>{{ t('app.weeks.range') }}</strong>
                 {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
               </p>
               <p v-if="week.additionalInfo">
-                <strong>Info:</strong> {{ week.additionalInfo }}
+                <strong>{{ t('app.weeks.info') }}</strong> {{ week.additionalInfo }}
               </p>
             </div>
           </div>
@@ -52,9 +52,12 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useLifeStore } from '@/stores/lifeStore';
 import EditWeekModal from '@/components/EditWeekModal.vue';
 import Slider from 'primevue/slider';
+
+const { t } = useI18n();
 
 const lifeStore = useLifeStore();
 const weeks = computed(() => lifeStore.weeks);
