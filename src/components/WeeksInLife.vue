@@ -13,9 +13,20 @@
       />
     </div>
 
-    <div v-if="weeks.length === 0" class="text-center text-gray-500">
+    <div v-if="isLoading" class="flex justify-center items-center h-64">
+      <ProgressSpinner
+        style="width: 50px; height: 50px"
+        strokeWidth="8"
+        fill="transparent"
+        animationDuration=".5s"
+        aria-label="Custom ProgressSpinner"
+      />
+    </div>
+
+    <div v-else-if="weeks.length === 0" class="text-center text-gray-500">
       {{ t('app.weeks.noData') }}
     </div>
+
     <div v-else>
       <div v-for="group in groupedWeeks" :key="group.label" class="mb-6">
         <div class="mb-2 font-bold">{{ group.label }}</div>
@@ -51,11 +62,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useLifeStore } from '@/stores/lifeStore';
 import EditWeekModal from '@/components/EditWeekModal.vue';
 import Slider from 'primevue/slider';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const { t } = useI18n();
 
@@ -64,6 +76,14 @@ const weeks = computed(() => lifeStore.weeks);
 const selectedWeek = ref<null | typeof weeks.value[number]>(null);
 
 const circleSize = ref<number>(20);
+
+const isLoading = ref(true);
+
+watch(weeks, (newWeeks) => {
+  if (newWeeks.length > 0) {
+    isLoading.value = false;
+  }
+});
 
 const formatDate = (date: Date): string => {
   return date.toLocaleDateString('cs-CZ');
