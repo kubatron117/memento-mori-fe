@@ -1,6 +1,6 @@
 <template>
   <div class="p-5">
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-between">
       <div class="mb-5 flex items-center gap-3 justify-end">
         <label for="circleSizeSlider" class="font-medium">
           {{ t('app.weeks.weekSize') }}
