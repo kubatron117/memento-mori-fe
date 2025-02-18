@@ -107,7 +107,15 @@
       "year": "Rok:",
       "week": "Týden:",
       "range": "Rozsah:",
-      "info": "Info:"
+      "info": "Info:",
+      "scoreVisualization": "Vizualizace podle skóre",
+      "totalScore": "Skóre spokojenosti:"
+    },
+    "visualization": {
+      "label": "Zobrazení",
+      "week": "Po týdnech",
+      "month": "Po měsících",
+      "year": "Po letech"
     },
     "optional": "volitelně"
   }

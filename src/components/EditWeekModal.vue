@@ -10,6 +10,7 @@
       <strong>Rozsah:</strong>
       {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
     </p>
+
     <div v-if="isEditable">
       <div class="mb-4">
         <Textarea
@@ -19,51 +20,26 @@
           cols="30"
           class="w-full border border-gray-300 rounded p-2"
           style="resize: none"
+          required
         />
         <label for="description" class="block text-sm text-gray-600 mt-1">
-          Poznámka
+          Poznámka <span class="text-red-500">*</span>
         </label>
       </div>
 
       <div class="flex flex-col gap-4 mt-4">
-        <div class="flex items-center gap-2">
-          <label class="w-40 text-gray-700">Spokojenost:</label>
+        <div
+          v-for="field in ratingFields"
+          :key="field.key"
+          class="flex items-center gap-2"
+        >
+          <label class="w-40 text-gray-700">
+            {{ field.label }} <span class="text-red-500">*</span>:
+          </label>
           <Rating
-            v-model="scoreSatisfaction"
+            v-model="field.model"
             :cancel="false"
-            v-tooltip.top="'Tooltip pro spokojenost'"
-          />
-        </div>
-        <div class="flex items-center gap-2">
-          <label class="w-40 text-gray-700">Emoční rovnováha:</label>
-          <Rating
-            v-model="scoreEmotionalBalance"
-            :cancel="false"
-            v-tooltip.top="'Tooltip pro emoční rovnováhu'"
-          />
-        </div>
-        <div class="flex items-center gap-2">
-          <label class="w-40 text-gray-700">Produktivita:</label>
-          <Rating
-            v-model="scoreProductivity"
-            :cancel="false"
-            v-tooltip.top="'Tooltip pro produktivitu'"
-          />
-        </div>
-        <div class="flex items-center gap-2">
-          <label class="w-40 text-gray-700">Vztahy:</label>
-          <Rating
-            v-model="scoreRelationships"
-            :cancel="false"
-            v-tooltip.top="'Tooltip pro vztahy'"
-          />
-        </div>
-        <div class="flex items-center gap-2">
-          <label class="w-40 text-gray-700">Soulad hodnot:</label>
-          <Rating
-            v-model="scoreValuesAlignment"
-            :cancel="false"
-            v-tooltip.top="'Tooltip pro souladu hodnot'"
+            v-tooltip.top="field.tooltip"
           />
         </div>
       </div>
@@ -84,8 +60,31 @@
       </div>
       <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
     </div>
+
     <div v-else>
-      <p class="mb-4">{{ week.additionalInfo || 'Poznámka není k dispozici.' }}</p>
+      <p class="mb-4">
+        {{ week.additionalInfo || 'Poznámka není k dispozici.' }}
+      </p>
+
+      <div
+        v-if="week.total_score !== null && week.total_score !== undefined"
+        class="flex flex-col gap-2 mb-4"
+      >
+        <div
+          v-for="field in ratingFields"
+          :key="field.key"
+          class="flex items-center gap-2"
+        >
+          <label class="w-40 text-gray-700">{{ field.label }}:</label>
+          <Rating :model-value="week[field.key]" readonly :cancel="false" />
+        </div>
+
+        <div class="flex items-center gap-2">
+          <label class="w-40 text-gray-700">Celkové skóre:</label>
+          <Rating :model-value="week.total_score" readonly :cancel="false" />
+        </div>
+      </div>
+
       <div class="flex justify-end">
         <Button
           label="Zavřít"
@@ -106,7 +105,6 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Rating from 'primevue/rating';
 import Textarea from 'primevue/textarea';
-
 
 const props = defineProps<{
   week: {
@@ -167,8 +165,58 @@ const isEditable = computed(() => {
   );
 });
 
+const ratingFields = [
+  {
+    label: 'Spokojenost',
+    key: 'score_satisfaction',
+    tooltip: 'Tooltip pro spokojenost',
+    model: scoreSatisfaction
+  },
+  {
+    label: 'Emoční rovnováha',
+    key: 'score_emotional_balance',
+    tooltip: 'Tooltip pro emoční rovnováhu',
+    model: scoreEmotionalBalance
+  },
+  {
+    label: 'Produktivita',
+    key: 'score_productivity',
+    tooltip: 'Tooltip pro produktivitu',
+    model: scoreProductivity
+  },
+  {
+    label: 'Vztahy',
+    key: 'score_relationships',
+    tooltip: 'Tooltip pro vztahy',
+    model: scoreRelationships
+  },
+  {
+    label: 'Soulad hodnot',
+    key: 'score_values_alignment',
+    tooltip: 'Tooltip pro souladu hodnot',
+    model: scoreValuesAlignment
+  }
+];
+
 const saveMemo = async () => {
   error.value = '';
+
+  if (!memo.value.trim()) {
+    error.value = 'Poznámka je povinná.';
+    return;
+  }
+
+  if (
+    scoreSatisfaction.value == null ||
+    scoreEmotionalBalance.value == null ||
+    scoreProductivity.value == null ||
+    scoreRelationships.value == null ||
+    scoreValuesAlignment.value == null
+  ) {
+    error.value = 'Všechna hodnocení jsou povinná.';
+    return;
+  }
+
   loading.value = true;
   try {
     await lifeStore.updateWeekMemo(
