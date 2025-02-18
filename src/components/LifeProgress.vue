@@ -1,26 +1,32 @@
 <template>
-  <div class="max-w-full mx-auto p-4 flex gap-24 justify-center items-center">
-    <div class="">
-      <h3 class="text-2xl font-bold mb-4">Procent odžitého života</h3>
-      <ProgressBar :value="percentage"></ProgressBar>
+  <div class="max-w-full mx-auto p-4 flex flex-col md:flex-row gap-8 items-stretch">
 
-      <div class="mt-4 flex gap-2">
-        <p>Odžito dní: <span class="font-semibold">{{ daysLived }}</span></p>
-        <p>Zbývá dní: <span class="font-semibold">{{ daysRemaining }}</span></p>
+    <div class="flex-1 border rounded-lg p-6 shadow-sm">
+      <h4 class="text-2xl font-bold mb-4 text-center">Procent odžitého života</h4>
+      <ProgressBar :value="percentage" class="w-full" style="height: 1rem;" />
+      <div class="mt-4 flex justify-between text-base">
+        <p>
+          Odžito dní:
+          <span class="font-semibold">{{ daysLived }}</span>
+        </p>
+        <p>
+          Zbývá dní:
+          <span class="font-semibold">{{ daysRemaining }}</span>
+        </p>
       </div>
     </div>
 
-    <div class="mt-4">
-      <h3 class="text-xl font-bold">Čas do očekávaného dožití</h3>
-      <div v-if="estimatedDate">
-        <p>
+    <div class="flex-1 border rounded-lg p-6 shadow-sm">
+      <h4 class="text-2xl font-bold mb-4 text-center">Čas do očekávaného dožití</h4>
+      <div v-if="estimatedDate" class="text-center text-base">
+        <p class="text-lg">
           {{ countdown.days }} dní,
           {{ countdown.hours }} hodin,
           {{ countdown.minutes }} minut,
           {{ countdown.seconds }} sekund
         </p>
       </div>
-      <div v-else>
+      <div v-else class="text-center text-base">
         <p>Není nastaveno očekávané datum dožití.</p>
       </div>
     </div>
@@ -66,10 +72,7 @@ const daysRemaining = computed(() => {
 const percentage = computed(() => {
   if (totalDays.value > 0) {
     let perc = (daysLived.value / totalDays.value) * 100;
-    if (perc > 100) {
-      perc = 100;
-    }
-    return Math.round(perc);
+    return Math.round(perc > 100 ? 100 : perc);
   }
   return 0;
 });
