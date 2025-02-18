@@ -107,7 +107,9 @@
       "year": "Rok:",
       "week": "Týden:",
       "range": "Rozsah:",
-      "info": "Info:"
+      "info": "Info:",
+      "scoreVisualization": "Vizualizace podle skóre",
+      "totalScore": "Skóre spokojenosti:"
     },
     "optional": "volitelně"
   }
