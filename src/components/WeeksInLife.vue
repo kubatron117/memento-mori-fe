@@ -1,42 +1,44 @@
 <template>
   <div class="p-5">
-    <div class="mb-5 flex items-center gap-3 justify-end">
-      <label for="circleSizeSlider" class="font-medium">
-        {{ t('app.weeks.weekSize') }}
-      </label>
-      <Slider
-        class="w-56"
-        id="circleSizeSlider"
-        v-model="circleSize"
-        :min="10"
-        :max="30"
-      />
-    </div>
+    <div class="flex items-center justify-between">
+      <div class="mb-5 flex items-center gap-3 justify-end">
+        <label for="circleSizeSlider" class="font-medium">
+          {{ t('app.weeks.weekSize') }}
+        </label>
+        <Slider
+          class="w-56"
+          id="circleSizeSlider"
+          v-model="circleSize"
+          :min="10"
+          :max="30"
+        />
+      </div>
 
-    <div class="mb-5 flex items-center gap-2 justify-end">
-      <Checkbox
-        binary
-        v-model="scoreVisualizationEnabled"
-        inputId="scoreVisualizationCheckbox"
-      />
-      <label for="scoreVisualizationCheckbox" class="cursor-pointer font-medium">
-        {{ t('app.weeks.scoreVisualization') }}
-      </label>
-    </div>
+      <div class="mb-5 flex items-center gap-2 justify-end">
+        <Checkbox
+          binary
+          v-model="scoreVisualizationEnabled"
+          inputId="scoreVisualizationCheckbox"
+        />
+        <label for="scoreVisualizationCheckbox" class="cursor-pointer font-medium">
+          {{ t('app.weeks.scoreVisualization') }}
+        </label>
+      </div>
 
-    <div class="mb-5 flex items-center gap-3 justify-end">
-      <label for="visualizationSelect" class="font-medium">
-        {{ t('app.visualization.label') }}
-      </label>
-      <Select
-        class="w-56"
-        id="visualizationSelect"
-        v-model="selectedVisualization"
-        :options="visualizationOptions"
-        optionLabel="label"
-        optionValue="value"
-        placeholder="Select visualization"
-      />
+      <div class="mb-5 flex items-center gap-3 justify-end">
+        <label for="visualizationSelect" class="font-medium">
+          {{ t('app.visualization.label') }}
+        </label>
+        <Select
+          class="w-56"
+          id="visualizationSelect"
+          v-model="selectedVisualization"
+          :options="visualizationOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select visualization"
+        />
+      </div>
     </div>
 
     <div v-if="isLoading" class="flex justify-center items-center h-64">
