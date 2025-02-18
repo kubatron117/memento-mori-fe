@@ -99,7 +99,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue';
-import { startOfISOWeek, addWeeks } from 'date-fns';
+import { startOfISOWeek, addWeeks, isSameDay } from 'date-fns';
 import { useLifeStore } from '@/stores/lifeStore';
 
 import Dialog from 'primevue/dialog';
@@ -162,8 +162,8 @@ const isEditable = computed(() => {
   const startOfCurrentWeek = startOfISOWeek(now);
   const startOfPrevWeek = addWeeks(startOfCurrentWeek, -1);
   return !!props.week.backendId && (
-    props.week.startDate.getTime() === startOfCurrentWeek.getTime() ||
-    props.week.startDate.getTime() === startOfPrevWeek.getTime()
+    isSameDay(props.week.startDate, startOfCurrentWeek) ||
+    isSameDay(props.week.startDate, startOfPrevWeek)
   );
 });
 
