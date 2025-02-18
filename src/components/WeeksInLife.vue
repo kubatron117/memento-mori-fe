@@ -143,7 +143,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useLifeStore } from '@/stores/lifeStore';
 import EditWeekModal from '@/components/EditWeekModal.vue';
@@ -153,6 +153,7 @@ import Checkbox from 'primevue/checkbox';
 import Select from 'primevue/select';
 import { groupWeeks } from '@/utils/monthGroupingUtils';
 import type { DecadeGroup, Week } from '@/utils/monthGroupingUtils';
+import { getWeekBgClass, getGroupBgClass } from '@/utils/bgClassUtils';
 
 const { t } = useI18n();
 const lifeStore = useLifeStore();
@@ -162,6 +163,7 @@ const selectedWeek = ref<Week | null>(null);
 const circleSize = ref(20);
 const scoreVisualizationEnabled = ref(false);
 const isLoading = ref(true);
+
 watch(weeks, (newWeeks) => {
   if (newWeeks.length > 0) {
     isLoading.value = false;
@@ -186,11 +188,18 @@ const visualizationOptions = ref([
 ]);
 const selectedVisualization = ref<'week' | 'month' | 'year'>('week');
 
+watch(selectedVisualization, async () => {
+  isLoading.value = true;
+  await nextTick();
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 300);
+});
+
 const groupedData = computed<DecadeGroup[]>(() =>
   groupWeeks(weeks.value, selectedVisualization.value)
 );
 
-import { getWeekBgClass, getGroupBgClass } from '@/utils/bgClassUtils';
 const getWeekClass = (week: Week) => getWeekBgClass(week, scoreVisualizationEnabled.value);
 const getGroupClass = (group: any) => getGroupBgClass(group, scoreVisualizationEnabled.value);
 </script>
