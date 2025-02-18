@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <EditWeekModal v-if="selectedWeek" :week="selectedWeek" @close="closeModal" />
+    <EditWeekModal v-if="selectedWeek" :week="selectedWeek" @close="closeModal" class="motion-preset-expand " />
   </div>
 </template>
 
