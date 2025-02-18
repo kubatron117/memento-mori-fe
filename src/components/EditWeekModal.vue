@@ -20,9 +20,10 @@
           cols="30"
           class="w-full border border-gray-300 rounded p-2"
           style="resize: none"
+          required
         />
         <label for="description" class="block text-sm text-gray-600 mt-1">
-          Poznámka
+          Poznámka <span class="text-red-500">*</span>
         </label>
       </div>
 
@@ -32,7 +33,9 @@
           :key="field.key"
           class="flex items-center gap-2"
         >
-          <label class="w-40 text-gray-700">{{ field.label }}:</label>
+          <label class="w-40 text-gray-700">
+            {{ field.label }} <span class="text-red-500">*</span>:
+          </label>
           <Rating
             v-model="field.model"
             :cancel="false"
@@ -58,7 +61,6 @@
       <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
     </div>
 
-    <!-- Nepřístupné (readonly) zobrazení -->
     <div v-else>
       <p class="mb-4">
         {{ week.additionalInfo || 'Poznámka není k dispozici.' }}
@@ -163,7 +165,6 @@ const isEditable = computed(() => {
   );
 });
 
-
 const ratingFields = [
   {
     label: 'Spokojenost',
@@ -199,6 +200,23 @@ const ratingFields = [
 
 const saveMemo = async () => {
   error.value = '';
+
+  if (!memo.value.trim()) {
+    error.value = 'Poznámka je povinná.';
+    return;
+  }
+
+  if (
+    scoreSatisfaction.value == null ||
+    scoreEmotionalBalance.value == null ||
+    scoreProductivity.value == null ||
+    scoreRelationships.value == null ||
+    scoreValuesAlignment.value == null
+  ) {
+    error.value = 'Všechna hodnocení jsou povinná.';
+    return;
+  }
+
   loading.value = true;
   try {
     await lifeStore.updateWeekMemo(
