@@ -11,6 +11,7 @@
         v-model="localBirthDate"
         inputId="birthDate"
         dateFormat="dd.mm.yy"
+        :minDate="minDate"
         :maxDate="today"
         :manualInput="true"
         showIcon
@@ -37,6 +38,7 @@ watch(localBirthDate, (newVal) => {
 const { t } = useI18n()
 
 const today = new Date();
+const minDate = new Date(today.getFullYear() - 140, today.getMonth(), today.getDate());
 </script>
 
 <style scoped>

@@ -13,10 +13,10 @@
           :value="step.id"
           v-slot="{ activateCallback }"
         >
-          <div class="bg-pink-300 min-h-[80vh] p-4">
+          <div class="min-h-[80vh] p-4">
             <component :is="step.component" />
           </div>
-          <div class="flex justify-between bg-blue-200 p-2 mt-4">
+          <div class="flex justify-between p-2 mt-4">
             <Button
               v-if="step.id !== steps[0].id"
               class="p-button-secondary mr-2"
