@@ -141,12 +141,7 @@
     />
 
     <div class="mt-4">
-      <button
-        class="p-2 border rounded bg-blue-600 text-white hover:bg-blue-700"
-        @click="exportPdf"
-      >
-        Export to PDF (Vnitřní)
-      </button>
+      <Button label="Export do PDF 50x70 (cm)" @click="exportPdf" />
     </div>
   </div>
 </template>
