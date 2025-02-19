@@ -139,6 +139,15 @@
       @close="closeModal"
       class="motion-preset-expand"
     />
+
+    <div class="mt-4">
+      <button
+        class="p-2 border rounded bg-blue-600 text-white hover:bg-blue-700"
+        @click="exportPdf"
+      >
+        Export to PDF (Vnitřní)
+      </button>
+    </div>
   </div>
 </template>
 
@@ -154,6 +163,7 @@ import Select from 'primevue/select';
 import { groupWeeks } from '@/utils/monthGroupingUtils';
 import type { DecadeGroup, Week } from '@/utils/monthGroupingUtils';
 import { getWeekBgClass, getGroupBgClass } from '@/utils/bgClassUtils';
+import { generateMementoMoriPdf } from '@/utils/pdfExportUtils';
 
 const { t } = useI18n();
 const lifeStore = useLifeStore();
@@ -202,4 +212,8 @@ const groupedData = computed<DecadeGroup[]>(() =>
 
 const getWeekClass = (week: Week) => getWeekBgClass(week, scoreVisualizationEnabled.value);
 const getGroupClass = (group: any) => getGroupBgClass(group, scoreVisualizationEnabled.value);
+
+function exportPdf() {
+  generateMementoMoriPdf(groupedData.value);
+}
 </script>
