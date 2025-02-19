@@ -1,4 +1,5 @@
 <template>
+  <Navbar></Navbar>
   <div class="w-[80%] mx-auto">
     <Stepper v-model:value="activeStep" linear>
       <StepList>
@@ -13,10 +14,10 @@
           :value="step.id"
           v-slot="{ activateCallback }"
         >
-          <div class="bg-pink-300 min-h-[80vh] p-4">
+          <div class="min-h-[80vh] p-4">
             <component :is="step.component" />
           </div>
-          <div class="flex justify-between bg-blue-200 p-2 mt-4">
+          <div class="flex justify-between p-2 mt-4">
             <Button
               v-if="step.id !== steps[0].id"
               class="p-button-secondary mr-2"
@@ -37,6 +38,7 @@
               icon="pi pi-arrow-right"
               iconPos="right"
               :disabled="!isStepValid(step)"
+              v-tooltip.top="!isStepValid(step) ? 'Tento krok je povinný, vyplňte pole' : ''"
               @click="activateCallback(getNextStepId(step.id))"
             />
             <Button
@@ -74,6 +76,7 @@ import StepAlcohol from '@/components/questionnaire/steps/StepAlcohol.vue';
 import StepPhysicalActivity from '@/components/questionnaire/steps/StepPhysicalActivity.vue';
 import StepEatingHabits from '@/components/questionnaire/steps/StepEatingHabits.vue';
 import StepFinal from '@/components/questionnaire/steps/StepFinal.vue';
+import Navbar from '@/components/Navbar.vue'
 
 
 const steps = [

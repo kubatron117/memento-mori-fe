@@ -78,7 +78,8 @@ const daysRemaining = computed(() => {
 const percentage = computed(() => {
   if (totalDays.value > 0) {
     let perc = (daysLived.value / totalDays.value) * 100;
-    return Math.round(perc > 100 ? 100 : perc);
+    perc = perc > 100 ? 100 : perc;
+    return perc >= 97 && perc < 100 ? parseFloat(perc.toFixed(1)) : Math.round(perc);
   }
   return 0;
 });

@@ -40,7 +40,7 @@
       </label>
       <Slider
         v-model="adjustedExpectedLifetime"
-        :min="1"
+        :min="minExpectedLifetime"
         :max="140"
         inputId="expectedLifetime"
         class="w-full"
@@ -57,7 +57,6 @@
     </div>
   </div>
 </template>
-
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
@@ -89,7 +88,12 @@ const roundedAlcoholLifeLoss = computed(() => roundOneDecimal(questionnaireStore
 const roundedSmokingLossYears = computed(() => roundOneDecimal(questionnaireStore.smokingDaysLost / 365));
 const roundedAdditionalSmokingLossYears = computed(() => roundOneDecimal(questionnaireStore.smokingAdditionalDaysLost / 365));
 
-const defaultLifeExpectancy = computed(() => questionnaireStore.finalLifeExpectancy);
+const minExpectedLifetime = computed(() => questionnaireStore.getCurrentAge() + 1);
+
+const defaultLifeExpectancy = computed(() => {
+  const def = questionnaireStore.finalLifeExpectancy;
+  return def < minExpectedLifetime.value ? minExpectedLifetime.value : def;
+});
 
 const adjustedExpectedLifetime = ref(defaultLifeExpectancy.value);
 

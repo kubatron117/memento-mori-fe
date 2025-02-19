@@ -3,7 +3,7 @@
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <router-link to="/" class="flex items-center space-x-3">
         <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-        <span class="self-center text-2xl font-semibold whitespace-nowrap">Flowbite</span>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap">Memorian</span>
       </router-link>
 
       <div class="flex items-center md:order-2 space-x-3">
@@ -35,29 +35,11 @@
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
                 <router-link
-                  to="/dashboard"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  @click="closeUserDropdown"
-                >
-                  Dashboard
-                </router-link>
-              </li>
-              <li>
-                <router-link
                   to="/settings"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   @click="closeUserDropdown"
                 >
                   Settings
-                </router-link>
-              </li>
-              <li>
-                <router-link
-                  to="/earnings"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  @click="closeUserDropdown"
-                >
-                  Earnings
                 </router-link>
               </li>
               <li>
@@ -92,52 +74,7 @@
         id="navbar-user"
       >
         <ul class="flex flex-col font-medium p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 gap-4 md:flex-row md:mt-0 md:border-0 md:bg-white">
-          <li>
-            <router-link
-              to="/"
-              class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0"
-              aria-current="page"
-              @click="closeMobileMenu"
-            >
-              Home
-            </router-link>
-          </li>
-          <li>
-            <router-link
-              to="/about"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-              @click="closeMobileMenu"
-            >
-              About
-            </router-link>
-          </li>
-          <li>
-            <router-link
-              to="/services"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-              @click="closeMobileMenu"
-            >
-              Services
-            </router-link>
-          </li>
-          <li>
-            <router-link
-              to="/pricing"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-              @click="closeMobileMenu"
-            >
-              Pricing
-            </router-link>
-          </li>
-          <li>
-            <router-link
-              to="/contact"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-              @click="closeMobileMenu"
-            >
-              Contact
-            </router-link>
-          </li>
+
         </ul>
       </div>
     </div>
