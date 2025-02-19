@@ -81,9 +81,9 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       value: QuestionnaireState[K]
     ) {
       if ((field === 'desiredAgeCalculated' || field === 'desiredAge') && typeof value === 'number') {
-        if (value > 140) {
-          console.log('Maximum je 140 let');
-          value = 140 as QuestionnaireState[K];
+        if (value > 139) {
+          console.log('Maximum je 139 let');
+          value = 139 as QuestionnaireState[K];
         }
       }
       this.$patch({ [field]: value });

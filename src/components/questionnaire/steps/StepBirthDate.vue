@@ -38,7 +38,7 @@ watch(localBirthDate, (newVal) => {
 const { t } = useI18n()
 
 const today = new Date();
-const minDate = new Date(today.getFullYear() - 140, today.getMonth(), today.getDate());
+const minDate = new Date(today.getFullYear() - 139, today.getMonth(), today.getDate());
 </script>
 
 <style scoped>
