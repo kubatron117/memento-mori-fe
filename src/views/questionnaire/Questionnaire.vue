@@ -1,4 +1,5 @@
 <template>
+  <Navbar></Navbar>
   <div class="w-[80%] mx-auto">
     <Stepper v-model:value="activeStep" linear>
       <StepList>
@@ -75,6 +76,7 @@ import StepAlcohol from '@/components/questionnaire/steps/StepAlcohol.vue';
 import StepPhysicalActivity from '@/components/questionnaire/steps/StepPhysicalActivity.vue';
 import StepEatingHabits from '@/components/questionnaire/steps/StepEatingHabits.vue';
 import StepFinal from '@/components/questionnaire/steps/StepFinal.vue';
+import Navbar from '@/components/Navbar.vue'
 
 
 const steps = [
