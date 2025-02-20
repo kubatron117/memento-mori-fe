@@ -129,11 +129,7 @@ const steps: StepConfig[] = [
     },
     validate: () => {
       const store = useLifeLossSmokingStore();
-      if (store.smoking === null) return false;
-      if (store.smoking === true) {
-        return store.startAge !== null && store.cigarettesPerDay !== null;
-      }
-      return true;
+      return store.validate();
     }
   },
   {

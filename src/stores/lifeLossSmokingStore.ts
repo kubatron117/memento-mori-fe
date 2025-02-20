@@ -119,6 +119,14 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
 
   watch([daysLost, additionalDaysLost], updateMainStore, { immediate: true });
 
+  function validate(): boolean {
+    if (smoking.value === null) return false;
+    if (smoking.value === 'yes') return startAge.value !== null && cigarettesPerDay.value !== null;
+    if (smoking.value === 'past')
+      return startAge.value !== null && cigarettesPerDay.value !== null && stopAge.value !== null;
+    return true;
+  }
+
   function reset(): void {
     smoking.value = null;
     cigarettesPerDay.value = null;
@@ -139,6 +147,7 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
     additionalDaysLost,
     calculateLifeLoss,
     updateMainStore,
+    validate,
     reset,
   };
 });
