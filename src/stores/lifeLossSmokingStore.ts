@@ -14,6 +14,7 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
   const cigarettesPerDay = ref<number | null>(null);
   const startAge = ref<number | null>(null);
   const plannedQuitAge = ref<number | null>(null);
+  const planToQuit = ref<boolean>(false);
   const daysLost = ref<number>(0);
   const additionalDaysLost = ref<number>(0);
 
@@ -69,8 +70,14 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
     daysLost.value = dailyLossInDays * daysSmoking;
 
     let additionalYears = 0;
-    if (plannedQuitAge.value != null && plannedQuitAge.value > currentAge) {
-      additionalYears = plannedQuitAge.value - currentAge;
+    if (planToQuit.value && plannedQuitAge.value != null) {
+      const effectiveQuitAge =
+        startAge.value !== null && plannedQuitAge.value < startAge.value
+          ? startAge.value
+          : plannedQuitAge.value;
+      if (effectiveQuitAge > currentAge) {
+        additionalYears = effectiveQuitAge - currentAge;
+      }
     } else if (currentAge < DEFAULT_QUIT_AGE) {
       additionalYears = DEFAULT_QUIT_AGE - currentAge;
     }
@@ -94,6 +101,7 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
       plannedQuitAge,
       () => questionnaireStore.gender,
       () => questionnaireStore.birthDate,
+      planToQuit,
     ],
     () => {
       calculateLifeLoss();
@@ -114,6 +122,7 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
     cigarettesPerDay,
     startAge,
     plannedQuitAge,
+    planToQuit,
     daysLost,
     additionalDaysLost,
     calculateLifeLoss,

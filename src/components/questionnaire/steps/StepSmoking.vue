@@ -24,6 +24,25 @@
       </div>
     </div>
 
+    <div v-if="smokes" class="mb-6">
+      <label class="block text-gray-700 font-medium mb-2">
+        {{ t('app.steps.plan-to-quit') }}
+      </label>
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center">
+          <RadioButton v-model="planToQuit" :value="true" inputId="quit-yes" />
+          <label for="quit-yes" class="ml-2 cursor-pointer text-gray-700">
+            {{ t('app.steps.yes') }}
+          </label>
+        </div>
+        <div class="flex items-center">
+          <RadioButton v-model="planToQuit" :value="false" inputId="quit-no" />
+          <label for="quit-no" class="ml-2 cursor-pointer text-gray-700">
+            {{ t('app.steps.no') }}
+          </label>
+        </div>
+      </div>
+    </div>
     <div v-if="smokes" class="space-y-6">
       <div>
         <label for="startAge" class="block text-gray-700 font-medium mb-2">
@@ -51,15 +70,15 @@
           showButtons
         />
       </div>
-      <div>
+      <div v-if="planToQuit">
         <label for="plannedQuitAge" class="block text-gray-700 font-medium mb-2">
-          {{ t('app.steps.planned-quit-age') }} ({{ t('app.optional') }})
+          {{ t('app.steps.planned-quit-age') }}
         </label>
         <InputNumber
           id="plannedQuitAge"
           v-model="plannedQuitAge"
           class="w-full"
-          :min="0"
+          :min="startAge || 0"
           :max="140"
           showButtons
         />
@@ -67,7 +86,6 @@
     </div>
   </div>
 </template>
-
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
@@ -86,6 +104,7 @@ const smokes = ref<boolean | null>(lifeLossSmokingStore.smoking);
 const startAge = ref<number | null>(lifeLossSmokingStore.startAge);
 const cigarettesPerDay = ref<number | null>(lifeLossSmokingStore.cigarettesPerDay);
 const plannedQuitAge = ref<number | null>(lifeLossSmokingStore.plannedQuitAge);
+const planToQuit = ref<boolean>(lifeLossSmokingStore.planToQuit ?? false);
 const currentAge = computed(() => questionnaireStore.getCurrentAge());
 
 watch(smokes, (newValue) => {
@@ -102,6 +121,9 @@ watch(smokes, (newValue) => {
 
 watch(startAge, (newValue) => {
   lifeLossSmokingStore.startAge = newValue;
+  if (plannedQuitAge.value !== null && newValue !== null && plannedQuitAge.value < newValue) {
+    plannedQuitAge.value = newValue;
+  }
 });
 
 watch(cigarettesPerDay, (newValue) => {
@@ -109,7 +131,14 @@ watch(cigarettesPerDay, (newValue) => {
 });
 
 watch(plannedQuitAge, (newValue) => {
-  lifeLossSmokingStore.plannedQuitAge = newValue;
+  if (newValue !== null && startAge.value !== null && newValue < startAge.value) {
+    plannedQuitAge.value = startAge.value;
+  }
+  lifeLossSmokingStore.plannedQuitAge = plannedQuitAge.value;
+});
+
+watch(planToQuit, (newValue) => {
+  lifeLossSmokingStore.planToQuit = newValue;
 });
 
 onMounted(() => {
@@ -117,6 +146,7 @@ onMounted(() => {
   startAge.value = lifeLossSmokingStore.startAge;
   cigarettesPerDay.value = lifeLossSmokingStore.cigarettesPerDay;
   plannedQuitAge.value = lifeLossSmokingStore.plannedQuitAge;
+  planToQuit.value = lifeLossSmokingStore.planToQuit ?? false;
 });
 </script>
 
