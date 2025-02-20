@@ -109,7 +109,7 @@ watch(
   adjustedExpectedLifetime,
   (newVal) => {
     questionnaireStore.$patch({ desiredAge: newVal });
-  }
+  }, { immediate: true }
 );
 
 const roundedAdjustedExpectedLifetime = computed(() => Math.round(adjustedExpectedLifetime.value));
