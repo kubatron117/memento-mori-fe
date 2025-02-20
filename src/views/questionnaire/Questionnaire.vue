@@ -116,9 +116,7 @@ const steps: StepConfig[] = [
     id: 3,
     title: 'Národnost',
     component: StepNationality,
-    skip: () => {
-      questionnaireStore.updateField('nationality', null);
-    },
+    skippable: false,
     requiredField: 'nationality'
   },
   {
