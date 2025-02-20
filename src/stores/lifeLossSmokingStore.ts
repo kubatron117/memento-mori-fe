@@ -13,8 +13,8 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
   const smoking = ref<boolean | null>(null);
   const cigarettesPerDay = ref<number | null>(null);
   const startAge = ref<number | null>(null);
-  const plannedQuitAge = ref<number | null>(null);
   const planToQuit = ref<boolean>(false);
+  const quitTimeFrame = ref<number | null>(null);
   const daysLost = ref<number>(0);
   const additionalDaysLost = ref<number>(0);
 
@@ -70,15 +70,9 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
     daysLost.value = dailyLossInDays * daysSmoking;
 
     let additionalYears = 0;
-    if (planToQuit.value && plannedQuitAge.value != null) {
-      const effectiveQuitAge =
-        startAge.value !== null && plannedQuitAge.value < startAge.value
-          ? startAge.value
-          : plannedQuitAge.value;
-      if (effectiveQuitAge > currentAge) {
-        additionalYears = effectiveQuitAge - currentAge;
-      }
-    } else if (currentAge < DEFAULT_QUIT_AGE) {
+    if (planToQuit.value && quitTimeFrame.value != null) {
+      additionalYears = quitTimeFrame.value;
+    } else if (!planToQuit.value && currentAge < DEFAULT_QUIT_AGE) {
       additionalYears = DEFAULT_QUIT_AGE - currentAge;
     }
 
@@ -98,10 +92,10 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
       smoking,
       cigarettesPerDay,
       startAge,
-      plannedQuitAge,
+      planToQuit,
+      quitTimeFrame,
       () => questionnaireStore.gender,
       () => questionnaireStore.birthDate,
-      planToQuit,
     ],
     () => {
       calculateLifeLoss();
@@ -121,16 +115,16 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
     smoking.value = null;
     cigarettesPerDay.value = null;
     startAge.value = null;
-    plannedQuitAge.value = null;
     planToQuit.value = false;
+    quitTimeFrame.value = null;
   }
 
   return {
     smoking,
     cigarettesPerDay,
     startAge,
-    plannedQuitAge,
     planToQuit,
+    quitTimeFrame,
     daysLost,
     additionalDaysLost,
     calculateLifeLoss,
