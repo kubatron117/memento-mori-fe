@@ -107,9 +107,12 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
   }
 
   watch(lifeGainYears, () => {
-      updateMainStore();
-    }, { immediate: true }
-  );
+    updateMainStore();
+  }, { immediate: true });
+
+  function reset() {
+    questionnaireStore.updateField('eatingHabits', null);
+  }
 
   return {
     age,
@@ -117,5 +120,6 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
     dietType,
     lifeGainYears,
     updateMainStore,
+    reset,
   };
 });

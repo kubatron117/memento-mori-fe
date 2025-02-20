@@ -21,7 +21,6 @@ const LIFE_LOSS_HIGH = 4.5;
 
 export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
   const drinksAlcohol = ref<boolean | null>(null);
-
   const smallBeer10 = ref<number>(0);
   const largeBeer10 = ref<number>(0);
   const smallBeer12 = ref<number>(0);
@@ -59,6 +58,16 @@ export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
     updateMainStore();
   },{ immediate: true });
 
+  function reset() {
+    drinksAlcohol.value = null;
+    smallBeer10.value = 0;
+    largeBeer10.value = 0;
+    smallBeer12.value = 0;
+    largeBeer12.value = 0;
+    shot.value = 0;
+    wine.value = 0;
+  }
+
   return {
     drinksAlcohol,
     smallBeer10,
@@ -70,5 +79,6 @@ export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
     totalAlcoholGrams,
     lifeLostYears,
     updateMainStore,
+    reset,
   };
 });

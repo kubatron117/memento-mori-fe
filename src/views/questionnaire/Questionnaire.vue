@@ -1,5 +1,5 @@
 <template>
-  <Navbar></Navbar>
+  <Navbar />
   <div class="w-[80%] mx-auto">
     <Stepper v-model:value="activeStep" linear>
       <StepList>
@@ -30,7 +30,7 @@
               v-if="step.skippable !== false"
               class="p-button-secondary mr-2"
               label="Přeskočit"
-              @click="activateCallback(getNextStepId(step.id))"
+              @click="onSkipStep(step, activateCallback)"
             />
             <Button
               v-if="step.id !== steps[steps.length - 1].id"
@@ -39,7 +39,7 @@
               iconPos="right"
               :disabled="!isStepValid(step)"
               v-tooltip.top="!isStepValid(step) ? 'Tento krok je povinný, vyplňte pole' : ''"
-              @click="activateCallback(getNextStepId(step.id))"
+              @click="onNextStep(step, activateCallback)"
             />
             <Button
               v-else
@@ -76,22 +76,117 @@ import StepAlcohol from '@/components/questionnaire/steps/StepAlcohol.vue';
 import StepPhysicalActivity from '@/components/questionnaire/steps/StepPhysicalActivity.vue';
 import StepEatingHabits from '@/components/questionnaire/steps/StepEatingHabits.vue';
 import StepFinal from '@/components/questionnaire/steps/StepFinal.vue';
-import Navbar from '@/components/Navbar.vue'
+import Navbar from '@/components/Navbar.vue';
 
+import { useLifeLossSmokingStore } from '@/stores/lifeLossSmokingStore';
+import { useAlcoholStore } from '@/stores/lifeLossAlcoholStore';
+import { useActivityStore } from '@/stores/lifeGainActivityStore';
+import { useDietStore } from '@/stores/lifeGainEatingStore';
 
-const steps = [
-  { id: 1, title: 'Datum narození', component: StepBirthDate, skippable: false, requiredField: 'birthDate' },
-  { id: 2, title: 'Pohlaví', component: StepGender },
-  { id: 3, title: 'Národnost', component: StepNationality },
-  { id: 4, title: 'Kouření', component: StepSmoking },
-  { id: 5, title: 'Alkohol', component: StepAlcohol },
-  { id: 6, title: 'Fyzická aktivita', component: StepPhysicalActivity },
-  { id: 7, title: 'Stravovací návyky', component: StepEatingHabits },
-  { id: 8, title: 'Potvrzení', component: StepFinal, skippable: false, requiredField: 'desiredAge' },
+interface StepConfig {
+  id: number;
+  title: string;
+  component: any;
+  skippable?: boolean;
+  requiredField?: string;
+  validate?: () => boolean;
+  skip?: () => void;
+}
+
+const questionnaireStore = useQuestionnaireStore();
+
+const steps: StepConfig[] = [
+  {
+    id: 1,
+    title: 'Datum narození',
+    component: StepBirthDate,
+    skippable: false,
+    requiredField: 'birthDate'
+  },
+  {
+    id: 2,
+    title: 'Pohlaví',
+    component: StepGender,
+    skip: () => {
+      questionnaireStore.updateField('gender', null);
+    },
+    requiredField: 'gender'
+  },
+  {
+    id: 3,
+    title: 'Národnost',
+    component: StepNationality,
+    skip: () => {
+      questionnaireStore.updateField('nationality', null);
+    },
+    requiredField: 'nationality'
+  },
+  {
+    id: 4,
+    title: 'Kouření',
+    component: StepSmoking,
+    skip: () => {
+      const store = useLifeLossSmokingStore();
+      store.reset();
+    },
+    validate: () => {
+      const store = useLifeLossSmokingStore();
+      if (store.smoking === null) return false;
+      if (store.smoking === true) {
+        return store.startAge !== null && store.cigarettesPerDay !== null;
+      }
+      return true;
+    }
+  },
+  {
+    id: 5,
+    title: 'Alkohol',
+    component: StepAlcohol,
+    skip: () => {
+      const store = useAlcoholStore();
+      store.reset();
+    },
+    validate: () => {
+      const store = useAlcoholStore();
+      return store.drinksAlcohol !== null;
+    }
+  },
+  {
+    id: 6,
+    title: 'Fyzická aktivita',
+    component: StepPhysicalActivity,
+    skip: () => {
+      const store = useActivityStore();
+      store.reset();
+    },
+    validate: () => {
+      const store = useActivityStore();
+      return store.exerciseType !== null && store.exerciseMinutes >= 0;
+    }
+  },
+  {
+    id: 7,
+    title: 'Stravovací návyky',
+    component: StepEatingHabits,
+    skip: () => {
+      const store = useDietStore();
+      store.reset();
+    },
+    validate: () => {
+      const questionnaireStore = useQuestionnaireStore();
+      return questionnaireStore.eatingHabits !== null;
+    }
+  },
+  {
+    id: 8,
+    title: 'Potvrzení',
+    component: StepFinal,
+    skippable: false,
+    requiredField: 'desiredAge'
+  },
 ];
 
 const activeStep = ref(1);
-const questionnaireStore = useQuestionnaireStore();
 const loginStore = useLoginStore();
 
 function getNextStepId(currentId: number): number {
@@ -110,11 +205,27 @@ function getPreviousStepId(currentId: number): number {
   return currentId;
 }
 
-function isStepValid(step: { requiredField?: string; skippable?: boolean }): boolean {
+function isStepValid(step: StepConfig): boolean {
+  if (step.validate) return step.validate();
   if (step.requiredField) {
     return Boolean(questionnaireStore[step.requiredField]);
   }
   return true;
+}
+
+function onNextStep(step: StepConfig, activateCallback: (id: number) => void) {
+  if (isStepValid(step)) {
+    activateCallback(getNextStepId(step.id));
+  }
+}
+
+function onSkipStep(step: StepConfig, activateCallback: (id: number) => void) {
+  if (step.skip) {
+    step.skip();
+  } else if (step.requiredField) {
+    questionnaireStore.updateField(step.requiredField, null);
+  }
+  activateCallback(getNextStepId(step.id));
 }
 
 async function onSubmit() {

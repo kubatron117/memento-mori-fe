@@ -34,10 +34,16 @@ export const useActivityStore = defineStore('lifeGainActivity', () => {
     updateMainStore();
   }, { immediate: true });
 
+  function reset() {
+    exerciseType.value = 'moderate';
+    exerciseMinutes.value = 0;
+  }
+
   return {
     exerciseType,
     exerciseMinutes,
     lifeGainYears,
     updateMainStore,
+    reset,
   };
 });

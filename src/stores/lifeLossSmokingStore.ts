@@ -117,6 +117,14 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
     { immediate: true }
   );
 
+  function reset() {
+    smoking.value = null;
+    cigarettesPerDay.value = null;
+    startAge.value = null;
+    plannedQuitAge.value = null;
+    planToQuit.value = false;
+  }
+
   return {
     smoking,
     cigarettesPerDay,
@@ -127,5 +135,6 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
     additionalDaysLost,
     calculateLifeLoss,
     updateMainStore,
+    reset,
   };
 });
