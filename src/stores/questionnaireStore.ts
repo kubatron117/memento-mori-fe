@@ -55,16 +55,21 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
         : null;
     },
     finalLifeExpectancy(): number {
+      //TODO: zde je bug - pořád je nastaven věk 80, vypadá že se vůbec nebere z lifeExpectancy
       let base = 0;
       if (this.desiredAgeCalculated !== null) {
         base = this.desiredAgeCalculated;
       } else if (this.lifeExpectancy) {
+        console.log("HIHI", base);
         if (this.normalizedGender === 'male' && this.lifeExpectancy.male !== null) {
           base = this.lifeExpectancy.male;
+          console.log("MALE", base);
         } else if (this.normalizedGender === 'female' && this.lifeExpectancy.female !== null) {
           base = this.lifeExpectancy.female;
+          console.log("FEMALE", base);
         } else {
           base = this.lifeExpectancy.both || 0;
+          console.log("BOTH", base);
         }
       }
       const smokingLossYears = this.smokingDaysLost / 365;
