@@ -9,22 +9,31 @@
         {{ t('app.steps.do-you-smoke') }}
       </label>
       <div class="flex items-center space-x-6">
+
         <div class="flex items-center">
-          <RadioButton v-model="smokes" :value="true" inputId="smoke-yes" />
+          <RadioButton v-model="smokes" :value="'yes'" inputId="smoke-yes" />
           <label for="smoke-yes" class="ml-2 cursor-pointer text-gray-700">
             {{ t('app.steps.yes') }}
           </label>
         </div>
+
         <div class="flex items-center">
-          <RadioButton v-model="smokes" :value="false" inputId="smoke-no" />
+          <RadioButton v-model="smokes" :value="'no'" inputId="smoke-no" />
           <label for="smoke-no" class="ml-2 cursor-pointer text-gray-700">
             {{ t('app.steps.no') }}
+          </label>
+        </div>
+
+        <div class="flex items-center">
+          <RadioButton v-model="smokes" :value="'past'" inputId="smoke-past" />
+          <label for="smoke-past" class="ml-2 cursor-pointer text-gray-700">
+            {{ t('app.steps.past-smoker') }}
           </label>
         </div>
       </div>
     </div>
 
-    <div v-if="smokes" class="space-y-6">
+    <div v-if="smokes === 'yes'" class="space-y-6">
       <div>
         <label for="startAge" class="block text-gray-700 font-medium mb-2">
           {{ t('app.steps.start-age-smoking') }}
@@ -96,6 +105,49 @@
         </div>
       </div>
     </div>
+
+    <div v-if="smokes === 'past'" class="space-y-6">
+      <div>
+        <label for="startAge" class="block text-gray-700 font-medium mb-2">
+          {{ t('app.steps.start-age-smoking') }}
+        </label>
+        <InputNumber
+          id="startAge"
+          v-model="startAge"
+          class="w-full"
+          :min="0"
+          :max="currentAge"
+          showButtons
+        />
+      </div>
+      <div>
+        <label for="cigarettesPerDay" class="block text-gray-700 font-medium mb-2">
+          {{ t('app.steps.cigarettes-per-day') }}
+        </label>
+        <InputNumber
+          id="cigarettesPerDay"
+          v-model="cigarettesPerDay"
+          class="w-full"
+          :min="0"
+          :max="150"
+          showButtons
+        />
+      </div>
+
+      <div>
+        <label for="stopAge" class="block text-gray-700 font-medium mb-2">
+          {{ t('app.steps.stop-age-smoking') }}
+        </label>
+        <InputNumber
+          id="stopAge"
+          v-model="stopAge"
+          class="w-full"
+          :min="startAge || 0"
+          :max="currentAge"
+          showButtons
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -112,22 +164,29 @@ const { t } = useI18n()
 const lifeLossSmokingStore = useLifeLossSmokingStore();
 const questionnaireStore = useQuestionnaireStore();
 
-const smokes = ref<boolean | null>(lifeLossSmokingStore.smoking);
+const smokes = ref<string | null>(lifeLossSmokingStore.smoking);
 const startAge = ref<number | null>(lifeLossSmokingStore.startAge);
 const cigarettesPerDay = ref<number | null>(lifeLossSmokingStore.cigarettesPerDay);
 const planToQuit = ref<boolean>(lifeLossSmokingStore.planToQuit ?? false);
 const quitTimeFrame = ref<number | null>(lifeLossSmokingStore.quitTimeFrame);
+const stopAge = ref<number | null>(lifeLossSmokingStore.stopAge);
 const currentAge = computed(() => questionnaireStore.getCurrentAge());
 
 watch(smokes, (newValue) => {
   lifeLossSmokingStore.smoking = newValue;
-  if (newValue === false) {
+  if(newValue === 'no'){
     startAge.value = null;
     cigarettesPerDay.value = null;
     planToQuit.value = false;
     quitTimeFrame.value = null;
     lifeLossSmokingStore.startAge = null;
     lifeLossSmokingStore.cigarettesPerDay = null;
+    lifeLossSmokingStore.planToQuit = false;
+    lifeLossSmokingStore.quitTimeFrame = null;
+    lifeLossSmokingStore.stopAge = null;
+  } else if(newValue === 'past'){
+    planToQuit.value = false;
+    quitTimeFrame.value = null;
     lifeLossSmokingStore.planToQuit = false;
     lifeLossSmokingStore.quitTimeFrame = null;
   }
@@ -153,12 +212,17 @@ watch(quitTimeFrame, (newValue) => {
   lifeLossSmokingStore.quitTimeFrame = newValue;
 });
 
+watch(stopAge, (newValue) => {
+  lifeLossSmokingStore.stopAge = newValue;
+});
+
 onMounted(() => {
   smokes.value = lifeLossSmokingStore.smoking;
   startAge.value = lifeLossSmokingStore.startAge;
   cigarettesPerDay.value = lifeLossSmokingStore.cigarettesPerDay;
   planToQuit.value = lifeLossSmokingStore.planToQuit ?? false;
   quitTimeFrame.value = lifeLossSmokingStore.quitTimeFrame;
+  stopAge.value = lifeLossSmokingStore.stopAge;
 });
 </script>
 
