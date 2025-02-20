@@ -21,7 +21,7 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
   const questionnaireStore = useQuestionnaireStore();
 
   function calculateLifeLoss() {
-    const gender: string | null = questionnaireStore.gender;
+    const gender: string | null = questionnaireStore.gender === 'other' ? null : questionnaireStore.gender;
     const birthDate: Date | null = questionnaireStore.birthDate;
 
     if (

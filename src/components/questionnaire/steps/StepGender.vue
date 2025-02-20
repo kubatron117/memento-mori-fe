@@ -18,24 +18,26 @@
   </div>
 </template>
 
-
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import RadioButton from 'primevue/radiobutton';
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-
 const store = useQuestionnaireStore();
+
 const selectedGender = computed({
   get: () => store.gender,
-  set: (val: string | null) => store.gender = val,
+  set: (val: string) => {
+    store.updateGender(val);
+  },
 });
 
 const genders = [
   { label: t('app.steps.male'), value: 'male' },
   { label: t('app.steps.female'), value: 'female' },
-  { label: t('app.steps.other'), value: null },
+  { label: t('app.steps.other'), value: 'other' },
 ];
+
 </script>

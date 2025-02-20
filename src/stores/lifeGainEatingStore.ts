@@ -73,7 +73,9 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
   });
 
   const sex = computed<'male' | 'female'>(() => {
-    return questionnaireStore.gender === 'male' ? 'male' : 'female';
+    return questionnaireStore.gender === 'other'
+      ? 'female'
+      : questionnaireStore.gender as 'male' | 'female';
   });
 
   const dietType = computed<'typical' | 'feasible' | 'optimal'>(() => {
