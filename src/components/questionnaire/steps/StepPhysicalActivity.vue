@@ -1,4 +1,6 @@
 <template>
+  <InfoTextBox></InfoTextBox>
+
   <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
       {{ t('app.steps.physical-activity.title') }}
@@ -90,6 +92,7 @@ import { useI18n } from 'vue-i18n';
 import { useActivityStore } from '@/stores/lifeGainActivityStore';
 import RadioButton from 'primevue/radiobutton';
 import InputNumber from 'primevue/inputnumber';
+import InfoTextBox from '@/components/InfoTextBox.vue'
 
 const { t } = useI18n();
 const activityStore = useActivityStore();

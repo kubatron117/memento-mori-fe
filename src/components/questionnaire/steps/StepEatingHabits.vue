@@ -1,4 +1,5 @@
 <template>
+  <InfoTextBox></InfoTextBox>
   <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
       Kalkulačka stravy a prodloužení života
@@ -92,6 +93,7 @@ import { computed } from 'vue';
 import RadioButton from 'primevue/radiobutton';
 import { useDietStore } from '@/stores/lifeGainEatingStore';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
+import InfoTextBox from '@/components/InfoTextBox.vue'
 
 const dietStore = useDietStore();
 const questionnaireStore = useQuestionnaireStore();

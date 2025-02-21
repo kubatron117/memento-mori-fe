@@ -1,4 +1,6 @@
 <template>
+  <InfoTextBox></InfoTextBox>
+
   <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold text-gray-800 mb-6">
       {{ t('app.steps.alcohol.title') }}
@@ -97,6 +99,7 @@ import { useI18n } from 'vue-i18n'
 import { useAlcoholStore } from '@/stores/lifeLossAlcoholStore'
 import InputNumber from 'primevue/inputnumber'
 import RadioButton from 'primevue/radiobutton'
+import InfoTextBox from '@/components/InfoTextBox.vue'
 
 const { t } = useI18n()
 const alcoholStore = useAlcoholStore()

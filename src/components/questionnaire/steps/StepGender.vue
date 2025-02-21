@@ -1,4 +1,6 @@
 <template>
+  <InfoTextBox></InfoTextBox>
+
   <div class="bg-white shadow rounded p-6 max-w-md mx-auto">
     <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">
       {{ t('app.steps.choose-gender') }}
@@ -23,6 +25,7 @@ import { computed } from 'vue';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import RadioButton from 'primevue/radiobutton';
 import { useI18n } from 'vue-i18n';
+import InfoTextBox from '@/components/InfoTextBox.vue'
 
 const { t } = useI18n();
 const store = useQuestionnaireStore();
