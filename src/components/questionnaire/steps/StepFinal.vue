@@ -67,21 +67,7 @@ const questionnaireStore = useQuestionnaireStore();
 
 const roundOneDecimal = (num: number) => Math.round(num * 10) / 10;
 
-const baseLifeExpectancy = computed(() => {
-  if (questionnaireStore.desiredAgeCalculated && questionnaireStore.desiredAgeCalculated !== 0) {
-    return questionnaireStore.desiredAgeCalculated;
-  } else if (questionnaireStore.lifeExpectancy) {
-    if (questionnaireStore.gender === 'male' && questionnaireStore.lifeExpectancy.male !== null) {
-      return questionnaireStore.lifeExpectancy.male;
-    }
-    if (questionnaireStore.gender === 'female' && questionnaireStore.lifeExpectancy.female !== null) {
-      return questionnaireStore.lifeExpectancy.female;
-    }
-    return questionnaireStore.lifeExpectancy.both || 0;
-  }
-  return 0;
-});
-const roundedBaseLifeExpectancy = computed(() => roundOneDecimal(baseLifeExpectancy.value));
+const roundedBaseLifeExpectancy = computed(() => roundOneDecimal(questionnaireStore.baseLifeExpectancyForGender));
 const roundedActivityLifeGain = computed(() => roundOneDecimal(questionnaireStore.activityLifeGain));
 const roundedDietLifeGain = computed(() => roundOneDecimal(questionnaireStore.dietLifeGain));
 const roundedAlcoholLifeLoss = computed(() => roundOneDecimal(questionnaireStore.alcoholLifeLoss));
