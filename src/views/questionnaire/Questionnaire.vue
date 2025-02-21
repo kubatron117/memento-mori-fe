@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+  <ConfirmDialog />
   <div class="w-[80%] mx-auto">
     <Stepper v-model:value="activeStep" linear>
       <StepList>
@@ -64,6 +65,9 @@ import Step from 'primevue/step';
 import StepPanels from 'primevue/steppanels';
 import StepPanel from 'primevue/steppanel';
 import Button from 'primevue/button';
+import ConfirmDialog from 'primevue/confirmdialog';
+import { useConfirm } from 'primevue/useconfirm';
+
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import { useLoginStore } from '@/stores/loginStore';
 import router from '@/router';
@@ -94,6 +98,8 @@ interface StepConfig {
 }
 
 const questionnaireStore = useQuestionnaireStore();
+const loginStore = useLoginStore();
+const confirm = useConfirm();
 
 const steps: StepConfig[] = [
   {
@@ -181,7 +187,6 @@ const steps: StepConfig[] = [
 ];
 
 const activeStep = ref(1);
-const loginStore = useLoginStore();
 
 function getNextStepId(currentId: number): number {
   const currentIndex = steps.findIndex((step) => step.id === currentId);
@@ -227,32 +232,42 @@ async function onSubmit() {
     alert('Prosím, vyplňte datum narození a zvolte očekávaný věk.');
     return;
   }
-  const birth = new Date(questionnaireStore.birthDate);
-  const estimatedLifespanDate = new Date(
-    birth.getFullYear() + questionnaireStore.desiredAge,
-    birth.getMonth(),
-    birth.getDate()
-  );
 
-  const formatDate = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  confirm.require({
+    message: 'Vypočtený věk dožití již nebude možné změnit. Opravdu chcete uložit?',
+    header: 'Potvrzení uložení',
+    icon: 'pi pi-exclamation-triangle',
+    accept: async () => {
+      const birth = new Date(questionnaireStore.birthDate);
+      const estimatedLifespanDate = new Date(
+        birth.getFullYear() + questionnaireStore.desiredAge,
+        birth.getMonth(),
+        birth.getDate()
+      );
 
-  const formattedBirthDate = formatDate(birth);
-  const formattedLifespan = formatDate(estimatedLifespanDate);
+      const formatDate = (date: Date): string => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
 
-  const success = await loginStore.updateDates({
-    date_of_birth: formattedBirthDate,
-    estimated_lifespan: formattedLifespan,
+      const formattedBirthDate = formatDate(birth);
+      const formattedLifespan = formatDate(estimatedLifespanDate);
+
+      const success = await loginStore.updateDates({
+        date_of_birth: formattedBirthDate,
+        estimated_lifespan: formattedLifespan,
+      });
+
+      if (success) {
+        await router.push('/weeks-in-life');
+      } else {
+        alert('Chyba při aktualizaci dat.');
+      }
+    },
+    reject: () => {
+    }
   });
-
-  if (success) {
-    await router.push('/weeks-in-life');
-  } else {
-    alert('Chyba při aktualizaci dat.');
-  }
 }
 </script>
