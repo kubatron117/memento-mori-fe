@@ -38,6 +38,19 @@
       </div>
     </div>
 
+    <div v-if="(questionnaireStore.eatingHabits !== 'typical' && questionnaireStore.eatingHabits !== null) && currentAge > 20" class="mt-6">
+      <p class="text-gray-700 font-medium mb-2">
+        Od jakého věku tuto dietu používáte?
+      </p>
+      <input
+        type="number"
+        v-model.number="questionnaireStore.dietStartAge"
+        :min="20"
+        :max="currentAge"
+        class="border rounded p-2 w-full"
+      />
+    </div>
+
     <div class="mt-6 bg-gray-50 border border-gray-200 rounded p-4">
       <p class="text-lg text-gray-800">
         <span class="font-semibold">Odhadované prodloužení života:</span>
@@ -75,12 +88,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import RadioButton from 'primevue/radiobutton';
 import { useDietStore } from '@/stores/lifeGainEatingStore';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 const dietStore = useDietStore();
 const questionnaireStore = useQuestionnaireStore();
+
+const currentAge = computed(() => questionnaireStore.getCurrentAge());
 
 const dietComparison = [
   { food: 'Obiloviny celozrnné', typical: 50, feasible: 137.5, optimal: 225 },

@@ -14,6 +14,7 @@ export interface QuestionnaireState {
   alcohol: string | null;
   physicalActivity: string | null;
   eatingHabits: string | null;
+  dietStartAge: number | null;
   desiredAgeCalculated: number | null;
   desiredAge: number | null;
   lifeExpectancy: LifeExpectancyData;
@@ -34,6 +35,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     alcohol: null,
     physicalActivity: null,
     eatingHabits: null,
+    dietStartAge: null,
     desiredAgeCalculated: 80,
     desiredAge: null,
     lifeExpectancy: {

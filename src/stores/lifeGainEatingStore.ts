@@ -88,19 +88,22 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
     if (dietType.value === 'typical') {
       return 0;
     }
+    const startAge = questionnaireStore.dietStartAge ?? 20;
+    let baseGain = 0;
     if (sex.value === 'female') {
       if (dietType.value === 'optimal') {
-        return piecewiseInterpolate(age.value, GAINS_FEMALE_OPTIMAL);
+        baseGain = piecewiseInterpolate(startAge, GAINS_FEMALE_OPTIMAL);
       } else {
-        return piecewiseInterpolate(age.value, GAINS_FEMALE_FEASIBLE);
+        baseGain = piecewiseInterpolate(startAge, GAINS_FEMALE_FEASIBLE);
       }
     } else {
       if (dietType.value === 'optimal') {
-        return piecewiseInterpolate(age.value, GAINS_MALE_OPTIMAL);
+        baseGain = piecewiseInterpolate(startAge, GAINS_MALE_OPTIMAL);
       } else {
-        return piecewiseInterpolate(age.value, GAINS_MALE_FEASIBLE);
+        baseGain = piecewiseInterpolate(startAge, GAINS_MALE_FEASIBLE);
       }
     }
+    return baseGain;
   });
 
   function updateMainStore() {
