@@ -52,16 +52,6 @@
       />
     </div>
 
-    <div class="mt-6 bg-gray-50 border border-gray-200 rounded p-4">
-      <p class="text-lg text-gray-800">
-        <span class="font-semibold">Odhadované prodloužení života:</span>
-        +{{ dietStore.lifeGainYears.toFixed(2) }} let
-      </p>
-      <p class="text-sm text-gray-600 mt-2">
-        (Výpočet vychází ze studie: "Estimating impact of food choices on life expectancy: A modeling study")
-      </p>
-    </div>
-
     <div class="mt-8">
       <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">
         Srovnání doporučených denních příjmů (g/den)

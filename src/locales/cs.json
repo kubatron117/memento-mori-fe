@@ -95,7 +95,7 @@
         }
       },
       "physical-activity": {
-        "title": "Kalkulačka fyzické aktivity a prodloužení života",
+        "title": "Fyzická aktivita",
         "exerciseType": "Vyberte typ cvičení:",
         "moderateLabel": "Mírná",
         "vigorousLabel": "Intenzivní",

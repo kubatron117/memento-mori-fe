@@ -74,16 +74,6 @@
         :disabled="activityStore.exerciseType === 'none'"
       />
     </div>
-
-    <div class="mt-6 bg-gray-50 border border-gray-200 rounded p-4">
-      <p class="text-lg text-gray-800">
-        <span class="font-semibold">{{ t('app.steps.physical-activity.lifeGainYears') }}: </span>
-        +{{ activityStore.lifeGainYears.toFixed(2) }} let
-      </p>
-      <p class="text-sm text-gray-600 mt-2">
-        {{ t('app.steps.physical-activity.studyNote') }}
-      </p>
-    </div>
   </div>
 </template>
 
