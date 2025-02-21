@@ -10,76 +10,92 @@ const DAYS_IN_YEAR = 365;
 const DEFAULT_QUIT_AGE = 80;
 
 export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
-  const smoking = ref<boolean | null>(null);
+  const smoking = ref<string | null>(null);
   const cigarettesPerDay = ref<number | null>(null);
   const startAge = ref<number | null>(null);
-  const plannedQuitAge = ref<number | null>(null);
+  const planToQuit = ref<boolean>(false);
+  const quitTimeFrame = ref<number | null>(null);
+  const stopAge = ref<number | null>(null);
   const daysLost = ref<number>(0);
   const additionalDaysLost = ref<number>(0);
 
   const questionnaireStore = useQuestionnaireStore();
 
-  function calculateLifeLoss() {
-    const gender: string | null = questionnaireStore.gender;
-    const birthDate: Date | null = questionnaireStore.birthDate;
+  function getLostMinutesPerCigarette(): number {
+    const gender = questionnaireStore.gender === 'other' ? null : questionnaireStore.gender;
+    if (!gender) return LOST_MINUTES_AVERAGE;
+    const lower = gender.toLowerCase();
+    return lower === 'male' ? LOST_MINUTES_MALE : lower === 'female' ? LOST_MINUTES_FEMALE : LOST_MINUTES_AVERAGE;
+  }
 
-    if (
-      !smoking.value ||
-      cigarettesPerDay.value === null ||
-      startAge.value === null ||
-      birthDate === null
-    ) {
+  function getCurrentAge(): number {
+    const today = new Date();
+    const birthDate = questionnaireStore.birthDate;
+    if (!birthDate) return 0;
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+    return age;
+  }
+
+  function calculateDailyLoss(lostMinutes: number): number {
+    return cigarettesPerDay.value ? (cigarettesPerDay.value * lostMinutes) / MINUTES_IN_DAY : 0;
+  }
+
+  function validateData(isPast: boolean): boolean {
+    if (!startAge.value || !cigarettesPerDay.value) return false;
+    return isPast ? !!stopAge.value : !!questionnaireStore.birthDate;
+  }
+
+  function computeYearsSmoking(isPast: boolean, currentAge: number): number {
+    return isPast ? (stopAge.value as number) - startAge.value! : currentAge - startAge.value!;
+  }
+
+  function computeAdditionalYears(currentAge: number): number {
+    return planToQuit.value && quitTimeFrame.value != null
+      ? quitTimeFrame.value
+      : currentAge < DEFAULT_QUIT_AGE
+        ? DEFAULT_QUIT_AGE - currentAge : 0;
+  }
+
+  function calculateSmokingLoss(currentAge: number, lostMinutes: number): void {
+    const isPast = smoking.value === 'past';
+    if (!validateData(isPast)) {
       daysLost.value = 0;
       additionalDaysLost.value = 0;
       return;
     }
-
-    let lostMinutesPerCigarette: number;
-    if (gender === null) {
-      lostMinutesPerCigarette = LOST_MINUTES_AVERAGE;
-    } else {
-      const genderLower = gender.toLowerCase();
-      if (genderLower === 'male') {
-        lostMinutesPerCigarette = LOST_MINUTES_MALE;
-      } else if (genderLower === 'female') {
-        lostMinutesPerCigarette = LOST_MINUTES_FEMALE;
-      } else {
-        lostMinutesPerCigarette = LOST_MINUTES_AVERAGE;
-      }
-    }
-
-    const today = new Date();
-    let currentAge = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      currentAge--;
-    }
-
-    const yearsSmoking = currentAge - (startAge.value as number);
+    const yearsSmoking = computeYearsSmoking(isPast, currentAge);
     if (yearsSmoking < 0) {
       daysLost.value = 0;
       additionalDaysLost.value = 0;
       return;
     }
-
-    const daysSmoking = yearsSmoking * DAYS_IN_YEAR;
-    const dailyLossInDays =
-      (cigarettesPerDay.value! * lostMinutesPerCigarette) / MINUTES_IN_DAY;
-
-    daysLost.value = dailyLossInDays * daysSmoking;
-
-    let additionalYears = 0;
-    if (plannedQuitAge.value != null && plannedQuitAge.value > currentAge) {
-      additionalYears = plannedQuitAge.value - currentAge;
-    } else if (currentAge < DEFAULT_QUIT_AGE) {
-      additionalYears = DEFAULT_QUIT_AGE - currentAge;
-    }
-
-    const additionalDaysSmoking = additionalYears * DAYS_IN_YEAR;
-    additionalDaysLost.value = dailyLossInDays * additionalDaysSmoking;
+    const dailyLoss = calculateDailyLoss(lostMinutes);
+    daysLost.value = dailyLoss * yearsSmoking * DAYS_IN_YEAR;
+    additionalDaysLost.value = smoking.value === 'yes' ? dailyLoss * computeAdditionalYears(currentAge) * DAYS_IN_YEAR : 0;
   }
 
-  function updateMainStore() {
+  function calculateLifeLoss(): void {
+    if (smoking.value !== 'yes' && smoking.value !== 'past') {
+      daysLost.value = 0;
+      additionalDaysLost.value = 0;
+      return;
+    }
+    const lostMinutes = getLostMinutesPerCigarette();
+    const currentAge = getCurrentAge();
+    if (
+      (smoking.value === 'yes' && (!startAge.value || !cigarettesPerDay.value || !questionnaireStore.birthDate)) ||
+      (smoking.value === 'past' && (!startAge.value || !cigarettesPerDay.value || !stopAge.value))
+    ) {
+      daysLost.value = 0;
+      additionalDaysLost.value = 0;
+      return;
+    }
+    calculateSmokingLoss(currentAge, lostMinutes);
+  }
+
+  function updateMainStore(): void {
     questionnaireStore.updateField('smokingDaysLost', daysLost.value);
     questionnaireStore.updateField('smokingAdditionalDaysLost', additionalDaysLost.value);
     console.log('smokingDaysLost', questionnaireStore.smokingDaysLost);
@@ -91,32 +107,47 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
       smoking,
       cigarettesPerDay,
       startAge,
-      plannedQuitAge,
+      planToQuit,
+      quitTimeFrame,
+      stopAge,
       () => questionnaireStore.gender,
       () => questionnaireStore.birthDate,
     ],
-    () => {
-      calculateLifeLoss();
-    },
+    calculateLifeLoss,
     { immediate: true }
   );
 
-  watch(
-    [daysLost, additionalDaysLost],
-    () => {
-      updateMainStore();
-    },
-    { immediate: true }
-  );
+  watch([daysLost, additionalDaysLost], updateMainStore, { immediate: true });
+
+  function validate(): boolean {
+    if (smoking.value === null) return false;
+    if (smoking.value === 'yes') return startAge.value !== null && cigarettesPerDay.value !== null;
+    if (smoking.value === 'past')
+      return startAge.value !== null && cigarettesPerDay.value !== null && stopAge.value !== null;
+    return true;
+  }
+
+  function reset(): void {
+    smoking.value = null;
+    cigarettesPerDay.value = null;
+    startAge.value = null;
+    planToQuit.value = false;
+    quitTimeFrame.value = null;
+    stopAge.value = null;
+  }
 
   return {
     smoking,
     cigarettesPerDay,
     startAge,
-    plannedQuitAge,
+    planToQuit,
+    quitTimeFrame,
+    stopAge,
     daysLost,
     additionalDaysLost,
     calculateLifeLoss,
     updateMainStore,
+    validate,
+    reset,
   };
 });

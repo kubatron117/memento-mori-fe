@@ -73,7 +73,9 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
   });
 
   const sex = computed<'male' | 'female'>(() => {
-    return questionnaireStore.gender === 'male' ? 'male' : 'female';
+    return questionnaireStore.gender === 'other'
+      ? 'female'
+      : questionnaireStore.gender as 'male' | 'female';
   });
 
   const dietType = computed<'typical' | 'feasible' | 'optimal'>(() => {
@@ -86,19 +88,22 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
     if (dietType.value === 'typical') {
       return 0;
     }
+    const startAge = questionnaireStore.dietStartAge ?? 20;
+    let baseGain = 0;
     if (sex.value === 'female') {
       if (dietType.value === 'optimal') {
-        return piecewiseInterpolate(age.value, GAINS_FEMALE_OPTIMAL);
+        baseGain = piecewiseInterpolate(startAge, GAINS_FEMALE_OPTIMAL);
       } else {
-        return piecewiseInterpolate(age.value, GAINS_FEMALE_FEASIBLE);
+        baseGain = piecewiseInterpolate(startAge, GAINS_FEMALE_FEASIBLE);
       }
     } else {
       if (dietType.value === 'optimal') {
-        return piecewiseInterpolate(age.value, GAINS_MALE_OPTIMAL);
+        baseGain = piecewiseInterpolate(startAge, GAINS_MALE_OPTIMAL);
       } else {
-        return piecewiseInterpolate(age.value, GAINS_MALE_FEASIBLE);
+        baseGain = piecewiseInterpolate(startAge, GAINS_MALE_FEASIBLE);
       }
     }
+    return baseGain;
   });
 
   function updateMainStore() {
@@ -107,9 +112,12 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
   }
 
   watch(lifeGainYears, () => {
-      updateMainStore();
-    }, { immediate: true }
-  );
+    updateMainStore();
+  }, { immediate: true });
+
+  function reset() {
+    questionnaireStore.updateField('eatingHabits', null);
+  }
 
   return {
     age,
@@ -117,5 +125,6 @@ export const useDietStore = defineStore('lifeGainDiet', () => {
     dietType,
     lifeGainYears,
     updateMainStore,
+    reset,
   };
 });

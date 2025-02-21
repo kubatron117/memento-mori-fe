@@ -1,4 +1,6 @@
 <template>
+  <InfoTextBox></InfoTextBox>
+
   <div class="bg-white shadow rounded p-6 max-w-md mx-auto">
     <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">
       {{ t('app.steps.choose-gender') }}
@@ -18,24 +20,27 @@
   </div>
 </template>
 
-
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import RadioButton from 'primevue/radiobutton';
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
+import InfoTextBox from '@/components/InfoTextBox.vue'
 
 const { t } = useI18n();
-
 const store = useQuestionnaireStore();
+
 const selectedGender = computed({
   get: () => store.gender,
-  set: (val: string | null) => store.gender = val,
+  set: (val: string) => {
+    store.updateGender(val);
+  },
 });
 
 const genders = [
   { label: t('app.steps.male'), value: 'male' },
   { label: t('app.steps.female'), value: 'female' },
-  { label: t('app.steps.other'), value: null },
+  { label: t('app.steps.other'), value: 'other' },
 ];
+
 </script>

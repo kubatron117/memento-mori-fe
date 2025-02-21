@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 export const useActivityStore = defineStore('lifeGainActivity', () => {
-  const exerciseType = ref<'moderate' | 'vigorous'>('moderate');
+  const exerciseType = ref<'moderate' | 'vigorous' | 'none'>('moderate');
   const exerciseMinutes = ref<number>(0);
 
   const RECOMMENDED_MODERATE_MINUTES = 150;
@@ -11,6 +11,9 @@ export const useActivityStore = defineStore('lifeGainActivity', () => {
   const MAX_LIFE_GAIN_YEARS = 5;
 
   const lifeGainYears = computed<number>(() => {
+    if (exerciseType.value === 'none') {
+      return 0;
+    }
     if (exerciseType.value === 'moderate') {
       return Math.min(
         (exerciseMinutes.value / RECOMMENDED_MODERATE_MINUTES) * MAX_LIFE_GAIN_YEARS,
@@ -34,10 +37,16 @@ export const useActivityStore = defineStore('lifeGainActivity', () => {
     updateMainStore();
   }, { immediate: true });
 
+  function reset() {
+    exerciseType.value = 'moderate';
+    exerciseMinutes.value = 0;
+  }
+
   return {
     exerciseType,
     exerciseMinutes,
     lifeGainYears,
     updateMainStore,
+    reset,
   };
 });

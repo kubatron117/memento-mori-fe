@@ -1,4 +1,6 @@
 <template>
+  <InfoTextBox></InfoTextBox>
+
   <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold text-gray-800 mb-6">
       {{ t('app.steps.alcohol.title') }}
@@ -29,64 +31,66 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-gray-700 font-medium mb-1">
+          <label class="text-gray-700 font-medium mb-1 flex items-center">
             {{ t('app.steps.alcohol.smallBeer10') }}
+            <i
+              class="pi pi-info-circle ml-1 cursor-pointer"
+              v-tooltip="t('app.steps.alcohol.tooltips.smallBeer10')"
+            ></i>
           </label>
           <InputNumber v-model="alcoholStore.smallBeer10" :min="0" :max="200" showButtons class="w-full" />
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1">
+          <label class="text-gray-700 font-medium mb-1 flex items-center">
             {{ t('app.steps.alcohol.largeBeer10') }}
+            <i
+              class="pi pi-info-circle ml-1 cursor-pointer"
+              v-tooltip="t('app.steps.alcohol.tooltips.largeBeer10')"
+            ></i>
           </label>
           <InputNumber v-model="alcoholStore.largeBeer10" :min="0" :max="200" showButtons class="w-full" />
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1">
+          <label class="text-gray-700 font-medium mb-1 flex items-center">
             {{ t('app.steps.alcohol.smallBeer12') }}
+            <i
+              class="pi pi-info-circle ml-1 cursor-pointer"
+              v-tooltip="t('app.steps.alcohol.tooltips.smallBeer12')"
+            ></i>
           </label>
           <InputNumber v-model="alcoholStore.smallBeer12" :min="0" :max="200" showButtons class="w-full" />
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1">
+          <label class="text-gray-700 font-medium mb-1 flex items-center">
             {{ t('app.steps.alcohol.largeBeer12') }}
+            <i
+              class="pi pi-info-circle ml-1 cursor-pointer"
+              v-tooltip="t('app.steps.alcohol.tooltips.largeBeer12')"
+            ></i>
           </label>
           <InputNumber v-model="alcoholStore.largeBeer12" :min="0" :max="200" showButtons class="w-full" />
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1">
+          <label class="text-gray-700 font-medium mb-1 flex items-center">
             {{ t('app.steps.alcohol.shot') }}
+            <i
+              class="pi pi-info-circle ml-1 cursor-pointer"
+              v-tooltip="t('app.steps.alcohol.tooltips.shot')"
+            ></i>
           </label>
           <InputNumber v-model="alcoholStore.shot" :min="0" :max="200" showButtons class="w-full" />
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1">
+          <label class="text-gray-700 font-medium mb-1 flex items-center">
             {{ t('app.steps.alcohol.wine') }}
+            <i
+              class="pi pi-info-circle ml-1 cursor-pointer"
+              v-tooltip="t('app.steps.alcohol.tooltips.wine')"
+            ></i>
           </label>
           <InputNumber v-model="alcoholStore.wine" :min="0" :max="200" showButtons class="w-full" />
         </div>
       </div>
-
-      <div class="mt-6 bg-gray-50 border border-gray-200 rounded p-4">
-        <p class="text-lg text-gray-800">
-          <span class="font-semibold">{{ t('app.steps.alcohol.totalAlcohol') }}: </span>
-          {{ alcoholStore.totalAlcoholGrams.toFixed(1) }} g/týden
-        </p>
-        <p class="text-lg text-gray-800 mt-2">
-          <span class="font-semibold">{{ t('app.steps.alcohol.lifeLost') }}: </span>
-          <span v-if="alcoholStore.lifeLostYears === 0">
-            {{ t('app.steps.alcohol.noLoss') }}
-          </span>
-          <span v-else>
-            {{ alcoholStore.lifeLostYears }}
-            {{ alcoholStore.lifeLostYears === 1 ? t('app.steps.alcohol.year') : t('app.steps.alcohol.years') }}
-          </span>
-        </p>
-        <p class="text-sm text-gray-600 mt-1">{{ t('app.steps.alcohol.studyNote') }}</p>
-      </div>
-    </div>
-
-    <div v-else-if="alcoholStore.drinksAlcohol === false" class="mt-6">
-      <p class="text-gray-700">{{ t('app.steps.alcohol.noConsumption') }}</p>
     </div>
   </div>
 </template>
@@ -97,6 +101,7 @@ import { useI18n } from 'vue-i18n'
 import { useAlcoholStore } from '@/stores/lifeLossAlcoholStore'
 import InputNumber from 'primevue/inputnumber'
 import RadioButton from 'primevue/radiobutton'
+import InfoTextBox from '@/components/InfoTextBox.vue'
 
 const { t } = useI18n()
 const alcoholStore = useAlcoholStore()

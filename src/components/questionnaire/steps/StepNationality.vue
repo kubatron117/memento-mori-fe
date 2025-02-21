@@ -1,4 +1,6 @@
 <template>
+  <InfoTextBox></InfoTextBox>
+
   <div class="bg-white shadow rounded p-6 max-w-md mx-auto">
     <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Vyberte národnost</h2>
     <Select
@@ -19,6 +21,7 @@ import { LocationsApiService, type Location } from '@/api/locationsApiServise';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import Select from 'primevue/select';
 import { LifeExpectanciesApiService } from '@/api/lifeExpectanciesApiService';
+import InfoTextBox from '@/components/InfoTextBox.vue'
 
 const store = useQuestionnaireStore();
 const nationalities = ref<Location[]>([]);

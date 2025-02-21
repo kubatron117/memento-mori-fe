@@ -4,7 +4,7 @@ import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 // Drink alcohol content constants (in grams per drink)
 const SMALL_BEER_10_GRAMS = 10;      // Small 10° beer: 1 drink = 10 g of alcohol
-const LARGE_BEER_10_GRAMS = 10;      // Large 10° beer: 1 drink = 10 g of alcohol
+const LARGE_BEER_10_GRAMS = 16;      // Large 10° beer: 1 drink = 16 g of alcohol
 const SMALL_BEER_12_GRAMS = 13.2;    // Small 12° beer: 1 drink = 13.2 g of alcohol
 const LARGE_BEER_12_GRAMS = 20;      // Large 12° beer: 1 drink = 20 g of alcohol
 const SHOT_GRAMS = 12.8;             // Shot: 1 drink = 12.8 g of alcohol
@@ -21,7 +21,6 @@ const LIFE_LOSS_HIGH = 4.5;
 
 export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
   const drinksAlcohol = ref<boolean | null>(null);
-
   const smallBeer10 = ref<number>(0);
   const largeBeer10 = ref<number>(0);
   const smallBeer12 = ref<number>(0);
@@ -59,6 +58,16 @@ export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
     updateMainStore();
   },{ immediate: true });
 
+  function reset() {
+    drinksAlcohol.value = null;
+    smallBeer10.value = 0;
+    largeBeer10.value = 0;
+    smallBeer12.value = 0;
+    largeBeer12.value = 0;
+    shot.value = 0;
+    wine.value = 0;
+  }
+
   return {
     drinksAlcohol,
     smallBeer10,
@@ -70,5 +79,6 @@ export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
     totalAlcoholGrams,
     lifeLostYears,
     updateMainStore,
+    reset,
   };
 });

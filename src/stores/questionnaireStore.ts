@@ -14,6 +14,7 @@ export interface QuestionnaireState {
   alcohol: string | null;
   physicalActivity: string | null;
   eatingHabits: string | null;
+  dietStartAge: number | null;
   desiredAgeCalculated: number | null;
   desiredAge: number | null;
   lifeExpectancy: LifeExpectancyData;
@@ -34,6 +35,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     alcohol: null,
     physicalActivity: null,
     eatingHabits: null,
+    dietStartAge: null,
     desiredAgeCalculated: 80,
     desiredAge: null,
     lifeExpectancy: {
@@ -49,26 +51,41 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
   }),
 
   getters: {
-    finalLifeExpectancy(state): number {
+    normalizedGender(): string | null {
+      return (this.gender === 'male' || this.gender === 'female')
+        ? this.gender
+        : null;
+    },
+    baseLifeExpectancyForGender(): number {
       let base = 0;
-      if (state.desiredAgeCalculated !== null) {
-        base = state.desiredAgeCalculated;
-      } else if (state.lifeExpectancy) {
-        if (state.gender === 'male' && state.lifeExpectancy.male !== null) {
-          base = state.lifeExpectancy.male;
-        } else if (state.gender === 'female' && state.lifeExpectancy.female !== null) {
-          base = state.lifeExpectancy.female;
+      if (
+        (this.birthDate && this.birthDate.getFullYear() < 1950) ||
+        (!this.lifeExpectancy ||
+          (this.lifeExpectancy.both === null &&
+            this.lifeExpectancy.male === null &&
+            this.lifeExpectancy.female === null))
+      ) {
+        base = 80;
+      } else {
+        if (this.normalizedGender === 'male' && this.lifeExpectancy.male !== null) {
+          base = this.lifeExpectancy.male;
+        } else if (this.normalizedGender === 'female' && this.lifeExpectancy.female !== null) {
+          base = this.lifeExpectancy.female;
         } else {
-          base = state.lifeExpectancy.both || 0;
+          base = this.lifeExpectancy.both || 0;
         }
       }
-      const smokingLossYears = state.smokingDaysLost / 365;
-      const additionalSmokingLossYears = state.smokingAdditionalDaysLost / 365;
+      return base;
+    },
+    finalLifeExpectancy(): number {
+      let base = this.baseLifeExpectancyForGender;
+      const smokingLossYears = this.smokingDaysLost / 365;
+      const additionalSmokingLossYears = this.smokingAdditionalDaysLost / 365;
       return (
         base +
-        state.activityLifeGain +
-        state.dietLifeGain -
-        state.alcoholLifeLoss -
+        this.activityLifeGain +
+        this.dietLifeGain -
+        this.alcoholLifeLoss -
         smokingLossYears -
         additionalSmokingLossYears
       );
@@ -88,30 +105,33 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       }
       this.$patch({ [field]: value });
     },
-    calculateAdjustedLifeExpectancy(): number {
-      let base = 0;
-      if (this.desiredAgeCalculated !== null) {
-        base = this.desiredAgeCalculated;
-      } else if (this.lifeExpectancy) {
-        if (this.gender === 'male' && this.lifeExpectancy.male !== null) {
-          base = this.lifeExpectancy.male;
-        } else if (this.gender === 'female' && this.lifeExpectancy.female !== null) {
-          base = this.lifeExpectancy.female;
-        } else {
-          base = this.lifeExpectancy.both || 0;
-        }
-      }
-      const smokingLossYears = this.smokingDaysLost / 365;
-      const additionalSmokingLossYears = this.smokingAdditionalDaysLost / 365;
-      return (
-        base +
-        this.activityLifeGain +
-        this.dietLifeGain -
-        this.alcoholLifeLoss -
-        smokingLossYears -
-        additionalSmokingLossYears
-      );
+    updateGender(newGender: string) {
+      this.gender = newGender;
     },
+    // calculateAdjustedLifeExpectancy(): number {
+    //   let base = 0;
+    //   if (this.desiredAgeCalculated !== null) {
+    //     base = this.desiredAgeCalculated;
+    //   } else if (this.lifeExpectancy) {
+    //     if (this.normalizedGender === 'male' && this.lifeExpectancy.male !== null) {
+    //       base = this.lifeExpectancy.male;
+    //     } else if (this.normalizedGender === 'female' && this.lifeExpectancy.female !== null) {
+    //       base = this.lifeExpectancy.female;
+    //     } else {
+    //       base = this.lifeExpectancy.both || 0;
+    //     }
+    //   }
+    //   const smokingLossYears = this.smokingDaysLost / 365;
+    //   const additionalSmokingLossYears = this.smokingAdditionalDaysLost / 365;
+    //   return (
+    //     base +
+    //     this.activityLifeGain +
+    //     this.dietLifeGain -
+    //     this.alcoholLifeLoss -
+    //     smokingLossYears -
+    //     additionalSmokingLossYears
+    //   );
+    // },
     getCurrentAge(): number {
       if (!this.birthDate) {
         return 0;
@@ -119,10 +139,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       const today = new Date();
       let age = today.getFullYear() - this.birthDate.getFullYear();
       const monthDiff = today.getMonth() - this.birthDate.getMonth();
-      if (
-        monthDiff < 0 ||
-        (monthDiff === 0 && today.getDate() < this.birthDate.getDate())
-      ) {
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < this.birthDate.getDate())) {
         age--;
       }
       return age;
