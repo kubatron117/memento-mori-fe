@@ -17,6 +17,7 @@
         />
         <label for="moderate" class="ml-2 cursor-pointer text-gray-700">
           {{ t('app.steps.physical-activity.moderateLabel') }}
+          <span class="text-xs text-gray-500"> (např. rychlá chůze)</span>
         </label>
       </div>
       <div class="flex items-center">
@@ -27,6 +28,17 @@
         />
         <label for="vigorous" class="ml-2 cursor-pointer text-gray-700">
           {{ t('app.steps.physical-activity.vigorousLabel') }}
+          <span class="text-xs text-gray-500"> (např. běh)</span>
+        </label>
+      </div>
+      <div class="flex items-center">
+        <RadioButton
+          v-model="activityStore.exerciseType"
+          value="none"
+          inputId="none"
+        />
+        <label for="none" class="ml-2 cursor-pointer text-gray-700">
+          {{ t('app.steps.physical-activity.noActivityLabel') }}
         </label>
       </div>
     </div>
@@ -41,6 +53,7 @@
         :max="10080"
         showButtons
         class="w-full"
+        :disabled="activityStore.exerciseType === 'none'"
       />
     </div>
 
@@ -55,6 +68,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
