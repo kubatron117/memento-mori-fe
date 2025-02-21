@@ -31,6 +31,14 @@
           <span>Další ztráty z kouření: </span>
           <strong class="text-red-600">-{{ roundedAdditionalSmokingLossYears }} let</strong>
         </li>
+        <li>
+          <span>Datum narození: </span>
+          <strong class="">{{ formatDate(questionnaireStore?.birthDate) }}</strong>
+        </li>
+        <li>
+          <span>Váš aktuální věk: </span>
+          <strong class="">{{ questionnaireStore.getCurrentAge() }} let</strong>
+        </li>
       </ul>
     </div>
 
@@ -82,6 +90,11 @@ const defaultLifeExpectancy = computed(() => {
 });
 
 const adjustedExpectedLifetime = ref(defaultLifeExpectancy.value);
+
+const formatDate = (date: Date | null): string => {
+  if (date == null) return "";
+  return date.toLocaleDateString('cs-CZ');
+};
 
 watch(
   defaultLifeExpectancy,
