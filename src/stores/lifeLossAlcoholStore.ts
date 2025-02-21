@@ -4,7 +4,7 @@ import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 // Drink alcohol content constants (in grams per drink)
 const SMALL_BEER_10_GRAMS = 10;      // Small 10° beer: 1 drink = 10 g of alcohol
-const LARGE_BEER_10_GRAMS = 10;      // Large 10° beer: 1 drink = 10 g of alcohol
+const LARGE_BEER_10_GRAMS = 16;      // Large 10° beer: 1 drink = 16 g of alcohol
 const SMALL_BEER_12_GRAMS = 13.2;    // Small 12° beer: 1 drink = 13.2 g of alcohol
 const LARGE_BEER_12_GRAMS = 20;      // Large 12° beer: 1 drink = 20 g of alcohol
 const SHOT_GRAMS = 12.8;             // Shot: 1 drink = 12.8 g of alcohol
