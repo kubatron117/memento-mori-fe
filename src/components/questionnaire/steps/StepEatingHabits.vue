@@ -13,7 +13,7 @@
           inputId="typical"
         />
         <label for="typical" class="ml-2 cursor-pointer text-gray-700">
-          Typická západní dieta (žádné prodloužení)
+          Typická západní dieta
         </label>
       </div>
       <div class="flex items-center">
@@ -23,7 +23,7 @@
           inputId="feasible"
         />
         <label for="feasible" class="ml-2 cursor-pointer text-gray-700">
-          Proveditelná dieta (u 20 let cca +6.2 let u žen a +7.3 let u mužů)
+          Proveditelná dieta
         </label>
       </div>
       <div class="flex items-center">
@@ -33,7 +33,7 @@
           inputId="optimal"
         />
         <label for="optimal" class="ml-2 cursor-pointer text-gray-700">
-          Optimalizovaná dieta (u 20 let cca +10.7 let u žen a +13.0 let u mužů)
+          Optimalizovaná dieta
         </label>
       </div>
     </div>
@@ -47,9 +47,32 @@
         (Výpočet vychází ze studie: "Estimating impact of food choices on life expectancy: A modeling study")
       </p>
     </div>
+
+    <div class="mt-8">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">
+        Srovnání doporučených denních příjmů (g/den)
+      </h3>
+      <table class="w-full border-collapse text-left text-sm text-gray-700">
+        <thead>
+        <tr class="bg-gray-100 border-b">
+          <th class="p-2 font-semibold text-gray-800">Potravina</th>
+          <th class="p-2 font-semibold text-gray-800">Typická</th>
+          <th class="p-2 font-semibold text-gray-800">Proveditelná</th>
+          <th class="p-2 font-semibold text-gray-800">Optimalizovaná</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item, idx) in dietComparison" :key="idx" class="border-b">
+          <td class="p-2">{{ item.food }}</td>
+          <td class="p-2">{{ item.typical }} g</td>
+          <td class="p-2">{{ item.feasible }} g</td>
+          <td class="p-2">{{ item.optimal }} g</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
-
 
 <script setup lang="ts">
 import RadioButton from 'primevue/radiobutton';
@@ -58,6 +81,23 @@ import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 
 const dietStore = useDietStore();
 const questionnaireStore = useQuestionnaireStore();
+
+const dietComparison = [
+  { food: 'Obiloviny celozrnné', typical: 50, feasible: 137.5, optimal: 225 },
+  { food: 'Zelenina', typical: 250, feasible: 325, optimal: 400 },
+  { food: 'Ovoce', typical: 200, feasible: 300, optimal: 400 },
+  { food: 'Ořechy', typical: 0, feasible: 12.5, optimal: 25 },
+  { food: 'Luštěniny', typical: 0, feasible: 100, optimal: 200 },
+  { food: 'Ryby', typical: 50, feasible: 125, optimal: 200 },
+  { food: 'Vejce', typical: 50, feasible: 37.5, optimal: 25 },
+  { food: 'Mléko/mléčné výrobky', typical: 300, feasible: 250, optimal: 200 },
+  { food: 'Rafinované obiloviny', typical: 150, feasible: 100, optimal: 50 },
+  { food: 'Červené maso', typical: 100, feasible: 50, optimal: 0 },
+  { food: 'Zpracované maso', typical: 50, feasible: 25, optimal: 0 },
+  { food: 'Bílé maso', typical: 75, feasible: 62.5, optimal: 50 },
+  { food: 'Slazené nápoje', typical: 500, feasible: 250, optimal: 0 },
+  { food: 'Přidané rostlinné oleje', typical: 25, feasible: 25, optimal: 25 },
+];
 </script>
 
 <style scoped>
