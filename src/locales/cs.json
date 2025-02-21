@@ -67,11 +67,11 @@
       "in-1-year": "Do 1 roku",
       "past-smoker": "Ne, ale dříve jsem kouřil(a)",
       "alcohol": {
-        "title": "Kalkulačka konzumace alkoholu",
+        "title": "Konzumace alkoholu",
         "drinksAlcohol": "Pijete alkohol?",
         "yes": "Ano",
         "no": "Ne",
-        "instruction": "Zadejte počet jednotlivých nápojů, které za týden vypijete. Výpočet vychází ze studie, podle které je nejnižší riziko při ≤100 g čistého alkoholu týdně.",
+        "instruction": "Zadejte počet jednotlivých nápojů, které za týden vypijete.",
         "smallBeer10": "MALÉ pivo 10° (1 nápoj = 10 g)",
         "largeBeer10": "VELKÉ pivo 10° (1 nápoj = 10 g)",
         "smallBeer12": "MALÉ pivo 12° (1 nápoj = 13,2 g)",

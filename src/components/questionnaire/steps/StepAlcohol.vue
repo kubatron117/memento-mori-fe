@@ -67,28 +67,6 @@
           <InputNumber v-model="alcoholStore.wine" :min="0" :max="200" showButtons class="w-full" />
         </div>
       </div>
-
-      <div class="mt-6 bg-gray-50 border border-gray-200 rounded p-4">
-        <p class="text-lg text-gray-800">
-          <span class="font-semibold">{{ t('app.steps.alcohol.totalAlcohol') }}: </span>
-          {{ alcoholStore.totalAlcoholGrams.toFixed(1) }} g/týden
-        </p>
-        <p class="text-lg text-gray-800 mt-2">
-          <span class="font-semibold">{{ t('app.steps.alcohol.lifeLost') }}: </span>
-          <span v-if="alcoholStore.lifeLostYears === 0">
-            {{ t('app.steps.alcohol.noLoss') }}
-          </span>
-          <span v-else>
-            {{ alcoholStore.lifeLostYears }}
-            {{ alcoholStore.lifeLostYears === 1 ? t('app.steps.alcohol.year') : t('app.steps.alcohol.years') }}
-          </span>
-        </p>
-        <p class="text-sm text-gray-600 mt-1">{{ t('app.steps.alcohol.studyNote') }}</p>
-      </div>
-    </div>
-
-    <div v-else-if="alcoholStore.drinksAlcohol === false" class="mt-6">
-      <p class="text-gray-700">{{ t('app.steps.alcohol.noConsumption') }}</p>
     </div>
   </div>
 </template>
