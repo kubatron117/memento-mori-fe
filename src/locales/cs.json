@@ -89,8 +89,9 @@
       "physical-activity": {
         "title": "Kalkulačka fyzické aktivity a prodloužení života",
         "exerciseType": "Vyberte typ cvičení:",
-        "moderateLabel": "Mírná (doporučeno 150 minut týdně)",
-        "vigorousLabel": "Intenzivní (doporučeno 75 minut týdně)",
+        "moderateLabel": "Mírná",
+        "vigorousLabel": "Intenzivní",
+        "noActivityLabel": "Žádná aktivita",
         "exerciseMinutes": "Počet minut cvičení za týden",
         "lifeGainYears": "Odhadované prodloužení života",
         "studyNote": "(Na základě studie: dosažení doporučené úrovně fyzické aktivity může prodloužit život přibližně o 5 let.)"
