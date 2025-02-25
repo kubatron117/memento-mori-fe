@@ -2,12 +2,13 @@
   <div class="p-5">
     <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-between">
       <div class="mb-5 flex items-center gap-3 justify-end">
-        <label for="circleSizeSlider" class="font-medium">
+        <label for="circleSizeSlider" class="font-medium text-black">
           {{ t('app.weeks.weekSize') }}
         </label>
-        <Slider
-          class="w-56"
+        <input
           id="circleSizeSlider"
+          type="range"
+          class="w-56 h-2 bg-gray-100 appearance-none cursor-pointer rounded-md"
           v-model.lazy="circleSize"
           :min="10"
           :max="30"
@@ -210,3 +211,31 @@ function exportPdf() {
   generateMementoMoriPdf(groupedData.value);
 }
 </script>
+
+<style scoped>
+#circleSizeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1rem;
+  width: 1rem;
+  background: black;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#circleSizeSlider::-moz-range-thumb {
+  height: 1rem;
+  width: 1rem;
+  background: black;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#circleSizeSlider::-ms-thumb {
+  height: 1rem;
+  width: 1rem;
+  background: black;
+  border-radius: 50%;
+  cursor: pointer;
+}
+</style>
