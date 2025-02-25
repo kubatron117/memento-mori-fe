@@ -922,6 +922,17 @@ video {
   animation: var(--motion-all-loop-and-enter-animations);
 }
 
+.motion-preset-pop {
+  --motion-origin-scale-x: 50%;
+  --motion-origin-scale-y: 50%;
+  --motion-origin-opacity: 0;
+  --motion-scale-timing: var(--motion-spring-bouncier);
+  --motion-scale-perceptual-duration-multiplier: 2.035;
+  --motion-opacity-in-animation: motion-opacity-in calc(var(--motion-opacity-duration) * var(--motion-opacity-perceptual-duration-multiplier)) var(--motion-opacity-timing) var(--motion-opacity-delay) both;
+  --motion-scale-in-animation: motion-scale-in calc(var(--motion-scale-duration) * var(--motion-scale-perceptual-duration-multiplier)) var(--motion-scale-timing) var(--motion-scale-delay) both;
+  animation: var(--motion-all-loop-and-enter-animations);
+}
+
 @keyframes RomboConfettiPop {
   0% {
     opacity: 0;
@@ -1314,10 +1325,6 @@ video {
 
 .gap-8 {
   gap: 2rem;
-}
-
-.gap-1 {
-  gap: 0.25rem;
 }
 
 .gap-x-1 {

@@ -137,7 +137,7 @@
       v-if="selectedWeek && selectedVisualization === 'week'"
       :week="selectedWeek"
       @close="closeModal"
-      class="motion-preset-expand"
+      class="motion-preset-pop"
     />
 
     <div class="mt-4">
