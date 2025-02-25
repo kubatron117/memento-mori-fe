@@ -16,6 +16,16 @@ export const useLoginStore = defineStore('loginStore', {
         ? `${state.accountInfo.first_name} ${state.accountInfo.last_name}`
         : '';
     },
+    firstName(state): string {
+      return state.accountInfo
+        ? `${state.accountInfo.first_name}`
+        : '';
+    },
+    lastName(state): string {
+      return state.accountInfo
+        ? `${state.accountInfo.last_name}`
+        : '';
+    },
     email(state): string {
       return state.accountInfo?.email || '';
     },

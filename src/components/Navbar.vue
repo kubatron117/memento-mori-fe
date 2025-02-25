@@ -16,11 +16,10 @@
             :aria-expanded="userDropdownOpen"
           >
             <span class="sr-only">Open user menu</span>
-            <img
-              class="w-8 h-8 rounded-full"
-              src="/pexels-shtefutsa-20265009.jpg"
-              alt="User photo"
-            />
+            <div class="w-8 h-8 rounded-full bg-black flex items-center justify-center">
+              <span class="text-sm font-bold text-white">{{ loginStore.firstName[0] }}</span>
+              <span class="text-sm font-bold text-white">{{ loginStore.lastName[0] }}</span>
+            </div>
           </button>
 
           <div
