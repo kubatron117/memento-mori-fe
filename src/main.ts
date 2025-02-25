@@ -62,6 +62,7 @@ app.use(PrimeVue, {
     }
   },
   locale: {
+    firstDayOfWeek: 1,
     dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
     dayNamesShort: ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"],
     dayNamesMin: ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"],
