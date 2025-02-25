@@ -167,13 +167,11 @@ const weeks = computed<Week[]>(() => lifeStore.weeks);
 const selectedWeek = ref<Week | null>(null);
 const circleSize = ref(20);
 const scoreVisualizationEnabled = ref(false);
-const isLoading = ref(true);
 
+const isLoading = ref(true);
 watch(weeks, (newWeeks) => {
-  if (newWeeks.length > 0) {
-    isLoading.value = false;
-  }
-});
+  isLoading.value = false;
+}, { immediate: true });
 
 const formatDate = (date: Date): string => date.toLocaleDateString('cs-CZ');
 

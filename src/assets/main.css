@@ -913,15 +913,6 @@ video {
   }
 }
 
-.motion-preset-expand {
-  --motion-origin-scale-x: 50%;
-  --motion-origin-scale-y: 50%;
-  --motion-origin-opacity: 0;
-  --motion-opacity-in-animation: motion-opacity-in calc(var(--motion-opacity-duration) * var(--motion-opacity-perceptual-duration-multiplier)) var(--motion-opacity-timing) var(--motion-opacity-delay) both;
-  --motion-scale-in-animation: motion-scale-in calc(var(--motion-scale-duration) * var(--motion-scale-perceptual-duration-multiplier)) var(--motion-scale-timing) var(--motion-scale-delay) both;
-  animation: var(--motion-all-loop-and-enter-animations);
-}
-
 .motion-preset-pop {
   --motion-origin-scale-x: 50%;
   --motion-origin-scale-y: 50%;
