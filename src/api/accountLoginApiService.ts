@@ -32,8 +32,8 @@ const PostVerifyAccountPasswordResetSchema = z.object({
 })
 
 const PostAccountRegistrationSchema = z.object({
-  first_name: z.string().min(1),
-  last_name: z.string().min(1),
+  first_name: z.string().min(1).max(50),
+  last_name: z.string().min(1).max(50),
   email: z.string().email(),
   password: z.string().min(8).max(64),
   'password-confirm': z.string().min(8).max(64),
