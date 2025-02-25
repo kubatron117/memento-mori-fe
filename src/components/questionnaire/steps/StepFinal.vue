@@ -1,84 +1,75 @@
 <template>
   <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
     <h2 class="text-xl font-semibold text-gray-800 mb-6">
-      Finální krok: Zadejte novou očekávanou dobu života
+      Finální krok: Odhadovaný věk dožití
     </h2>
 
     <div class="bg-gray-50 border border-gray-200 rounded p-4">
       <h3 class="text-lg font-semibold mb-2">Sumarizace výsledků</h3>
       <ul class="list-disc pl-5 text-gray-700">
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Datum narození: </span>
-            <strong class="">{{ formatDate(questionnaireStore?.birthDate) }}</strong>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Datum narození: <strong>{{ formatDate(questionnaireStore?.birthDate) }}</strong></span>
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Váš aktuální věk: </span>
-            <strong class="">{{ questionnaireStore.getCurrentAge() }} let</strong>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Váš aktuální věk: <strong>{{ questionnaireStore.getCurrentAge() }} let</strong></span>
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Základní očekávaná délka života: </span>
-            <strong>{{ roundedBaseLifeExpectancy }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.baseLifeExpectancy')"
-            ></i>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Základní očekávaná délka života: <strong>{{ roundedBaseLifeExpectancy }} let</strong></span>
+            <InfoModal label="Základní očekávaná délka života"
+                       :studyTitle="t('app.steps.final.tooltips.baseLifeExpectancy')"
+                       studyLink="https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format"
+            />
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Přínos vlivem fyzické aktivity: </span>
-            <strong class="text-green-600">+{{ roundedActivityLifeGain }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.physicalActivity')"
-            ></i>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Přínos vlivem fyzické aktivity: <strong class="text-green-600">+{{ roundedActivityLifeGain }} let</strong></span>
+            <InfoModal label="Přínos vlivem fyzické aktivity"
+                       :studyTitle="t('app.steps.final.tooltips.physicalActivity')"
+                       studyLink="https://www.ahajournals.org/doi/10.1161/jaha.117.007725"
+            />
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Přínos vlivem stravy: </span>
-            <strong class="text-green-600">+{{ roundedDietLifeGain }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.food')"
-            ></i>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Přínos vlivem stravy: <strong class="text-green-600">+{{ roundedDietLifeGain }} let</strong></span>
+            <InfoModal label="Přínos vlivem stravy"
+                       :studyTitle="t('app.steps.final.tooltips.food')"
+                       studyLink="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003889"
+            />
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Ztráta vlivem alkoholu: </span>
-            <strong class="text-red-600">-{{ roundedAlcoholLifeLoss }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.alcohol')"
-            ></i>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Ztráta vlivem alkoholu: <strong class="text-red-600">-{{ roundedAlcoholLifeLoss }} let</strong></span>
+            <InfoModal label="Ztráta vlivem alkoholu"
+                       :studyTitle="t('app.steps.final.tooltips.alcohol')"
+                       studyLink="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30134-X/fulltext"
+            />
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Ztráta vlivem dosavadního kouření: </span>
-            <strong class="text-red-600">-{{ roundedSmokingLossYears }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.smokingLoss')"
-            ></i>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Ztráta vlivem dosavadního kouření: <strong class="text-red-600">-{{ roundedSmokingLossYears }} let</strong></span>
+            <InfoModal label="Ztráta vlivem dosavadního kouření"
+                       :studyTitle="t('app.steps.final.tooltips.smokingLoss')"
+                       studyLink="https://onlinelibrary.wiley.com/doi/10.1111/add.16757"
+            />
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Ztráta vlivem budoucího kouření: </span>
-            <strong class="text-red-600">-{{ roundedAdditionalSmokingLossYears }} let</strong>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Ztráta vlivem budoucího kouření: <strong class="text-red-600">-{{ roundedAdditionalSmokingLossYears }} let</strong></span>
           </div>
         </li>
         <li>
-          <div class="flex items-center gap-x-1">
-            <span>Očekávaná délka života ovlivněna faktory: </span>
-            <strong>{{ roundedExpectedLifeExpectancy }} let</strong>
+          <div class="flex items-center justify-between md:justify-normal gap-x-1">
+            <span>Očekávaná délka života ovlivněna faktory: <strong>{{ roundedExpectedLifeExpectancy }} let</strong></span>
           </div>
         </li>
       </ul>
@@ -86,7 +77,7 @@
 
     <div class="mt-6">
       <label for="expectedLifetime" class="block text-gray-700 font-medium mb-2">
-        Nastavte novou očekávanou dobu:
+        Zde můžete očekávanou délku života změnit:
       </label>
       <Slider
         v-model="adjustedExpectedLifetime"
@@ -102,7 +93,7 @@
 
     <div class="mt-4">
       <p class="text-lg font-bold text-gray-800">
-        Nová celková očekávaná doba: {{ roundedAdjustedExpectedLifetime }} let
+        Věk pro který se vygeneruje memonto mori kalendář: {{ roundedAdjustedExpectedLifetime }} let
       </p>
     </div>
   </div>
@@ -113,6 +104,7 @@ import { computed, ref, watch } from 'vue';
 import Slider from 'primevue/slider';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import { useI18n } from 'vue-i18n'
+import InfoModal from '@/components/InfoModal.vue';
 
 const { t } = useI18n()
 

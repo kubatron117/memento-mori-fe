@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { defineAsyncComponent, onMounted } from 'vue'
 import { useLifeStore } from '@/stores/lifeStore';
 import { useLoginStore } from '@/stores/loginStore';
-import WeeksInLife from '@/components/WeeksInLife.vue';
-import Navbar from '@/components/Navbar.vue';
-import LifeProgress from '@/components/LifeProgress.vue'
 
 const lifeStore = useLifeStore();
 const loginStore = useLoginStore();
+
+const Navbar = defineAsyncComponent(() => import('@/components/Navbar.vue'));
+const LifeProgress = defineAsyncComponent(() => import('@/components/LifeProgress.vue'));
+const WeeksInLife = defineAsyncComponent(() => import('@/components/WeeksInLife.vue'));
 
 onMounted(async () => {
   if (loginStore.dateOfBirth && loginStore.estimatedLifespan) {
@@ -24,7 +25,7 @@ onMounted(async () => {
 <template>
   <div class="life-calculator">
     <Navbar />
-    <LifeProgress></LifeProgress>
+    <LifeProgress />
     <WeeksInLife />
   </div>
 </template>

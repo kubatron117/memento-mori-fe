@@ -61,7 +61,16 @@ app.use(PrimeVue, {
       cssLayer: false
     }
   },
-  locale: csLocale
+  locale: {
+    firstDayOfWeek: 1,
+    dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+    dayNamesShort: ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"],
+    dayNamesMin: ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"],
+    monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+    monthNamesShort: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čer", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"],
+    today: "Dnes",
+    clear: "Vymazat"
+  }
 });
 
 app.directive('tooltip', Tooltip);

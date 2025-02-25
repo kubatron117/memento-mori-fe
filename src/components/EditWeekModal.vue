@@ -13,18 +13,23 @@
 
     <div v-if="isEditable">
       <div class="mb-4">
+        <label for="description" class="block text-sm text-gray-600 mt-1">
+          Poznámka <span class="text-red-500">*</span>
+        </label>
         <Textarea
           id="description"
           v-model="memo"
           rows="5"
           cols="30"
+          maxlength="2000"
           class="w-full border border-gray-300 rounded p-2"
           style="resize: none"
           required
         />
-        <label for="description" class="block text-sm text-gray-600 mt-1">
-          Poznámka <span class="text-red-500">*</span>
-        </label>
+
+        <div class="text-right text-sm text-gray-500 mt-1">
+          {{ memo.length }}/2000
+        </div>
       </div>
 
       <div class="flex flex-col gap-4 mt-4">
@@ -48,7 +53,7 @@
         <Button
           label="Uložit"
           @click="saveMemo"
-          :disabled="loading"
+          :disabled="loading || !isFormValid"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         />
         <Button
@@ -76,7 +81,7 @@
           class="flex items-center gap-2"
         >
           <label class="w-40 text-gray-700">{{ field.label }}:</label>
-          <Rating :model-value="week[field.key]" readonly :cancel="false" />
+          <Rating :model-value="(week as any)[field.key]" readonly :cancel="false" />
         </div>
 
         <div class="flex items-center gap-2">
@@ -140,11 +145,11 @@ const dialogHeader = computed(() => {
 });
 
 const memo = ref(props.week.additionalInfo || '');
-const scoreSatisfaction = ref(props.week.score_satisfaction ?? 1);
-const scoreEmotionalBalance = ref(props.week.score_emotional_balance ?? 1);
-const scoreProductivity = ref(props.week.score_productivity ?? 1);
-const scoreRelationships = ref(props.week.score_relationships ?? 1);
-const scoreValuesAlignment = ref(props.week.score_values_alignment ?? 1);
+const scoreSatisfaction = ref<number>(0);
+const scoreEmotionalBalance = ref<number>(0);
+const scoreProductivity = ref<number>(0);
+const scoreRelationships = ref<number>(0);
+const scoreValuesAlignment = ref<number>(0);
 
 const loading = ref(false);
 const error = ref('');
@@ -163,6 +168,15 @@ const isEditable = computed(() => {
     isSameDay(props.week.startDate, startOfCurrentWeek) ||
     isSameDay(props.week.startDate, startOfPrevWeek)
   );
+});
+
+const isFormValid = computed(() => {
+  return memo.value.trim() !== '' &&
+    scoreSatisfaction.value > 0 &&
+    scoreEmotionalBalance.value > 0 &&
+    scoreProductivity.value > 0 &&
+    scoreRelationships.value > 0 &&
+    scoreValuesAlignment.value > 0;
 });
 
 const ratingFields = [
@@ -201,19 +215,8 @@ const ratingFields = [
 const saveMemo = async () => {
   error.value = '';
 
-  if (!memo.value.trim()) {
-    error.value = 'Poznámka je povinná.';
-    return;
-  }
-
-  if (
-    scoreSatisfaction.value == null ||
-    scoreEmotionalBalance.value == null ||
-    scoreProductivity.value == null ||
-    scoreRelationships.value == null ||
-    scoreValuesAlignment.value == null
-  ) {
-    error.value = 'Všechna hodnocení jsou povinná.';
+  if (!isFormValid.value) {
+    error.value = 'Vyplňte prosím všechny povinné položky.';
     return;
   }
 

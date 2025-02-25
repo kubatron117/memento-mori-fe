@@ -1,6 +1,6 @@
 <template>
   <nav class="bg-white border-gray-200">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <div class="w-[95%] max-w-[1900px] flex flex-wrap items-center justify-between mx-auto p-4">
       <router-link to="/" class="flex items-center space-x-3">
         <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap">Memorian</span>
@@ -16,11 +16,10 @@
             :aria-expanded="userDropdownOpen"
           >
             <span class="sr-only">Open user menu</span>
-            <img
-              class="w-8 h-8 rounded-full"
-              src="/pexels-shtefutsa-20265009.jpg"
-              alt="User photo"
-            />
+            <div class="w-8 h-8 rounded-full bg-black flex items-center justify-center">
+              <span class="text-sm font-bold text-white">{{ loginStore.firstName[0] }}</span>
+              <span class="text-sm font-bold text-white">{{ loginStore.lastName[0] }}</span>
+            </div>
           </button>
 
           <div
@@ -35,11 +34,11 @@
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
                 <router-link
-                  to="/settings"
+                  to="/user-profile"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   @click="closeUserDropdown"
                 >
-                  Settings
+                  Uživatelský profil
                 </router-link>
               </li>
               <li>
@@ -48,7 +47,7 @@
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   @click.prevent="logout"
                 >
-                  Sign out
+                  Odhlásit se
                 </a>
               </li>
             </ul>
