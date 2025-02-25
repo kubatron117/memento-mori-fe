@@ -1,7 +1,7 @@
 <template>
   <Navbar />
   <ConfirmDialog />
-  <div class="w-[80%] mx-auto">
+  <div class="w-[80%] mx-auto bg-pink-200">
     <Stepper v-model:value="activeStep" linear>
       <StepList>
         <Step v-for="step in steps" :key="step.id" :value="step.id">
@@ -15,7 +15,7 @@
           :value="step.id"
           v-slot="{ activateCallback }"
         >
-          <div class="min-h-[80vh] p-4">
+          <div class="min-h-[70vh] p-4">
             <component :is="step.component" />
           </div>
           <div class="flex justify-between p-2 mt-4">
