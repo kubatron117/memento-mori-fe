@@ -123,7 +123,8 @@
       "days": "dní",
       "hours": "hodin",
       "minutes": "minut",
-      "seconds": "sekund"
+      "seconds": "sekund",
+      "congratulationsMessage": "Gratulujeme, dožil jste se více než se předpokládalo."
     },
     "weeks": {
       "weekSize": "Velikost týdnů:",
