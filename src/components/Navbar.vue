@@ -34,11 +34,11 @@
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
                 <router-link
-                  to="/settings"
+                  to="/user-profile"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   @click="closeUserDropdown"
                 >
-                  Settings
+                  Uživatelský profil
                 </router-link>
               </li>
               <li>
@@ -47,7 +47,7 @@
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   @click.prevent="logout"
                 >
-                  Sign out
+                  Odhlásit se
                 </a>
               </li>
             </ul>

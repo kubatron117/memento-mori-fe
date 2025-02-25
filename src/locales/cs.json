@@ -39,12 +39,23 @@
       "reset": "Resetovat heslo",
       "email-was-send": "Email pro reset hesla byl úspěšně odeslán."
     },
+    "change-password": {
+      "title": "Změna hesla",
+      "old-password": "Staré heslo",
+      "new-password": "Nové heslo",
+      "confirm-password": "Potvrďte nové heslo",
+      "submit": "Změnit heslo",
+      "success": "Heslo je úspěšně změněno"
+    },
     "errors": {
       "missing-email-password": "Vyplňte prosím email a heslo.",
       "missing-email": "Vyplňte prosím email.",
       "missing-password": "Vyplňte prosím heslo.",
       "login-failed": "Přihlášení selhalo.",
-      "reset-password-failed": "Reset hesla selhal."
+      "reset-password-failed": "Reset hesla selhal.",
+      "change-password-failed": "Změna hesla selhala",
+      "password-mismatch": "Hesla se neschodují",
+      "missing-password-fields": "Vyplňte chybějicí pole"
     },
     "steps":{
       "insert-date-of-birth": "Zadejte datum narození",

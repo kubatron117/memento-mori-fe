@@ -8,6 +8,7 @@ import { useLoginStore } from '@/stores/loginStore'
 import ResetPasswordRequest from '@/views/account/ResetPasswordRequest.vue'
 import ResetPassword from '@/views/account/ResetPassword.vue'
 import Questionnaire from '@/views/questionnaire/Questionnaire.vue'
+import UserProfileView from '@/views/UserProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,11 @@ const router = createRouter({
       path: '/questionnaire',
       name: 'questionnaire',
       component: Questionnaire,
+    },
+    {
+      path: '/user-profile',
+      name: 'user-profile',
+      component: UserProfileView,
     },
   ],
 })
