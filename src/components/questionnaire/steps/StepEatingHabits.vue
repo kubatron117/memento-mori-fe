@@ -56,24 +56,26 @@
       <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">
         Srovnání doporučených denních příjmů (g/den)
       </h3>
-      <table class="w-full border-collapse text-left text-sm text-gray-700">
-        <thead>
-        <tr class="bg-gray-100 border-b">
-          <th class="p-2 font-semibold text-gray-800">Potravina</th>
-          <th class="p-2 font-semibold text-gray-800">Typická</th>
-          <th class="p-2 font-semibold text-gray-800">Proveditelná</th>
-          <th class="p-2 font-semibold text-gray-800">Optimalizovaná</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(item, idx) in dietComparison" :key="idx" class="border-b">
-          <td class="p-2">{{ item.food }}</td>
-          <td class="p-2">{{ item.typical }} g</td>
-          <td class="p-2">{{ item.feasible }} g</td>
-          <td class="p-2">{{ item.optimal }} g</td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-left text-sm text-gray-700">
+          <thead>
+          <tr class="bg-gray-100 border-b">
+            <th class="p-2 font-semibold text-gray-800">Potravina</th>
+            <th class="p-2 font-semibold text-gray-800">Typická</th>
+            <th class="p-2 font-semibold text-gray-800">Proveditelná</th>
+            <th class="p-2 font-semibold text-gray-800">Optimalizovaná</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(item, idx) in dietComparison" :key="idx" class="border-b">
+            <td class="p-2">{{ item.food }}</td>
+            <td class="p-2">{{ item.typical }} g</td>
+            <td class="p-2">{{ item.feasible }} g</td>
+            <td class="p-2">{{ item.optimal }} g</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

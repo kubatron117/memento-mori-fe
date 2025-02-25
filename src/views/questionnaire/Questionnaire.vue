@@ -1,7 +1,7 @@
 <template>
   <Navbar />
   <ConfirmDialog />
-  <div class="w-[80%] mx-auto bg-pink-200">
+  <div class="w-[97%] sm:w-[95%] max-w-[1900px] mx-auto">
     <Stepper v-model:value="activeStep" linear>
       <StepList>
         <Step v-for="step in steps" :key="step.id" :value="step.id">
