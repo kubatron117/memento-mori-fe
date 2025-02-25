@@ -10,63 +10,63 @@
         <li>
           <div class="flex items-center gap-x-1">
             <span>Datum narození: </span>
-            <strong class="">{{ formatDate(questionnaireStore?.birthDate) }}</strong>
+            <strong>{{ formatDate(questionnaireStore?.birthDate) }}</strong>
           </div>
         </li>
         <li>
           <div class="flex items-center gap-x-1">
             <span>Váš aktuální věk: </span>
-            <strong class="">{{ questionnaireStore.getCurrentAge() }} let</strong>
+            <strong>{{ questionnaireStore.getCurrentAge() }} let</strong>
           </div>
         </li>
         <li>
           <div class="flex items-center gap-x-1">
             <span>Základní očekávaná délka života: </span>
             <strong>{{ roundedBaseLifeExpectancy }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.baseLifeExpectancy')"
-            ></i>
+            <InfoModal label="Základní očekávaná délka života"
+                       :studyTitle="t('app.steps.final.tooltips.baseLifeExpectancy')"
+                       studyLink="https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format"
+            />
           </div>
         </li>
         <li>
           <div class="flex items-center gap-x-1">
             <span>Přínos vlivem fyzické aktivity: </span>
             <strong class="text-green-600">+{{ roundedActivityLifeGain }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.physicalActivity')"
-            ></i>
+            <InfoModal label="Přínos vlivem fyzické aktivity"
+                       :studyTitle="t('app.steps.final.tooltips.physicalActivity')"
+                       studyLink="https://www.ahajournals.org/doi/10.1161/jaha.117.007725"
+            />
           </div>
         </li>
         <li>
           <div class="flex items-center gap-x-1">
             <span>Přínos vlivem stravy: </span>
             <strong class="text-green-600">+{{ roundedDietLifeGain }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.food')"
-            ></i>
+            <InfoModal label="Přínos vlivem stravy"
+                       :studyTitle="t('app.steps.final.tooltips.food')"
+                       studyLink="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003889"
+            />
           </div>
         </li>
         <li>
           <div class="flex items-center gap-x-1">
             <span>Ztráta vlivem alkoholu: </span>
             <strong class="text-red-600">-{{ roundedAlcoholLifeLoss }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.alcohol')"
-            ></i>
+            <InfoModal label="Ztráta vlivem alkoholu"
+                       :studyTitle="t('app.steps.final.tooltips.alcohol')"
+                       studyLink="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30134-X/fulltext"
+            />
           </div>
         </li>
         <li>
           <div class="flex items-center gap-x-1">
             <span>Ztráta vlivem dosavadního kouření: </span>
             <strong class="text-red-600">-{{ roundedSmokingLossYears }} let</strong>
-            <i
-              class="pi pi-info-circle ml-1 cursor-pointer"
-              v-tooltip="t('app.steps.final.tooltips.smokingLoss')"
-            ></i>
+            <InfoModal label="Ztráta vlivem dosavadního kouření"
+                       :studyTitle="t('app.steps.final.tooltips.smokingLoss')"
+                       studyLink="https://onlinelibrary.wiley.com/doi/10.1111/add.16757"
+            />
           </div>
         </li>
         <li>
@@ -113,6 +113,7 @@ import { computed, ref, watch } from 'vue';
 import Slider from 'primevue/slider';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import { useI18n } from 'vue-i18n'
+import InfoModal from '@/components/InfoModal.vue';
 
 const { t } = useI18n()
 

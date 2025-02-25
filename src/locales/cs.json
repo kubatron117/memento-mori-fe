@@ -106,11 +106,11 @@
       },
       "final": {
         "tooltips": {
-          "baseLifeExpectancy": "Na základě: United Nations - World Population Prospects 2024",
-          "physicalActivity": "Na základě: Physical Activity in the Prevention and Treatment of Coronary Artery Disease",
-          "food": "Na základě: Estimating impact of food choices on life expectancy: A modeling study",
-          "alcohol": "Na základě: Risk thresholds for alcohol consumption...",
-          "smokingLoss": "Na základě: The price of a cigarette: 20 minutes of life?"
+          "baseLifeExpectancy": "United Nations - World Population Prospects 2024",
+          "physicalActivity": "Physical Activity in the Prevention and Treatment of Coronary Artery Disease",
+          "food": "Estimating impact of food choices on life expectancy: A modeling study",
+          "alcohol": "Risk thresholds for alcohol consumption...",
+          "smokingLoss": "The price of a cigarette: 20 minutes of life?"
         }
       }
     },
