@@ -7,7 +7,8 @@
       "email": "Email",
       "password": "Heslo",
       "forgot-password": "Zapomenuté heslo",
-      "sign-in": "Přihlásit se"
+      "sign-in": "Přihlásit se",
+      "resend-verification-email": "Znova odeslat ověřovací email"
     },
     "registration": {
       "title": "Registrace",
@@ -55,7 +56,8 @@
       "reset-password-failed": "Reset hesla selhal.",
       "change-password-failed": "Změna hesla selhala",
       "password-mismatch": "Hesla se neschodují",
-      "missing-password-fields": "Vyplňte chybějicí pole"
+      "missing-password-fields": "Vyplňte chybějicí pole",
+      "invalid-email-format": "Neplatný formát emailu"
     },
     "steps":{
       "insert-date-of-birth": "Zadejte datum narození",
