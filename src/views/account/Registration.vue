@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import Button from 'primevue/button'
@@ -20,6 +20,17 @@ const acceptTerms = ref(false)
 const errorMessage = ref('')
 const loading = ref(false)
 
+const emailRegex = /^.+@.+\..+$/
+
+
+const passwordLength = computed(() => password.value.length)
+
+const passwordHasDigit = computed(() => /\d/.test(password.value))
+
+const passwordHasSpecial = computed(() => /[^a-zA-Z\d]/.test(password.value))
+
+const passwordsMatch = computed(() => password.value === passwordConfirm.value)
+
 async function handleRegistration() {
   errorMessage.value = ''
 
@@ -27,23 +38,51 @@ async function handleRegistration() {
     errorMessage.value = t('app.registration.firstName-required')
     return
   }
+  if (firstName.value.trim().length > 50) {
+    errorMessage.value = t('app.registration.firstName-max', { max: 50 }) || 'Jméno může mít maximálně 50 znaků'
+    return
+  }
+
   if (!lastName.value.trim()) {
     errorMessage.value = t('app.registration.lastName-required')
     return
   }
-
-  if (password.value !== passwordConfirm.value) {
-    errorMessage.value = t('app.registration.password-mismatch')
+  if (lastName.value.trim().length > 50) {
+    errorMessage.value = t('app.registration.lastName-max', { max: 50 }) || 'Příjmení může mít maximálně 50 znaků'
     return
   }
 
+  if (!email.value.trim()) {
+    errorMessage.value = t('app.registration.email-required') || 'Email je povinný'
+    return
+  }
+  if (!emailRegex.test(email.value)) {
+    errorMessage.value = t('app.errors.invalid-email-format') || 'Email musí být ve tvaru "něco@něco.něco"'
+    return
+  }
+
+  if (password.value.length < 8) {
+    errorMessage.value = t('app.registration.password-too-short') || 'Heslo musí mít minimálně 8 znaků'
+    return
+  }
+  if (password.value.length > 64) {
+    errorMessage.value = t('app.registration.password-too-long') || 'Heslo může mít maximálně 64 znaků'
+    return
+  }
+  if (!passwordHasDigit.value || !passwordHasSpecial.value) {
+    errorMessage.value = t('app.registration.password-weak') || 'Heslo musí obsahovat alespoň jedno číslo a jeden speciální znak'
+    return
+  }
+  if (!passwordsMatch.value) {
+    errorMessage.value = t('app.registration.password-mismatch') || 'Hesla se neshodují'
+    return
+  }
   if (!acceptTerms.value) {
     errorMessage.value = t('app.registration.accept-terms')
     return
   }
 
   loading.value = true
-
   try {
     const status = await AccountLoginApiService.registration({
       first_name: firstName.value,
@@ -92,15 +131,17 @@ function goToLogin() {
         <span class="text-surface-600 font-medium leading-normal">
           {{ t('app.registration.already-have-account') }}
         </span>
-        <a class="font-medium no-underline ml-2 text-primary cursor-pointer" @click="goToLogin">
+        <RouterLink
+          to="/login"
+          class="font-medium underline ml-2 text-primary hover:text-gray-500 cursor-pointer"
+        >
           {{ t('app.registration.login') }}
-        </a>
+        </RouterLink>
       </div>
     </template>
 
     <template #body>
       <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
-
       <div>
         <label for="firstName" class="text-surface-900 font-medium mb-2 block">
           {{ t('app.registration.firstName') }}
@@ -145,6 +186,25 @@ function goToLogin() {
           class="w-full mb-4"
           v-model="password"
         />
+        <div class="text-sm text-gray-500 mb-4">
+          <span v-if="passwordLength < 8">
+            Heslo je příliš krátké ({{ passwordLength }}/8)
+          </span>
+          <span v-else-if="passwordLength > 64">
+            Heslo je příliš dlouhé ({{ passwordLength }}/64)
+          </span>
+          <span v-else>
+            Heslo je v pořádku ({{ passwordLength }} znaků)
+          </span>
+          <br />
+          <span v-if="!passwordHasDigit">
+            Heslo musí obsahovat alespoň jedno číslo.
+          </span>
+          <br v-if="!passwordHasSpecial" />
+          <span v-if="!passwordHasSpecial">
+            Heslo musí obsahovat alespoň jeden speciální znak.
+          </span>
+        </div>
 
         <label for="passwordConfirm" class="text-surface-900 font-medium mb-2 block">
           {{ t('app.registration.passwordConfirm') }}
@@ -156,6 +216,11 @@ function goToLogin() {
           class="w-full mb-4"
           v-model="passwordConfirm"
         />
+        <div class="text-sm mb-4" :class="passwordsMatch ? 'text-green-600' : 'text-red-600'">
+          <span v-if="passwordConfirm">
+            {{ passwordsMatch ? 'Hesla se shodují' : 'Hesla se neshodují' }}
+          </span>
+        </div>
 
         <label class="flex items-center mb-4 cursor-pointer">
           <Checkbox v-model="acceptTerms" :binary="true" class="mr-2" />
@@ -165,7 +230,7 @@ function goToLogin() {
         <Button
           :label="t('app.registration.register')"
           icon="pi pi-user"
-          class="w-full"
+          class="w-full bg-black text-white hover:bg-gray-800"
           @click="handleRegistration"
           :loading="loading"
         />
