@@ -98,14 +98,10 @@ async function handleRegistration() {
       console.log("Registrace proběhla, status:", status)
     }
   } catch (error: any) {
-    errorMessage.value = error.message || t('app.registration.registration-failed')
+    errorMessage.value = t('app.registration.registration-failed')
   } finally {
     loading.value = false
   }
-}
-
-function goToLogin() {
-  router.push('/login')
 }
 </script>
 
@@ -141,7 +137,7 @@ function goToLogin() {
     </template>
 
     <template #body>
-      <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
+      <Message v-if="errorMessage" severity="error" class="mb-4">{{ errorMessage }}</Message>
       <div>
         <label for="firstName" class="text-surface-900 font-medium mb-2 block">
           {{ t('app.registration.firstName') }}

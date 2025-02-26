@@ -41,7 +41,7 @@ async function handleLogin() {
       await router.push('/weeks-in-life')
     }
   } catch (error: any) {
-    errorMessage.value = error.message || t('app.errors.login-failed')
+    errorMessage.value = t('app.errors.login-failed')
   } finally {
     loading.value = false
   }
@@ -105,7 +105,7 @@ async function handleLogin() {
 
         <div class="flex items-center justify-between mb-12">
           <RouterLink
-            to="/reset-password-request"
+            to="/resend-verification-email"
             class="font-medium text-gray-500 hover:text-gray-900 no-underline ml-2 text-right"
           >
             {{ t('app.login.resend-verification-email') }}

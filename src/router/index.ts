@@ -9,6 +9,7 @@ import ResetPasswordRequest from '@/views/account/ResetPasswordRequest.vue'
 import ResetPassword from '@/views/account/ResetPassword.vue'
 import Questionnaire from '@/views/questionnaire/Questionnaire.vue'
 import UserProfileView from '@/views/UserProfileView.vue'
+import ResendVerificationEmail from '@/views/account/ResendVerificationEmail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +50,11 @@ const router = createRouter({
       component: ResetPassword,
     },
     {
+      path: '/resend-verification-email',
+      name: 'resend-verification-email',
+      component: ResendVerificationEmail,
+    },
+    {
       path: '/questionnaire',
       name: 'questionnaire',
       component: Questionnaire,
@@ -65,7 +71,7 @@ router.beforeEach(async (to, from, next) => {
   const loginStore = useLoginStore();
   const isAuthenticated = await loginStore.checkAuthentication();
 
-  const publicRoutes = ['login', 'registration', 'verify-account', 'reset-password-request', 'reset-password'];
+  const publicRoutes = ['login', 'registration', 'verify-account', 'reset-password-request', 'reset-password', 'resend-verification-email'];
 
   if (!isAuthenticated && !publicRoutes.includes(to.name as string)) {
     next({ name: 'login', query: { redirect: to.fullPath } });
