@@ -26,7 +26,7 @@
       </div>
       <Button
         :label="t('app.resend-verification-email.resend') || 'Odeslat verifikační email znovu'"
-        class="w-full bg-black text-white hover:bg-gray-800"
+        class="w-full !bg-primary-800 text-white hover:!bg-primary-600"
         @click="resendVerificationEmail"
         :loading="loading"
       />

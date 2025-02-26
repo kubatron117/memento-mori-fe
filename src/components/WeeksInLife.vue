@@ -142,7 +142,7 @@
     />
 
     <div class="mt-4">
-      <Button label="Export do PDF 50x70 (cm)" @click="exportPdf" />
+      <Button label="Export do PDF 50x70 (cm)" @click="exportPdf" class="!bg-primary-800 text-white hover:!bg-primary-600" />
     </div>
   </div>
 </template>

@@ -115,7 +115,7 @@ async function handleLogin() {
         <Button
           :label="t('app.login.sign-in')"
           icon="pi pi-user"
-          class="w-full bg-black text-white hover:bg-gray-800"
+          class="w-full !bg-primary-800 text-white hover:!bg-primary-600"
           :loading="loading"
           @click="handleLogin"
         />

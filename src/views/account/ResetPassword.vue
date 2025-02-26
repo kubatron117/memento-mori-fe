@@ -53,7 +53,7 @@
         <Button
           :label="t('app.reset-password.submit')"
           icon="pi pi-key"
-          class="w-full"
+          class="!bg-primary-800 text-white hover:!bg-primary-600"
           :loading="loading"
           @click="handleResetPassword"
         />
