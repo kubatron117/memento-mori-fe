@@ -21,8 +21,10 @@ import RadioButton from 'primevue/radiobutton';
 import Select from 'primevue/select';
 import Slider from 'primevue/slider';
 import Message from 'primevue/message';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 import 'primeicons/primeicons.css'
-import csLocale from 'primelocale/cs.json'
+// import csLocale from 'primelocale/cs.json'
 import ConfirmationService from 'primevue/confirmationservice';
 
 
@@ -89,6 +91,7 @@ const i18n = createI18n({
 app.use(i18n)
 
 app.use(ConfirmationService);
+app.use(ToastService);
 
 app.component('Button', Button);
 app.component('Stepper', Stepper);
@@ -100,5 +103,6 @@ app.component('RadioButton', RadioButton);
 app.component('Select', Select);
 app.component('Slider', Slider);
 app.component('Message', Message);
+app.component('Toast', Toast);
 
 app.mount('#app')

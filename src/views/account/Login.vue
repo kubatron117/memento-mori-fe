@@ -6,9 +6,13 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import AuthLayout from '@/components/auth/AuthLayout.vue'
+import { useToast } from 'primevue/usetoast'
 
 const router = useRouter()
 const { t } = useI18n()
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const email = ref('')
 const password = ref('')
@@ -42,6 +46,13 @@ async function handleLogin() {
     }
   } catch (error: any) {
     errorMessage.value = t('app.errors.login-failed')
+
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Přihlášení nebylo úspěšné.',
+      life: TOAST_DURATION_IN_MS
+    });
   } finally {
     loading.value = false
   }

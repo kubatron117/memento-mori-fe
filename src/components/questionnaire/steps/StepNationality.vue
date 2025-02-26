@@ -22,9 +22,12 @@ import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import Select from 'primevue/select';
 import { LifeExpectanciesApiService } from '@/api/lifeExpectanciesApiService';
 import InfoTextBox from '@/components/InfoTextBox.vue'
+import { useToast } from 'primevue'
 
 const store = useQuestionnaireStore();
 const nationalities = ref<Location[]>([]);
+
+const toast = useToast();
 
 const selectedNationality = computed<number | null>({
   get: () => (store.nationality ? Number(store.nationality) : null),
@@ -38,6 +41,12 @@ onMounted(async () => {
     nationalities.value = await LocationsApiService.getLocations();
   } catch (error) {
     console.error('Error fetching nationalities:', error);
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Vyskytla se chyba. Nepodařilo se načíst státy.',
+      life: 3000
+    });
   }
 });
 
@@ -62,9 +71,21 @@ watch(selectedNationality, async (newVal) => {
       }
     } catch (error) {
       console.error('Error fetching life expectancies:', error);
+      toast.add({
+        severity: 'error',
+        summary: 'Chyba',
+        detail: 'Vyskytla se chyba. Nepodařilo se načíst odhad věku.',
+        life: 3000
+      });
     }
   } else if (!store.birthDate) {
     console.warn('Birth date is not set in the store.');
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Vyskytla se chyba. Není zadáné datum narození.',
+      life: 3000
+    });
   }
 });
 </script>

@@ -41,8 +41,12 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import AuthLayout from '@/components/auth/AuthLayout.vue'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
+import { useToast } from 'primevue/usetoast'
 
 const { t } = useI18n()
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const email = ref('')
 const loading = ref(false)
@@ -63,9 +67,22 @@ async function resendVerificationEmail() {
     const status = await AccountLoginApiService.verifyAccountResend({ email: email.value })
     if (status === 200 || status === 201) {
       successMessage.value = t('app.resend-verification-email.email-sent') || 'Verifikační email byl úspěšně odeslán.'
+
+      toast.add({
+        severity: 'success',
+        summary: 'Email byl odeslán',
+        detail: 'Verifikační email byl úspěšně odeslán.',
+        life: TOAST_DURATION_IN_MS
+      });
     }
   } catch (error: any) {
     errorMessage.value = t('app.resend-verification-email.failed') || 'Odeslání verifikačního emailu se nezdařilo.'
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Odeslání verifikačního emailu se nezdařilo.',
+      life: TOAST_DURATION_IN_MS
+    });
   } finally {
     loading.value = false
   }

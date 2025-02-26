@@ -86,6 +86,7 @@ import { useLifeLossSmokingStore } from '@/stores/lifeLossSmokingStore';
 import { useAlcoholStore } from '@/stores/lifeLossAlcoholStore';
 import { useActivityStore } from '@/stores/lifeGainActivityStore';
 import { useDietStore } from '@/stores/lifeGainEatingStore';
+import { useToast } from 'primevue/usetoast'
 
 interface StepConfig {
   id: number;
@@ -100,6 +101,9 @@ interface StepConfig {
 const questionnaireStore = useQuestionnaireStore();
 const loginStore = useLoginStore();
 const confirm = useConfirm();
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const steps: StepConfig[] = [
   {
@@ -229,7 +233,12 @@ function onSkipStep(step: StepConfig, activateCallback: (id: number) => void) {
 
 async function onSubmit() {
   if (!questionnaireStore.birthDate || !questionnaireStore.desiredAge) {
-    alert('Prosím, vyplňte datum narození a zvolte očekávaný věk.');
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Prosím, vyplňte datum narození a zvolte očekávaný věk.',
+      life: TOAST_DURATION_IN_MS
+    });
     return;
   }
 
@@ -265,7 +274,12 @@ async function onSubmit() {
       if (success) {
         await router.push('/weeks-in-life');
       } else {
-        alert('Chyba při aktualizaci dat.');
+        toast.add({
+          severity: 'error',
+          summary: 'Chyba',
+          detail: 'Nepodařilo se odeslat data.',
+          life: TOAST_DURATION_IN_MS
+        });
       }
     },
     reject: () => {
