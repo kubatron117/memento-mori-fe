@@ -39,7 +39,7 @@
               icon="pi pi-arrow-right"
               iconPos="right"
               :disabled="!isStepValid(step)"
-              v-tooltip.top="!isStepValid(step) ? 'Tento krok je povinný, vyplňte pole' : ''"
+              v-tooltip.top="!isStepValid(step) ? (step.skippable === false ? 'Tento krok je povinný, vyplňte pole' : 'Není zvolena odpověď, ale krok můžete přeskočit') : ''"
               @click="onNextStep(step, activateCallback)"
             />
             <Button
