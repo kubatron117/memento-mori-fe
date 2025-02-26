@@ -7,9 +7,13 @@ import InputText from 'primevue/inputtext'
 import Checkbox from 'primevue/checkbox'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import AuthLayout from '@/components/auth/AuthLayout.vue'
+import { useToast } from 'primevue/usetoast'
 
 const { t } = useI18n()
 const router = useRouter()
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const firstName = ref('')
 const lastName = ref('')
@@ -95,17 +99,25 @@ async function handleRegistration() {
 
     if (status === 201 || status === 200) {
       await router.push('/login')
-      console.log("Registrace proběhla, status:", status)
+      toast.add({
+        severity: 'success',
+        summary: 'Registrace byla úspěšná',
+        detail: 'Na email Vám příjde potvrzovací email pro dokončení registrace',
+        life: TOAST_DURATION_IN_MS
+      });
     }
   } catch (error: any) {
-    errorMessage.value = error.message || t('app.registration.registration-failed')
+    errorMessage.value = t('app.registration.registration-failed');
+
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Registrace nebyla úspěšná. Vyskytla se chyba.',
+      life: TOAST_DURATION_IN_MS
+    });
   } finally {
     loading.value = false
   }
-}
-
-function goToLogin() {
-  router.push('/login')
 }
 </script>
 
@@ -141,7 +153,7 @@ function goToLogin() {
     </template>
 
     <template #body>
-      <div v-if="errorMessage" class="mb-4 text-red-600">{{ errorMessage }}</div>
+      <Message v-if="errorMessage" severity="error" class="mb-4">{{ errorMessage }}</Message>
       <div>
         <label for="firstName" class="text-surface-900 font-medium mb-2 block">
           {{ t('app.registration.firstName') }}
@@ -230,7 +242,7 @@ function goToLogin() {
         <Button
           :label="t('app.registration.register')"
           icon="pi pi-user"
-          class="w-full bg-black text-white hover:bg-gray-800"
+          class="w-full !bg-primary-800 text-white hover:!bg-primary-600"
           @click="handleRegistration"
           :loading="loading"
         />

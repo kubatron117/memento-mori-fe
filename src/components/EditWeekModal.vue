@@ -110,6 +110,10 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Rating from 'primevue/rating';
 import Textarea from 'primevue/textarea';
+import { useToast } from 'primevue/usetoast';
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const props = defineProps<{
   week: {
@@ -145,11 +149,11 @@ const dialogHeader = computed(() => {
 });
 
 const memo = ref(props.week.additionalInfo || '');
-const scoreSatisfaction = ref<number>(0);
-const scoreEmotionalBalance = ref<number>(0);
-const scoreProductivity = ref<number>(0);
-const scoreRelationships = ref<number>(0);
-const scoreValuesAlignment = ref<number>(0);
+const scoreSatisfaction = ref<number>(props.week.score_satisfaction ?? 0);
+const scoreEmotionalBalance = ref<number>(props.week.score_emotional_balance ?? 0);
+const scoreProductivity = ref<number>(props.week.score_productivity ?? 0);
+const scoreRelationships = ref<number>(props.week.score_relationships ?? 0);
+const scoreValuesAlignment = ref<number>(props.week.score_values_alignment ?? 0);
 
 const loading = ref(false);
 const error = ref('');
@@ -183,31 +187,31 @@ const ratingFields = [
   {
     label: 'Spokojenost',
     key: 'score_satisfaction',
-    tooltip: 'Tooltip pro spokojenost',
+    tooltip: 'Hodnocení Vaší spokojenosti během týdne',
     model: scoreSatisfaction
   },
   {
     label: 'Emoční rovnováha',
     key: 'score_emotional_balance',
-    tooltip: 'Tooltip pro emoční rovnováhu',
+    tooltip: 'Hodnocení Vaší emoční rovnováhy během týdne',
     model: scoreEmotionalBalance
   },
   {
     label: 'Produktivita',
     key: 'score_productivity',
-    tooltip: 'Tooltip pro produktivitu',
+    tooltip: 'Hodnocení Vaší produktivity během týdne',
     model: scoreProductivity
   },
   {
     label: 'Vztahy',
     key: 'score_relationships',
-    tooltip: 'Tooltip pro vztahy',
+    tooltip: 'Hodnocení spokojenosti ve Vaších vztazích během týdne',
     model: scoreRelationships
   },
   {
     label: 'Soulad hodnot',
     key: 'score_values_alignment',
-    tooltip: 'Tooltip pro souladu hodnot',
+    tooltip: 'Hodnocení zda jste jednali v souladu s Vašimi hodnotami během týdne',
     model: scoreValuesAlignment
   }
 ];
@@ -231,9 +235,21 @@ const saveMemo = async () => {
       scoreRelationships.value,
       scoreValuesAlignment.value
     );
+    toast.add({
+      severity: 'success',
+      summary: 'Úspěšně uloženo',
+      detail: 'Hodnocení vašeho týdne bylo úspěšně uloženo.',
+      life: TOAST_DURATION_IN_MS
+    });
     closeDialog();
   } catch (e: any) {
     error.value = 'Chyba při ukládání poznámky.';
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Vyskytla se chyba. Nepodařilo se uložit hodnocení Vašeho týdne.',
+      life: TOAST_DURATION_IN_MS
+    });
     console.error(e);
   } finally {
     loading.value = false;
@@ -244,3 +260,4 @@ const closeDialog = () => {
   visible.value = false;
 };
 </script>
+

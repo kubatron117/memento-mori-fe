@@ -53,7 +53,7 @@
         <Button
           :label="t('app.reset-password.submit')"
           icon="pi pi-key"
-          class="w-full"
+          class="!bg-primary-800 text-white hover:!bg-primary-600"
           :loading="loading"
           @click="handleResetPassword"
         />
@@ -73,10 +73,14 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import AuthLayout from '@/components/auth/AuthLayout.vue'
+import { useToast } from 'primevue/usetoast'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const key = ref<string>('')
 const password = ref<string>('')
@@ -118,6 +122,13 @@ async function handleResetPassword() {
     }
   } catch (error: any) {
     errorMessage.value = error.message || t('app.errors.reset-password-failed')
+
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Reset hesla se nezdařil.',
+      life: TOAST_DURATION_IN_MS
+    });
   } finally {
     loading.value = false
   }

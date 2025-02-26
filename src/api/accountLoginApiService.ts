@@ -115,8 +115,6 @@ export class AccountLoginApiService {
   static async registration(accountRegistration: AccountRegistration): Promise<number> {
     const validatedData = this.validate(PostAccountRegistrationSchema, accountRegistration)
 
-    console.log(validatedData)
-
     const endpoint = '/create-account'
     const response = await this.handleRequest(
       backendApi.post(endpoint, validatedData),

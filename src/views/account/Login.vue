@@ -6,9 +6,13 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import AuthLayout from '@/components/auth/AuthLayout.vue'
+import { useToast } from 'primevue/usetoast'
 
 const router = useRouter()
 const { t } = useI18n()
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const email = ref('')
 const password = ref('')
@@ -41,7 +45,14 @@ async function handleLogin() {
       await router.push('/weeks-in-life')
     }
   } catch (error: any) {
-    errorMessage.value = error.message || t('app.errors.login-failed')
+    errorMessage.value = t('app.errors.login-failed')
+
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Přihlášení nebylo úspěšné.',
+      life: TOAST_DURATION_IN_MS
+    });
   } finally {
     loading.value = false
   }
@@ -105,7 +116,7 @@ async function handleLogin() {
 
         <div class="flex items-center justify-between mb-12">
           <RouterLink
-            to="/reset-password-request"
+            to="/resend-verification-email"
             class="font-medium text-gray-500 hover:text-gray-900 no-underline ml-2 text-right"
           >
             {{ t('app.login.resend-verification-email') }}
@@ -115,7 +126,7 @@ async function handleLogin() {
         <Button
           :label="t('app.login.sign-in')"
           icon="pi pi-user"
-          class="w-full bg-black text-white hover:bg-gray-800"
+          class="w-full !bg-primary-800 text-white hover:!bg-primary-600"
           :loading="loading"
           @click="handleLogin"
         />

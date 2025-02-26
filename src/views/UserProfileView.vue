@@ -6,9 +6,13 @@ import Navbar from '@/components/Navbar.vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
+import { useToast } from 'primevue/usetoast'
 
 const { t } = useI18n()
 const router = useRouter()
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const oldPassword = ref('')
 const newPassword = ref('')
@@ -44,6 +48,13 @@ async function handleChangePassword() {
     }
   } catch (error: any) {
     errorMessage.value = error.message || t('app.errors.change-password-failed') || 'Změna hesla selhala.'
+
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Změna hesla selhala.',
+      life: TOAST_DURATION_IN_MS
+    });
   } finally {
     loading.value = false
   }

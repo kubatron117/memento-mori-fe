@@ -48,6 +48,15 @@
       "submit": "Změnit heslo",
       "success": "Heslo je úspěšně změněno"
     },
+    "resend-verification-email": {
+      "title": "Znovuodeslání verifikačního emailu",
+      "subtitle": "Zadejte svůj email a my vám zašleme nový verifikační odkaz.",
+      "email": "Email",
+      "resend": "Odeslat verifikační email znovu",
+      "email-required": "Email je povinný",
+      "email-sent": "Verifikační email byl odeslán",
+      "failed": "Odesílání verifikačního emailu selhalo"
+    },
     "errors": {
       "missing-email-password": "Vyplňte prosím email a heslo.",
       "missing-email": "Vyplňte prosím email.",
@@ -140,7 +149,7 @@
       "congratulationsMessage": "Gratulujeme, dožil jste se více než se předpokládalo."
     },
     "weeks": {
-      "weekSize": "Velikost týdnů:",
+      "weekSize": "Velikost:",
       "noData": "Nebyla nalezena data o týdnech.",
       "year": "Rok:",
       "week": "Týden:",

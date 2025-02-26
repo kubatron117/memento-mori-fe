@@ -2,6 +2,10 @@
 import { defineAsyncComponent, onMounted } from 'vue'
 import { useLifeStore } from '@/stores/lifeStore';
 import { useLoginStore } from '@/stores/loginStore';
+import { useToast } from 'primevue/usetoast'
+
+const toast = useToast();
+const TOAST_DURATION_IN_MS = 5000;
 
 const lifeStore = useLifeStore();
 const loginStore = useLoginStore();
@@ -14,9 +18,12 @@ onMounted(async () => {
   if (loginStore.dateOfBirth && loginStore.estimatedLifespan) {
     await lifeStore.loadWeeks();
   } else {
-    console.error(
-      'Není nastaveno datum narození nebo očekávané datum úmrtí v loginStore.'
-    );
+    toast.add({
+      severity: 'error',
+      summary: 'Chyba',
+      detail: 'Nepodařilo se načíst data.',
+      life: TOAST_DURATION_IN_MS
+    });
   }
 });
 </script>
