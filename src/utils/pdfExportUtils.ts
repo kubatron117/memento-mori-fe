@@ -1,17 +1,33 @@
 import { jsPDF } from 'jspdf';
 import type { DecadeGroup, Week } from '@/utils/monthGroupingUtils';
+import { getWeekBgClass, getGroupBgClass } from '@/utils/bgClassUtils';
 
 function isWeekPassed(week: Week): boolean {
   return week.endDate.getTime() < Date.now();
 }
 
-function getSimpleColorForGroup(group: DecadeGroup['groups'][0]): [number, number, number] {
-  const hasCurrent = group.weeks.some(w => w.isCurrentWeek);
-  const allPassed = group.weeks.every(w => isWeekPassed(w));
-
-  if (hasCurrent) return [249, 115, 22];
-  if (allPassed) return [0, 0, 0];
+function mapBgClassToColor(bgClass: string): [number, number, number] {
+  if (bgClass === 'bg-orange-500') return [249, 115, 22];
+  if (bgClass === 'bg-black') return [0, 0, 0];
+  if (bgClass === 'bg-gray-300') return [209, 213, 219];
+  if (bgClass === 'bg-red-500') return [239, 68, 68];
+  if (bgClass === 'bg-yellow-500') return [245, 158, 11];
+  if (bgClass === 'bg-green-500') return [16, 185, 129];
   return [160, 160, 160];
+}
+
+function getColorForGroup(
+  group: DecadeGroup['groups'][0],
+  visualizationType: 'week' | 'month' | 'year',
+  scoreVisualizationEnabled: boolean
+): [number, number, number] {
+  let bgClass: string;
+  if (visualizationType === 'week') {
+    bgClass = getWeekBgClass(group.weeks[0], scoreVisualizationEnabled);
+  } else {
+    bgClass = getGroupBgClass(group, scoreVisualizationEnabled);
+  }
+  return mapBgClassToColor(bgClass);
 }
 
 function calculateDynamicGaps(
@@ -138,7 +154,9 @@ function drawDecadeBlock(
   gapBeforeBubbles: number,
   gapAfterBubbles: number,
   decadeLabelFontSize: number,
-  startY: number
+  startY: number,
+  scoreVisualizationEnabled: boolean,
+  visualizationType: 'week' | 'month' | 'year'
 ): number {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(decadeLabelFontSize);
@@ -152,9 +170,8 @@ function drawDecadeBlock(
   let rowBubbleCount = 0;
 
   decade.groups.forEach(group => {
-    const [r, g, b] = getSimpleColorForGroup(group);
-    doc.setFillColor(r, g, b);
-
+    const color = getColorForGroup(group, visualizationType, scoreVisualizationEnabled);
+    doc.setFillColor(color[0], color[1], color[2]);
     const radius = bubbleSize / 2;
     doc.circle(xPos + radius, currentY + radius, radius, 'F');
 
@@ -175,7 +192,11 @@ function drawDecadeBlock(
   return currentY;
 }
 
-export function generateMementoMoriPdf(groupedData: DecadeGroup[]) {
+export function generateMementoMoriPdf(
+  groupedData: DecadeGroup[],
+  scoreVisualizationEnabled: boolean,
+  visualizationType: 'week' | 'month' | 'year'
+) {
   const pdfWidth = 500;
   const pdfHeight = 700;
   const doc = new jsPDF({
@@ -244,7 +265,9 @@ export function generateMementoMoriPdf(groupedData: DecadeGroup[]) {
       gapBeforeBubbles,
       gapAfterBubbles,
       decadeLabelFontSize,
-      currentY
+      currentY,
+      scoreVisualizationEnabled,
+      visualizationType
     );
   });
 

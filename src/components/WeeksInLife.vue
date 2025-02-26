@@ -208,7 +208,7 @@ const getWeekClass = (week: Week) => getWeekBgClass(week, scoreVisualizationEnab
 const getGroupClass = (group: any) => getGroupBgClass(group, scoreVisualizationEnabled.value);
 
 function exportPdf() {
-  generateMementoMoriPdf(groupedData.value);
+  generateMementoMoriPdf(groupedData.value, scoreVisualizationEnabled.value, selectedVisualization.value);
 }
 </script>
 
