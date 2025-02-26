@@ -237,6 +237,8 @@ async function onSubmit() {
     message: 'Vypočtený věk dožití již nebude možné změnit. Opravdu chcete uložit?',
     header: 'Potvrzení uložení',
     icon: 'pi pi-exclamation-triangle',
+    acceptLabel: 'Ano',
+    rejectLabel: 'Ne',
     accept: async () => {
       const birth = new Date(questionnaireStore.birthDate);
       const estimatedLifespanDate = new Date(
