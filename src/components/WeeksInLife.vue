@@ -66,15 +66,8 @@
                 class="group rounded-full relative flex items-center justify-center transition-transform hover:scale-110"
                 :class="getGroupClass(group)"
                 :style="{ width: circleSize + 'px', height: circleSize + 'px' }"
+                v-tooltip="getYearTooltip(group)"
               >
-                <div
-                  class="invisible absolute z-10 w-48 bg-black bg-opacity-80 text-white text-left rounded p-2 bottom-full left-1/2 transform -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-300 group-hover:visible group-hover:opacity-100"
-                >
-                  <p><strong>{{ group.label }}</strong></p>
-                  <p v-if="scoreVisualizationEnabled && group.aggregatedScore !== null">
-                    <strong>{{ t('app.weeks.totalScore') }}</strong> {{ group.aggregatedScore.toFixed(1) }}
-                  </p>
-                </div>
               </div>
             </template>
           </div>
@@ -92,23 +85,8 @@
                   :class="getWeekClass(group.weeks[0])"
                   :style="{ width: circleSize + 'px', height: circleSize + 'px' }"
                   @click="selectWeek(group.weeks[0])"
+                  v-tooltip="getWeekTooltip(group.weeks[0])"
                 >
-                  <div
-                    class="invisible absolute z-10 w-48 bg-black bg-opacity-80 text-white text-left rounded p-2 bottom-full left-1/2 transform -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-300 group-hover:visible group-hover:opacity-100"
-                  >
-                    <p><strong>{{ t('app.weeks.year') }}</strong> {{ group.weeks[0].year }}</p>
-                    <p><strong>{{ t('app.weeks.week') }}</strong> {{ group.weeks[0].weekNumber }}</p>
-                    <p>
-                      <strong>{{ t('app.weeks.range') }}</strong>
-                      {{ formatDate(group.weeks[0].startDate) }} – {{ formatDate(group.weeks[0].endDate) }}
-                    </p>
-                    <p v-if="group.weeks[0].additionalInfo">
-                      <strong>{{ t('app.weeks.info') }}</strong> {{ group.weeks[0].additionalInfo.substring(0, 40) }}
-                    </p>
-                    <p v-if="scoreVisualizationEnabled && group.weeks[0].total_score !== null && group.weeks[0].total_score !== undefined">
-                      <strong>{{ t('app.weeks.totalScore') }}</strong> {{ group.weeks[0].total_score }}
-                    </p>
-                  </div>
                 </div>
               </template>
 
@@ -117,15 +95,8 @@
                   class="group rounded-full relative flex items-center justify-center transition-transform hover:scale-110"
                   :class="getGroupClass(group)"
                   :style="{ width: circleSize + 'px', height: circleSize + 'px' }"
+                  v-tooltip="getMonthTooltip(group)"
                 >
-                  <div
-                    class="invisible absolute z-10 w-48 bg-black bg-opacity-80 text-white text-left rounded p-2 bottom-full left-1/2 transform -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-300 group-hover:visible group-hover:opacity-100"
-                  >
-                    <p><strong>{{ group.label }}</strong></p>
-                    <p v-if="scoreVisualizationEnabled && group.aggregatedScore !== null">
-                      <strong>{{ t('app.weeks.totalScore') }}</strong> {{ group.aggregatedScore.toFixed(1) }}
-                    </p>
-                  </div>
                 </div>
               </template>
             </template>
@@ -151,10 +122,10 @@ import { computed, ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useLifeStore } from '@/stores/lifeStore';
 import EditWeekModal from '@/components/EditWeekModal.vue';
-import Slider from 'primevue/slider';
 import ProgressSpinner from 'primevue/progressspinner';
 import Checkbox from 'primevue/checkbox';
 import Select from 'primevue/select';
+import Button from 'primevue/button';
 import { groupWeeks } from '@/utils/monthGroupingUtils';
 import type { DecadeGroup, Week } from '@/utils/monthGroupingUtils';
 import { getWeekBgClass, getGroupBgClass } from '@/utils/bgClassUtils';
@@ -209,6 +180,33 @@ const getGroupClass = (group: any) => getGroupBgClass(group, scoreVisualizationE
 function exportPdf() {
   generateMementoMoriPdf(groupedData.value, scoreVisualizationEnabled.value, selectedVisualization.value);
 }
+
+const getYearTooltip = (group: any): string => {
+  let tooltip = `${group.label}`;
+  if (scoreVisualizationEnabled.value && group.aggregatedScore !== null) {
+    tooltip += `\n${t('app.weeks.totalScore')} ${group.aggregatedScore.toFixed(1)}`;
+  }
+  return tooltip;
+};
+
+const getMonthTooltip = (group: any): string => {
+  let tooltip = `${group.label}`;
+  if (scoreVisualizationEnabled.value && group.aggregatedScore !== null) {
+    tooltip += `\n${t('app.weeks.totalScore')} ${group.aggregatedScore.toFixed(1)}`;
+  }
+  return tooltip;
+};
+
+const getWeekTooltip = (week: Week): string => {
+  let tooltip = `${t('app.weeks.year')} ${week.year}\n${t('app.weeks.week')} ${week.weekNumber}\n${t('app.weeks.range')} ${formatDate(week.startDate)} – ${formatDate(week.endDate)}`;
+  if (week.additionalInfo) {
+    tooltip += `\n${t('app.weeks.info')} ${week.additionalInfo.substring(0, 30)}`;
+  }
+  if (scoreVisualizationEnabled.value && week.total_score !== null && week.total_score !== undefined) {
+    tooltip += `\n${t('app.weeks.totalScore')} ${week.total_score}`;
+  }
+  return tooltip;
+};
 </script>
 
 <style scoped>

@@ -74,7 +74,7 @@
       </div>
 
       <div v-else>
-        <p class="mb-4">
+        <p class="mb-4 max-h-72 overflow-y-scroll">
           {{ week.additionalInfo || 'Poznámka není k dispozici.' }}
         </p>
 

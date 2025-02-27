@@ -3,8 +3,8 @@
     <template v-for="star in maxStars" :key="star">
       <svg
         @click="setRating(star)"
-        @mouseover="hoverRating = star"
-        @mouseleave="hoverRating = 0"
+        @mouseover="!readonly && (hoverRating = star)"
+        @mouseleave="!readonly && (hoverRating = 0)"
         :style="{
           color: star <= (hoverRating || currentRating) ? getStarColor(star) : '#D1D5DB'
         }"
@@ -36,7 +36,6 @@ const emits = defineEmits<{
 const readonly = computed(() => props.readonly ?? false);
 const maxStars = computed(() => props.maxStars || 5);
 const currentRating = computed(() => props.modelValue);
-
 const hoverRating = ref(0);
 
 const setRating = (rating: number) => {
@@ -45,17 +44,11 @@ const setRating = (rating: number) => {
 };
 
 const getStarColor = (star: number) => {
-  if (star === 1) {
-    return '#FF0000';
-  } else if (star === 2) {
-    return '#FFA500';
-  } else if (star === 3) {
-    return '#FFDD00';
-  } else if (star === 4) {
-    return '#ADFF2F';
-  } else if (star === 5) {
-    return '#008000';
-  }
+  if (star === 1) return '#FF0000';
+  if (star === 2) return '#FFA500';
+  if (star === 3) return '#FFDD00';
+  if (star === 4) return '#ADFF2F';
+  if (star === 5) return '#008000';
   return '#D1D5DB';
 };
 </script>
