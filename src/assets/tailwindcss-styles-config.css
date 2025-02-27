@@ -10,3 +10,11 @@
 /*        @apply bg-pink-200 ;*/
 /*    }*/
 /*}*/
+
+@media (max-width: 640px) {
+    .p-toast {
+        width: 95% !important;
+        left: 2.5% !important;
+        right: 2.5% !important;
+    }
+}

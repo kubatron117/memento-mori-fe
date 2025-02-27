@@ -151,7 +151,7 @@ watch(visible, (val) => {
 });
 
 const dialogHeader = computed(() => {
-  return `Upravit poznámku pro týden ${props.week.weekNumber}, ${props.week.year}`;
+  return `Poznámka pro týden ${props.week.weekNumber}, ${props.week.year}`;
 });
 
 const formattedStartDate = ref('');
