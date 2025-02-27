@@ -4,7 +4,7 @@
     <div class="bg-white p-6 rounded shadow-lg relative w-full max-w-2xl mx-4 motion-preset-pop">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-semibold">{{ dialogHeader }}</h3>
-        <button @click="closeDialog" class="text-gray-700 text-2xl leading-none">&times;</button>
+        <Button @click="closeDialog" rounded variant="outlined" icon="pi pi-times" aria-label="Close" />
       </div>
 
       <p class="mb-4">
@@ -14,7 +14,7 @@
 
       <div v-if="isEditable">
         <div class="mb-4">
-          <label for="message" class="block mb-2 text-sm font-medium text-gray-900">
+          <label for="message" class="block mb-2 text-sm font-medium text-primary-800">
             Poznámka <span class="text-red-500">*</span>
           </label>
 
@@ -42,8 +42,8 @@
             :key="field.key"
             class="flex items-center gap-2"
           >
-            <label class="w-40 text-gray-700">
-              {{ field.label }} <span class="text-red-500">*</span>:
+            <label class="w-40 text-gray-700 text-sm font-medium text-primary-800">
+              {{ field.label }}<span class="text-red-500">*</span>:
             </label>
             <RatingStars
               :modelValue="getRating(field.key)"
@@ -194,7 +194,6 @@ const isFormValid = computed(() => {
     scoreValuesAlignment.value > 0;
 });
 
-// Pole s informacemi o hodnoceních – pouze s klíči a popisky
 const ratingFields = [
   { label: 'Spokojenost', key: 'score_satisfaction', tooltip: 'Hodnocení Vaší spokojenosti během týdne' },
   { label: 'Emoční rovnováha', key: 'score_emotional_balance', tooltip: 'Hodnocení Vaší emoční rovnováhy během týdne' },
@@ -203,7 +202,6 @@ const ratingFields = [
   { label: 'Soulad hodnot', key: 'score_values_alignment', tooltip: 'Hodnocení zda jste jednali v souladu s Vašimi hodnotami během týdne' }
 ];
 
-// Pomocné funkce pro získání a aktualizaci hodnoty podle klíče
 const getRating = (key: string): number => {
   switch (key) {
     case 'score_satisfaction':
