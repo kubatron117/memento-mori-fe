@@ -27,9 +27,9 @@
       </div>
 
       <div class="mb-5 flex items-center gap-3 justify-end">
-        <label for="visualizationSelect" class="font-medium">
-          {{ t('app.visualization.label') }}
-        </label>
+<!--        <label for="visualizationSelect" class="font-medium">-->
+<!--          {{ t('app.visualization.label') }}-->
+<!--        </label>-->
         <Select
           class="w-56"
           id="visualizationSelect"

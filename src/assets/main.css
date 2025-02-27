@@ -1780,6 +1780,14 @@ video {
 
 /*}*/
 
+@media (max-width: 640px) {
+  .p-toast {
+    width: 95% !important;
+    left: 2.5% !important;
+    right: 2.5% !important;
+  }
+}
+
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
