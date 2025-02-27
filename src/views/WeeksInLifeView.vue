@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import { defineAsyncComponent, onMounted } from 'vue'
+import { ref, onMounted, defineAsyncComponent } from 'vue';
 import { useLifeStore } from '@/stores/lifeStore';
 import { useLoginStore } from '@/stores/loginStore';
-import { useToast } from 'primevue/usetoast'
+import { useToast } from 'primevue/usetoast';
+
+const ProgressSpinner = defineAsyncComponent(() => import('primevue/progressspinner'));
 
 const toast = useToast();
 const TOAST_DURATION_IN_MS = 5000;
+const isLoading = ref(true);
 
 const lifeStore = useLifeStore();
 const loginStore = useLoginStore();
@@ -25,15 +28,26 @@ onMounted(async () => {
       life: TOAST_DURATION_IN_MS
     });
   }
+  isLoading.value = false;
 });
 </script>
 
-
 <template>
   <div class="life-calculator">
-    <Navbar />
-    <LifeProgress />
-    <WeeksInLife />
+    <div v-if="isLoading" class="flex justify-center items-center h-64">
+      <ProgressSpinner
+        style="width: 50px; height: 50px"
+        strokeWidth="8"
+        fill="transparent"
+        animationDuration=".5s"
+        aria-label="Custom ProgressSpinner"
+      />
+    </div>
+    <div v-else>
+      <Navbar />
+      <LifeProgress />
+      <WeeksInLife />
+    </div>
   </div>
 </template>
 
