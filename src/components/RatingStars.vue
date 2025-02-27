@@ -3,10 +3,12 @@
     <template v-for="star in maxStars" :key="star">
       <svg
         @click="setRating(star)"
-        :class="[
-          'w-4 h-4 ms-1 cursor-pointer',
-          star <= currentRating ? 'text-yellow-300' : 'text-gray-300'
-        ]"
+        @mouseover="hoverRating = star"
+        @mouseleave="hoverRating = 0"
+        :style="{
+          color: star <= (hoverRating || currentRating) ? getStarColor(star) : '#D1D5DB'
+        }"
+        class="w-4 h-4 ms-1 cursor-pointer"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
@@ -19,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
   modelValue: number;
@@ -35,8 +37,25 @@ const readonly = computed(() => props.readonly ?? false);
 const maxStars = computed(() => props.maxStars || 5);
 const currentRating = computed(() => props.modelValue);
 
+const hoverRating = ref(0);
+
 const setRating = (rating: number) => {
   if (readonly.value) return;
   emits('update:modelValue', rating);
+};
+
+const getStarColor = (star: number) => {
+  if (star === 1) {
+    return '#FF0000';
+  } else if (star === 2) {
+    return '#FFA500';
+  } else if (star === 3) {
+    return '#FFDD00';
+  } else if (star === 4) {
+    return '#ADFF2F';
+  } else if (star === 5) {
+    return '#008000';
+  }
+  return '#D1D5DB';
 };
 </script>

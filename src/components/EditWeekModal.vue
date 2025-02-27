@@ -2,9 +2,11 @@
   <div v-if="visible" class="fixed inset-0 flex items-center justify-center z-50">
     <div class="fixed inset-0 bg-black opacity-50"></div>
     <div class="bg-white p-6 rounded shadow-lg relative w-full max-w-2xl mx-4 motion-preset-pop">
+      <div class="flex justify-end mb-1">
+        <Button @click="closeDialog" rounded variant="outlined" icon="pi pi-times" aria-label="Close" />
+      </div>
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-semibold">{{ dialogHeader }}</h3>
-        <Button @click="closeDialog" rounded variant="outlined" icon="pi pi-times" aria-label="Close" />
       </div>
 
       <p class="mb-4">
