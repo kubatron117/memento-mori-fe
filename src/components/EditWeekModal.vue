@@ -1,119 +1,125 @@
 <template>
-  <Dialog
-    v-model:visible="visible"
-    modal
-    :header="dialogHeader"
-    :style="{ width: '40rem' }"
-    class="p-4"
-  >
-    <p class="mb-4">
-      <strong>Rozsah:</strong>
-      {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
-    </p>
-
-    <div v-if="isEditable">
-      <div class="mb-4">
-        <label for="description" class="block text-sm text-gray-600 mt-1">
-          Poznámka <span class="text-red-500">*</span>
-        </label>
-        <Textarea
-          id="description"
-          v-model="memo"
-          rows="5"
-          cols="30"
-          maxlength="2000"
-          class="w-full border border-gray-300 rounded p-2"
-          style="resize: none"
-          required
-        />
-
-        <div class="text-right text-sm text-gray-500 mt-1">
-          {{ memo.length }}/2000
-        </div>
+  <div v-if="visible" class="fixed inset-0 flex items-center justify-center z-50">
+    <!-- Overlay -->
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+    <!-- Modal -->
+    <div class="bg-white p-6 rounded shadow-lg relative w-full max-w-2xl mx-4">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold">{{ dialogHeader }}</h3>
+        <button @click="closeDialog" class="text-gray-700 text-2xl leading-none">&times;</button>
       </div>
 
-      <div class="flex flex-col gap-4 mt-4">
-        <div
-          v-for="field in ratingFields"
-          :key="field.key"
-          class="flex items-center gap-2"
-        >
-          <label class="w-40 text-gray-700">
-            {{ field.label }} <span class="text-red-500">*</span>:
-          </label>
-          <Rating
-            v-model="field.model"
-            :cancel="false"
-            v-tooltip.top="field.tooltip"
-          />
-        </div>
-      </div>
-
-      <div class="flex justify-end gap-4 mt-6">
-        <Button
-          label="Uložit"
-          @click="saveMemo"
-          :disabled="loading || !isFormValid"
-          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        />
-        <Button
-          label="Zrušit"
-          @click="closeDialog"
-          :disabled="loading"
-          class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-        />
-      </div>
-      <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
-    </div>
-
-    <div v-else>
+      <!-- Date Range -->
       <p class="mb-4">
-        {{ week.additionalInfo || 'Poznámka není k dispozici.' }}
+        <strong>Rozsah:</strong>
+        {{ formattedStartDate }} – {{ formattedEndDate }}
       </p>
 
-      <div
-        v-if="week.total_score !== null && week.total_score !== undefined"
-        class="flex flex-col gap-2 mb-4"
-      >
-        <div
-          v-for="field in ratingFields"
-          :key="field.key"
-          class="flex items-center gap-2"
-        >
-          <label class="w-40 text-gray-700">{{ field.label }}:</label>
-          <Rating :model-value="(week as any)[field.key]" readonly :cancel="false" />
+      <!-- Editable Form -->
+      <div v-if="isEditable">
+        <div class="mb-4">
+          <label for="description" class="block text-sm text-gray-600 mt-1">
+            Poznámka <span class="text-red-500">*</span>
+          </label>
+          <!-- Wrapper pro optimalizaci textarey pro Safari -->
+          <div class="relative" style="min-height: 7rem;">
+            <textarea
+              id="description"
+              v-model="memo"
+              rows="5"
+              maxlength="2000"
+              class="w-full h-full border border-gray-300 rounded p-2 absolute top-0 left-0"
+              style="resize: none"
+              required
+            ></textarea>
+          </div>
+          <div class="text-right text-sm text-gray-500 mt-1">
+            {{ memo.length }}/2000
+          </div>
         </div>
 
-        <div class="flex items-center gap-2">
-          <label class="w-40 text-gray-700">Celkové skóre:</label>
-          <Rating :model-value="week.total_score" readonly :cancel="false" />
+        <!-- Rating Fields -->
+        <div class="flex flex-col gap-4 mt-4">
+          <div
+            v-for="field in ratingFields"
+            :key="field.key"
+            class="flex items-center gap-2"
+          >
+            <label class="w-40 text-gray-700">
+              {{ field.label }} <span class="text-red-500">*</span>:
+            </label>
+            <input
+              type="number"
+              v-model.number="field.model"
+              min="1"
+              max="5"
+              class="w-20 border border-gray-300 rounded p-1 text-center"
+            />
+          </div>
         </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end gap-4 mt-6">
+          <button
+            @click="saveMemo"
+            :disabled="loading || !isFormValid"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+          >
+            Uložit
+          </button>
+          <button
+            @click="closeDialog"
+            :disabled="loading"
+            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 disabled:opacity-50"
+          >
+            Zrušit
+          </button>
+        </div>
+        <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
       </div>
 
-      <div class="flex justify-end">
-        <Button
-          label="Zavřít"
-          @click="closeDialog"
-          class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-        />
+      <!-- Read-Only View -->
+      <div v-else>
+        <p class="mb-4">
+          {{ week.additionalInfo || 'Poznámka není k dispozici.' }}
+        </p>
+
+        <div
+          v-if="week.total_score !== null && week.total_score !== undefined"
+          class="flex flex-col gap-2 mb-4"
+        >
+          <div
+            v-for="field in ratingFields"
+            :key="field.key"
+            class="flex items-center gap-2"
+          >
+            <label class="w-40 text-gray-700">{{ field.label }}:</label>
+            <span class="font-semibold">{{ week[field.key] }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="w-40 text-gray-700">Celkové skóre:</label>
+            <span class="font-semibold">{{ week.total_score }}</span>
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <button
+            @click="closeDialog"
+            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+          >
+            Zavřít
+          </button>
+        </div>
       </div>
     </div>
-  </Dialog>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { startOfISOWeek, addWeeks, isSameDay } from 'date-fns';
 import { useLifeStore } from '@/stores/lifeStore';
-
-import Dialog from 'primevue/dialog';
-import Button from 'primevue/button';
-import Rating from 'primevue/rating';
-import Textarea from 'primevue/textarea';
-import { useToast } from 'primevue/usetoast';
-
-const toast = useToast();
-const TOAST_DURATION_IN_MS = 5000;
 
 const props = defineProps<{
   week: {
@@ -137,6 +143,7 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
+// Stav modálního okna
 const visible = ref(true);
 watch(visible, (val) => {
   if (!val) {
@@ -144,10 +151,20 @@ watch(visible, (val) => {
   }
 });
 
+// Hlavička dialogu
 const dialogHeader = computed(() => {
   return `Upravit poznámku pro týden ${props.week.weekNumber}, ${props.week.year}`;
 });
 
+// Formátovaná data
+const formattedStartDate = ref('');
+const formattedEndDate = ref('');
+onMounted(() => {
+  formattedStartDate.value = formatDate(props.week.startDate);
+  formattedEndDate.value = formatDate(props.week.endDate);
+});
+
+// Proměnné formuláře
 const memo = ref(props.week.additionalInfo || '');
 const scoreSatisfaction = ref<number>(props.week.score_satisfaction ?? 0);
 const scoreEmotionalBalance = ref<number>(props.week.score_emotional_balance ?? 0);
@@ -176,13 +193,14 @@ const isEditable = computed(() => {
 
 const isFormValid = computed(() => {
   return memo.value.trim() !== '' &&
-    scoreSatisfaction.value > 0 &&
-    scoreEmotionalBalance.value > 0 &&
-    scoreProductivity.value > 0 &&
-    scoreRelationships.value > 0 &&
-    scoreValuesAlignment.value > 0;
+    scoreSatisfaction.value >= 1 &&
+    scoreEmotionalBalance.value >= 1 &&
+    scoreProductivity.value >= 1 &&
+    scoreRelationships.value >= 1 &&
+    scoreValuesAlignment.value >= 1;
 });
 
+// Pole pro ratingy
 const ratingFields = [
   {
     label: 'Spokojenost',
@@ -235,21 +253,11 @@ const saveMemo = async () => {
       scoreRelationships.value,
       scoreValuesAlignment.value
     );
-    toast.add({
-      severity: 'success',
-      summary: 'Úspěšně uloženo',
-      detail: 'Hodnocení vašeho týdne bylo úspěšně uloženo.',
-      life: TOAST_DURATION_IN_MS
-    });
+    alert('Hodnocení vašeho týdne bylo úspěšně uloženo.');
     closeDialog();
   } catch (e: any) {
     error.value = 'Chyba při ukládání poznámky.';
-    toast.add({
-      severity: 'error',
-      summary: 'Chyba',
-      detail: 'Vyskytla se chyba. Nepodařilo se uložit hodnocení Vašeho týdne.',
-      life: TOAST_DURATION_IN_MS
-    });
+    alert('Vyskytla se chyba. Nepodařilo se uložit hodnocení Vašeho týdne.');
     console.error(e);
   } finally {
     loading.value = false;
@@ -260,4 +268,3 @@ const closeDialog = () => {
   visible.value = false;
 };
 </script>
-
