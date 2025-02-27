@@ -103,7 +103,7 @@
                       {{ formatDate(group.weeks[0].startDate) }} – {{ formatDate(group.weeks[0].endDate) }}
                     </p>
                     <p v-if="group.weeks[0].additionalInfo">
-                      <strong>{{ t('app.weeks.info') }}</strong> {{ group.weeks[0].additionalInfo }}
+                      <strong>{{ t('app.weeks.info') }}</strong> {{ group.weeks[0].additionalInfo.substring(0, 40) }}
                     </p>
                     <p v-if="scoreVisualizationEnabled && group.weeks[0].total_score !== null && group.weeks[0].total_score !== undefined">
                       <strong>{{ t('app.weeks.totalScore') }}</strong> {{ group.weeks[0].total_score }}
