@@ -1,28 +1,23 @@
 <template>
   <div v-if="visible" class="fixed inset-0 flex items-center justify-center z-50">
-    <!-- Overlay -->
     <div class="fixed inset-0 bg-black opacity-50"></div>
-    <!-- Modal -->
-    <div class="bg-white p-6 rounded shadow-lg relative w-full max-w-2xl mx-4">
-      <!-- Header -->
+    <div class="bg-white p-6 rounded shadow-lg relative w-full max-w-2xl mx-4 motion-preset-pop">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-semibold">{{ dialogHeader }}</h3>
         <button @click="closeDialog" class="text-gray-700 text-2xl leading-none">&times;</button>
       </div>
 
-      <!-- Date Range -->
       <p class="mb-4">
         <strong>Rozsah:</strong>
         {{ formattedStartDate }} – {{ formattedEndDate }}
       </p>
 
-      <!-- Editable Form -->
       <div v-if="isEditable">
         <div class="mb-4">
           <label for="message" class="block mb-2 text-sm font-medium text-gray-900">
             Poznámka <span class="text-red-500">*</span>
           </label>
-          <!-- Wrapper pro optimalizaci textarey pro Safari -->
+
           <div class="relative" style="min-height: 7rem;">
             <textarea
               id="message"
@@ -40,7 +35,7 @@
           </div>
         </div>
 
-        <!-- Rating Fields -->
+
         <div class="flex flex-col gap-4 mt-4">
           <div
             v-for="field in ratingFields"
@@ -58,27 +53,24 @@
           </div>
         </div>
 
-        <!-- Action Buttons -->
+
         <div class="flex justify-end gap-4 mt-6">
-          <button
+          <Button
+            label="Uložit"
             @click="saveMemo"
             :disabled="loading || !isFormValid"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
-          >
-            Uložit
-          </button>
-          <button
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          />
+          <Button
+            label="Zrušit"
             @click="closeDialog"
             :disabled="loading"
-            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 disabled:opacity-50"
-          >
-            Zrušit
-          </button>
+            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+          />
         </div>
         <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
       </div>
 
-      <!-- Read-Only View -->
       <div v-else>
         <p class="mb-4">
           {{ week.additionalInfo || 'Poznámka není k dispozici.' }}
@@ -106,12 +98,11 @@
         </div>
 
         <div class="flex justify-end">
-          <button
+          <Button
+            label="Zavřít"
             @click="closeDialog"
             class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-          >
-            Zavřít
-          </button>
+          />
         </div>
       </div>
     </div>
