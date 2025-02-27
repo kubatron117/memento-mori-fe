@@ -6,9 +6,9 @@
     :style="{ width: '40rem' }"
     class="p-4"
   >
-    <p class="mb-4">
+    <p class="mb-4" v-once>
       <strong>Rozsah:</strong>
-      {{ formatDate(week.startDate) }} – {{ formatDate(week.endDate) }}
+      {{ formattedStartDate }} – {{ formattedEndDate }}
     </p>
 
     <div v-if="isEditable">
@@ -102,7 +102,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { startOfISOWeek, addWeeks, isSameDay } from 'date-fns';
 import { useLifeStore } from '@/stores/lifeStore';
 
@@ -146,6 +146,13 @@ watch(visible, (val) => {
 
 const dialogHeader = computed(() => {
   return `Upravit poznámku pro týden ${props.week.weekNumber}, ${props.week.year}`;
+});
+
+const formattedStartDate = ref('');
+const formattedEndDate = ref('');
+onMounted(() => {
+  formattedStartDate.value = formatDate(props.week.startDate);
+  formattedEndDate.value = formatDate(props.week.endDate);
 });
 
 const memo = ref(props.week.additionalInfo || '');
