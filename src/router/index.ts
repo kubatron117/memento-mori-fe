@@ -17,7 +17,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: WeeksInLifeView,
     },
     {
       path: '/weeks-in-life',
