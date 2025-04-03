@@ -5,7 +5,7 @@
     <Dialog
       v-model:visible="visible"
       modal
-      :header="$t('app.infoDialog.header')"
+      :header="t('app.infoDialog.header')"
       :style="{ width: '25rem' }"
       :draggable="false"
     >
@@ -14,15 +14,15 @@
           <span class="font-semibold text-lg">{{ label }}</span>
         </div>
         <div v-if="studyTitle" class="mb-3">
-          <span class="font-semibold">{{ $t('app.infoDialog.studyBasedOn') }}</span>
+          <span class="font-semibold">{{ t('app.infoDialog.studyBasedOn') }}</span>
           <p>{{ studyTitle }}</p>
         </div>
         <div v-if="studyLink" class="mb-3">
-          <span class="font-semibold">{{ $t('app.infoDialog.studyLink') }}</span>
+          <span class="font-semibold">{{ t('app.infoDialog.studyLink') }}</span>
           <Button
             as="a"
             variant="link"
-            :label="$t('app.infoDialog.linkLabel')"
+            :label="t('app.infoDialog.linkLabel')"
             :href="studyLink"
             target="_blank"
             rel="noopener"
@@ -30,7 +30,7 @@
         </div>
       </div>
       <template #footer>
-        <Button :label="$t('app.infoDialog.close')" severity="secondary" @click="closeDialog" />
+        <Button :label="t('app.infoDialog.close')" severity="secondary" @click="closeDialog" />
       </template>
     </Dialog>
   </span>
@@ -40,6 +40,9 @@
 import { ref } from 'vue';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface Props {
   label?: string;

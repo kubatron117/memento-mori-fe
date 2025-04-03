@@ -211,6 +211,48 @@
       "studyLink": "Odkaz na studii:",
       "linkLabel": "odkaz",
       "close": "Zavřít"
+    },
+    "infoTextBox": {
+      "text": "Vaše odpověď se uchovává jen lokálně pro výpočet, není nikam odesílána."
+    },
+    "nav": {
+      "userProfile": "Uživatelský profil",
+      "logout": "Odhlásit se"
+    },
+    "stepEatingHabits": {
+      "title": "Kalkulačka stravy a prodloužení života",
+      "question": "Jakou stravu máte?",
+      "dietOptions": {
+        "typical": "Typická západní dieta",
+        "feasible": "Proveditelná dieta",
+        "optimal": "Optimalizovaná dieta"
+      },
+      "dietStartAgeLabel": "Od jakého věku tuto dietu používáte?",
+      "table": {
+        "title": "Srovnání doporučených denních příjmů (g/den)",
+        "headers": {
+          "food": "Potravina",
+          "typical": "Typická",
+          "feasible": "Proveditelná",
+          "optimal": "Optimalizovaná"
+        }
+      },
+      "dietComparisonFoods": {
+        "wholeGrains": "Obiloviny celozrnné",
+        "vegetables": "Zelenina",
+        "fruits": "Ovoce",
+        "nuts": "Ořechy",
+        "legumes": "Luštěniny",
+        "fish": "Ryby",
+        "eggs": "Vejce",
+        "dairy": "Mléko/mléčné výrobky",
+        "refinedGrains": "Rafinované obiloviny",
+        "redMeat": "Červené maso",
+        "processedMeat": "Zpracované maso",
+        "whiteMeat": "Bílé maso",
+        "sweetenedBeverages": "Slazené nápoje",
+        "addedOils": "Přidané rostlinné oleje"
+      }
     }
   }
 }
