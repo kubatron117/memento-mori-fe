@@ -204,6 +204,13 @@
       },
       "totalScore": "Celkové skóre:",
       "notAvailable": "Poznámka není k dispozici."
+    },
+    "infoDialog": {
+      "header": "Informace",
+      "studyBasedOn": "Na základě:",
+      "studyLink": "Odkaz na studii:",
+      "linkLabel": "odkaz",
+      "close": "Zavřít"
     }
   }
 }
