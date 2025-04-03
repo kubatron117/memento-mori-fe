@@ -129,8 +129,7 @@
         "exerciseMinutes": "Počet minut cvičení za týden",
         "lifeGainYears": "Odhadované prodloužení života",
         "studyNote": "(Na základě studie: dosažení doporučené úrovně fyzické aktivity může prodloužit život přibližně o 5 let.)",
-        "intensityDefinition": "Definice intenzity cvičení",
-
+        "intensityDefinition": "Definice intenzity cvičení"
       },
       "final": {
         "title": "Finální krok: Odhadovaný věk dožití",
