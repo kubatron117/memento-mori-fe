@@ -164,6 +164,46 @@
       "month": "Po měsících",
       "year": "Po letech"
     },
-    "optional": "volitelně"
+    "optional": "volitelně",
+    "weekDialog": {
+      "header": "Poznámka pro týden {weekNumber}, {year}",
+      "range": "Rozsah:",
+      "note": {
+        "label": "Poznámka",
+        "placeholder": "Napište sem své myšlenky...",
+        "characterCount": "{count}/2000"
+      },
+      "rating": {
+        "satisfaction": "Spokojenost",
+        "emotionalBalance": "Emoční rovnováha",
+        "productivity": "Produktivita",
+        "relationships": "Vztahy",
+        "valuesAlignment": "Soulad hodnot",
+        "tooltips": {
+          "satisfaction": "Hodnocení Vaší spokojenosti během týdne",
+          "emotionalBalance": "Hodnocení Vaší emoční rovnováhy během týdne",
+          "productivity": "Hodnocení Vaší produktivity během týdne",
+          "relationships": "Hodnocení spokojenosti ve Vaších vztazích během týdne",
+          "valuesAlignment": "Hodnocení zda jste jednali v souladu s Vašimi hodnotami během týdne"
+        }
+      },
+      "buttons": {
+        "save": "Uložit",
+        "cancel": "Zrušit",
+        "close": "Zavřít"
+      },
+      "validation": {
+        "requiredFields": "Vyplňte prosím všechny povinné položky.",
+        "saveError": "Chyba při ukládání poznámky."
+      },
+      "toast": {
+        "successSummary": "Úspěšně uloženo",
+        "successDetail": "Hodnocení vašeho týdne bylo úspěšně uloženo.",
+        "errorSummary": "Chyba",
+        "errorDetail": "Vyskytla se chyba. Nepodařilo se uložit hodnocení Vašeho týdne."
+      },
+      "totalScore": "Celkové skóre:",
+      "notAvailable": "Poznámka není k dispozici."
+    }
   }
 }
