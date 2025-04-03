@@ -2,13 +2,15 @@
   <InfoTextBox></InfoTextBox>
 
   <div class="bg-white shadow rounded p-6 max-w-md mx-auto">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Vyberte národnost</h2>
+    <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">
+      {{ t('app.nationalityStep.title') }}
+    </h2>
     <Select
       v-model="selectedNationality"
       :options="nationalities"
       optionLabel="location"
       optionValue="id"
-      placeholder="Vyberte národnost"
+      :placeholder="t('app.nationalityStep.placeholder')"
       class="w-full"
       filter
     />
@@ -17,12 +19,15 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { LocationsApiService, type Location } from '@/api/locationsApiServise';
 import { useQuestionnaireStore } from '@/stores/questionnaireStore';
 import Select from 'primevue/select';
 import { LifeExpectanciesApiService } from '@/api/lifeExpectanciesApiService';
-import InfoTextBox from '@/components/InfoTextBox.vue'
-import { useToast } from 'primevue'
+import InfoTextBox from '@/components/InfoTextBox.vue';
+import { useToast } from 'primevue/usetoast';
+
+const { t } = useI18n();
 
 const store = useQuestionnaireStore();
 const nationalities = ref<Location[]>([]);
@@ -43,8 +48,8 @@ onMounted(async () => {
     console.error('Error fetching nationalities:', error);
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Vyskytla se chyba. Nepodařilo se načíst státy.',
+      summary: t('app.nationalityStep.toasts.fetchNationalitiesError.summary'),
+      detail: t('app.nationalityStep.toasts.fetchNationalitiesError.detail'),
       life: 3000
     });
   }
@@ -73,8 +78,8 @@ watch(selectedNationality, async (newVal) => {
       console.error('Error fetching life expectancies:', error);
       toast.add({
         severity: 'error',
-        summary: 'Chyba',
-        detail: 'Vyskytla se chyba. Nepodařilo se načíst odhad věku.',
+        summary: t('app.nationalityStep.toasts.fetchLifeExpectancyError.summary'),
+        detail: t('app.nationalityStep.toasts.fetchLifeExpectancyError.detail'),
         life: 3000
       });
     }
@@ -82,8 +87,8 @@ watch(selectedNationality, async (newVal) => {
     console.warn('Birth date is not set in the store.');
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Vyskytla se chyba. Není zadáné datum narození.',
+      summary: t('app.nationalityStep.toasts.birthDateNotSet.summary'),
+      detail: t('app.nationalityStep.toasts.birthDateNotSet.detail'),
       life: 3000
     });
   }

@@ -120,13 +120,34 @@
         "title": "Fyzická aktivita",
         "exerciseType": "Vyberte typ cvičení:",
         "moderateLabel": "Mírná",
+        "moderateExample": "(např. rychlá chůze)",
+        "moderateText": "Aktivita o intenzitě 3–5,9 MET (např. Chůze rychlým tempem (4,8–6,5 km/h), pomalá jízda na kole (15 km/h), malování/dekorování, vysávání, zahradničení (sekání trávníku), golf (tažení holí ve vozíku), tenis (dvojice), společenský tanec a vodní aerobik.). Dýchání je zrychlené, ale umožňuje mluvit v celých větách.",
         "vigorousLabel": "Intenzivní",
+        "vigorousExample": "(např. běh)",
+        "vigorousText": "Aktivita s hodnotou ≥6 MET (např. Závodní chůze, jogging nebo běh, jízda na kole rychlostí nad 15 km/h, náročné zahradničení (nepřetržité kopání nebo orání), plavání bazénem a tenis (singl)). Dýchání je velmi rychlé a mluvení je obtížné.",
         "noActivityLabel": "Žádná aktivita",
         "exerciseMinutes": "Počet minut cvičení za týden",
         "lifeGainYears": "Odhadované prodloužení života",
-        "studyNote": "(Na základě studie: dosažení doporučené úrovně fyzické aktivity může prodloužit život přibližně o 5 let.)"
+        "studyNote": "(Na základě studie: dosažení doporučené úrovně fyzické aktivity může prodloužit život přibližně o 5 let.)",
+        "intensityDefinition": "Definice intenzity cvičení",
+
       },
       "final": {
+        "title": "Finální krok: Odhadovaný věk dožití",
+        "resultsSummary": "Sumarizace výsledků",
+        "birthDate": "Datum narození:",
+        "currentAge": "Váš aktuální věk:",
+        "baseLifeExpectancy": "Základní očekávaná délka života:",
+        "physicalActivityBenefit": "Přínos vlivem fyzické aktivity:",
+        "dietBenefit": "Přínos vlivem stravy:",
+        "alcoholLoss": "Ztráta vlivem alkoholu:",
+        "smokingLossCurrent": "Ztráta vlivem dosavadního kouření:",
+        "smokingLossFuture": "Ztráta vlivem budoucího kouření:",
+        "adjustedLifeExpectancy": "Očekávaná délka života ovlivněna faktory:",
+        "changeLifeExpectancy": "Zde můžete očekávanou délku života změnit:",
+        "newSelectedTime": "Zvolená nová doba",
+        "calendarGeneration": "Věk pro který se vygeneruje memonto mori kalendář",
+        "years": "let",
         "tooltips": {
           "baseLifeExpectancy": "United Nations - World Population Prospects 2024",
           "physicalActivity": "Physical Activity in the Prevention and Treatment of Coronary Artery Disease",
@@ -252,6 +273,24 @@
         "whiteMeat": "Bílé maso",
         "sweetenedBeverages": "Slazené nápoje",
         "addedOils": "Přidané rostlinné oleje"
+      },
+      "nationalityStep": {
+        "title": "Vyberte národnost",
+        "placeholder": "Vyberte národnost",
+        "toasts": {
+          "fetchNationalitiesError": {
+            "summary": "Chyba",
+            "detail": "Vyskytla se chyba. Nepodařilo se načíst státy."
+          },
+          "fetchLifeExpectancyError": {
+            "summary": "Chyba",
+            "detail": "Vyskytla se chyba. Nepodařilo se načíst odhad věku."
+          },
+          "birthDateNotSet": {
+            "summary": "Chyba",
+            "detail": "Vyskytla se chyba. Není zadáno datum narození."
+          }
+        }
       }
     }
   }
