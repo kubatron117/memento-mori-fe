@@ -8,44 +8,63 @@
       "password": "Password",
       "forgot-password": "Forgot password",
       "sign-in": "Sign in",
-      "resend-verification-email": "Resend verification email"
+      "resend-verification-email": "Resend verification email",
+      "errorSummary": "Error",
+      "errorDetail": "Login unsuccessful."
     },
     "registration": {
       "title": "Registration",
-      "firstName": "First name",
-      "lastName": "Last name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
       "email": "Email",
       "password": "Password",
-      "passwordConfirm": "Confirm password",
+      "passwordConfirm": "Confirm Password",
       "terms": "I agree to the terms and conditions",
       "register": "Register",
       "password-mismatch": "Password and confirmation do not match",
-      "accept-terms": "You must agree to the terms",
+      "accept-terms": "You must agree to the terms and conditions",
       "registration-failed": "Registration failed",
       "already-have-account": "Already have an account?",
       "login": "Sign in",
       "firstName-required": "First name is required",
-      "lastName-required": "Last name is required"
+      "lastName-required": "Last name is required",
+      "firstName-max": "First name can have a maximum of {max} characters",
+      "lastName-max": "Last name can have a maximum of {max} characters",
+      "email-required": "Email is required",
+      "password-too-short": "Password must be at least 8 characters long",
+      "password-too-long": "Password can have a maximum of 64 characters",
+      "password-weak": "Password must contain at least one number and one special character",
+      "registration-success-summary": "Registration successful",
+      "registration-success-detail": "A confirmation email will be sent to you to complete the registration",
+      "error-summary": "Error",
+      "error-detail": "Registration unsuccessful. An error occurred.",
+      "password-too-short-info": "Password is too short ({current}/{min})",
+      "password-too-long-info": "Password is too long ({current}/{max})",
+      "password-ok": "Password is okay ({current} characters)",
+      "password-no-digit": "Password must contain at least one number.",
+      "password-no-special": "Password must contain at least one special character.",
+      "passwords-match": "Passwords match",
+      "passwords-do-not-match": "Passwords do not match"
     },
     "reset-password": {
       "title": "Reset Password",
       "subtitle": "Enter your new password and confirm it",
-      "new-password": "New password",
+      "new-password": "New Password",
       "new-password-placeholder": "Enter new password",
-      "confirm-password": "Confirm password",
-      "confirm-password-placeholder": "Re-enter new password",
+      "confirm-password": "Confirm Password",
+      "confirm-password-placeholder": "Enter new password again",
       "submit": "Submit",
       "no-key": "No reset key provided.",
       "success": "Password has been successfully reset.",
-      "reset": "Reset password",
-      "email-was-send": "Password reset email has been successfully sent."
+      "reset": "Reset Password",
+      "email-was-send": "Reset password email was successfully sent."
     },
     "change-password": {
       "title": "Change Password",
-      "old-password": "Old password",
-      "new-password": "New password",
-      "confirm-password": "Confirm new password",
-      "submit": "Change password",
+      "old-password": "Old Password",
+      "new-password": "New Password",
+      "confirm-password": "Confirm New Password",
+      "submit": "Change Password",
       "success": "Password has been successfully changed"
     },
     "resend-verification-email": {
@@ -55,29 +74,30 @@
       "resend": "Resend verification email",
       "email-required": "Email is required",
       "email-sent": "Verification email has been sent",
-      "failed": "Sending verification email failed"
+      "failed": "Resending verification email failed"
     },
     "errors": {
-      "missing-email-password": "Please enter both email and password.",
-      "missing-email": "Please enter your email.",
-      "missing-password": "Please enter your password.",
+      "missing-email-password": "Please fill in email and password.",
+      "missing-email": "Please fill in email.",
+      "missing-password": "Please fill in password.",
       "login-failed": "Login failed.",
       "reset-password-failed": "Password reset failed.",
       "change-password-failed": "Password change failed",
       "password-mismatch": "Passwords do not match",
       "missing-password-fields": "Please fill in the missing fields",
-      "invalid-email-format": "Invalid email format"
+      "invalid-email-format": "Invalid email format",
+      "error": "Error"
     },
     "steps": {
-      "insert-date-of-birth": "Enter your date of birth",
-      "date-of-birth": "Date of birth",
-      "choose-gender": "Select your gender",
+      "insert-date-of-birth": "Enter date of birth",
+      "date-of-birth": "Date of Birth",
+      "choose-gender": "Select gender",
       "male": "Male",
       "female": "Female",
       "other": "Prefer not to say",
       "smoking": "Smoking",
       "do-you-smoke": "Do you smoke?",
-      "plan-to-quit": "Are you planning to quit?",
+      "plan-to-quit": "Do you plan to quit?",
       "yes": "Yes",
       "no": "No",
       "start-age-smoking": "At what age did you start smoking?",
@@ -93,7 +113,7 @@
         "drinksAlcohol": "Do you drink alcohol?",
         "yes": "Yes",
         "no": "No",
-        "instruction": "Enter the number of drinks you have per week.",
+        "instruction": "Enter the number of each drink you consume per week.",
         "smallBeer10": "SMALL beer 10°",
         "largeBeer10": "LARGE beer 10°",
         "smallBeer12": "SMALL beer 12°",
@@ -101,51 +121,51 @@
         "shot": "Shot",
         "wine": "Wine",
         "totalAlcohol": "Total alcohol amount:",
-        "lifeLost": "Life shortening from age 40:",
+        "lifeLost": "Life shortened since age 40:",
         "noLoss": "no losses recorded",
         "year": "year",
         "years": "years",
-        "studyNote": "(According to the study: baseline is ≤100 g/week; >100–≤200 g reduces by 6 months, >200–≤350 g by 1–2 years, and >350 g by 4–5 years.)",
+        "studyNote": "(According to study: baseline is ≤100 g/week; at >100–≤200 g life is shortened by 6 months, at >200–≤350 g by 1–2 years, and at >350 g by 4–5 years.)",
         "noConsumption": "User does not report alcohol consumption.",
         "tooltips": {
-          "smallBeer10": "1 drink (0.33 l) = 10 g of alcohol",
-          "largeBeer10": "1 drink (0.5 l) = 16 g of alcohol",
-          "smallBeer12": "1 drink (0.33 l) = 13.2 g of alcohol",
-          "largeBeer12": "1 drink (0.5 l) = 20 g of alcohol",
-          "shot": "1 drink (0.04 l) = 12.8 g of alcohol",
-          "wine": "1 drink (0.2 l) = 19.2 g of alcohol"
+          "smallBeer10": "1 drink (0.33 l) = 10 g alcohol",
+          "largeBeer10": "1 drink (0.5 l) = 16 g alcohol",
+          "smallBeer12": "1 drink (0.33 l) = 13.2 g alcohol",
+          "largeBeer12": "1 drink (0.5 l) = 20 g alcohol",
+          "shot": "1 drink (0.04 l) = 12.8 g alcohol",
+          "wine": "1 drink (0.2 l) = 19.2 g alcohol"
         }
       },
       "physical-activity": {
         "title": "Physical Activity",
-        "exerciseType": "Select type of exercise:",
+        "exerciseType": "Select exercise type:",
         "moderateLabel": "Moderate",
         "moderateExample": "(e.g., brisk walking)",
-        "moderateText": "Activity with an intensity of 3–5.9 MET (e.g., fast walking (4.8–6.5 km/h), slow cycling (15 km/h), painting/decorating, vacuuming, gardening (mowing the lawn), golf (pushing a cart), tennis (doubles), social dancing, and water aerobics). Breathing is accelerated but allows for speaking in full sentences.",
+        "moderateText": "Activity with intensity 3–5.9 MET (e.g., brisk walking (4.8–6.5 km/h), slow cycling (15 km/h), painting/decorating, vacuuming, gardening (lawn mowing), golf (pushing a cart), tennis (doubles), social dancing and water aerobics). Breathing is accelerated, but conversation in full sentences is possible.",
         "vigorousLabel": "Vigorous",
         "vigorousExample": "(e.g., running)",
-        "vigorousText": "Activity with an intensity of ≥6 MET (e.g., power walking, jogging or running, cycling over 15 km/h, strenuous gardening (continuous digging or plowing), swimming in a pool, and tennis (singles)). Breathing is very rapid and speaking is difficult.",
+        "vigorousText": "Activity with intensity ≥6 MET (e.g., power walking, jogging or running, cycling at speeds over 15 km/h, strenuous gardening (continuous digging or plowing), swimming in a pool, and tennis (singles)). Breathing is very rapid and conversation is difficult.",
         "noActivityLabel": "No activity",
         "exerciseMinutes": "Number of exercise minutes per week",
         "lifeGainYears": "Estimated life extension",
-        "studyNote": "(Based on the study: achieving the recommended level of physical activity can extend life by approximately 5 years.)",
+        "studyNote": "(Based on a study: reaching the recommended level of physical activity can extend life by approximately 5 years.)",
         "intensityDefinition": "Definition of exercise intensity"
       },
       "final": {
-        "title": "Final Step: Estimated Lifespan",
-        "resultsSummary": "Results summary",
+        "title": "Final step: Estimated life expectancy",
+        "resultsSummary": "Summary of results",
         "birthDate": "Date of birth:",
         "currentAge": "Your current age:",
-        "baseLifeExpectancy": "Basic life expectancy:",
+        "baseLifeExpectancy": "Baseline life expectancy:",
         "physicalActivityBenefit": "Benefit from physical activity:",
         "dietBenefit": "Benefit from diet:",
         "alcoholLoss": "Loss due to alcohol:",
-        "smokingLossCurrent": "Loss from current smoking:",
-        "smokingLossFuture": "Loss from future smoking:",
+        "smokingLossCurrent": "Loss due to current smoking:",
+        "smokingLossFuture": "Loss due to future smoking:",
         "adjustedLifeExpectancy": "Life expectancy adjusted by factors:",
-        "changeLifeExpectancy": "Here you can change the expected lifespan:",
-        "newSelectedTime": "Newly selected time",
-        "calendarGeneration": "Age for which the memento mori calendar is generated",
+        "changeLifeExpectancy": "Here you can change the expected life span:",
+        "newSelectedTime": "New selected time",
+        "calendarGeneration": "Age for which the Memonto Mori calendar is generated",
         "years": "years",
         "tooltips": {
           "baseLifeExpectancy": "United Nations - World Population Prospects 2024",
@@ -175,7 +195,7 @@
       "week": "Week:",
       "range": "Range:",
       "info": "Info:",
-      "scoreVisualization": "Score visualization",
+      "scoreVisualization": "Visualization by score",
       "totalScore": "Satisfaction score:"
     },
     "visualization": {
@@ -195,16 +215,16 @@
       },
       "rating": {
         "satisfaction": "Satisfaction",
-        "emotionalBalance": "Emotional balance",
+        "emotionalBalance": "Emotional Balance",
         "productivity": "Productivity",
         "relationships": "Relationships",
-        "valuesAlignment": "Values alignment",
+        "valuesAlignment": "Values Alignment",
         "tooltips": {
           "satisfaction": "Rating of your satisfaction during the week",
           "emotionalBalance": "Rating of your emotional balance during the week",
           "productivity": "Rating of your productivity during the week",
           "relationships": "Rating of satisfaction in your relationships during the week",
-          "valuesAlignment": "Rating of whether you acted in accordance with your values during the week"
+          "valuesAlignment": "Rating of whether you acted in alignment with your values during the week"
         }
       },
       "buttons": {
@@ -213,11 +233,11 @@
         "close": "Close"
       },
       "validation": {
-        "requiredFields": "Please fill in all required items.",
-        "saveError": "Error saving the note."
+        "requiredFields": "Please fill in all required fields.",
+        "saveError": "Error saving note."
       },
       "toast": {
-        "successSummary": "Successfully saved",
+        "successSummary": "Saved successfully",
         "successDetail": "Your weekly rating has been saved successfully.",
         "errorSummary": "Error",
         "errorDetail": "An error occurred. Your weekly rating could not be saved."
@@ -233,15 +253,15 @@
       "close": "Close"
     },
     "infoTextBox": {
-      "text": "Your response is stored locally for calculation only and is not sent anywhere."
+      "text": "Your response is stored locally for calculation purposes only, and is not sent anywhere."
     },
     "nav": {
-      "userProfile": "User profile",
+      "userProfile": "User Profile",
       "logout": "Logout"
     },
     "stepEatingHabits": {
       "title": "Diet and Life Extension Calculator",
-      "question": "What kind of diet do you follow?",
+      "question": "What is your diet like?",
       "dietOptions": {
         "typical": "Typical Western diet",
         "feasible": "Feasible diet",
@@ -274,16 +294,16 @@
         "addedOils": "Added vegetable oils"
       },
       "nationalityStep": {
-        "title": "Select Nationality",
-        "placeholder": "Select Nationality",
+        "title": "Select nationality",
+        "placeholder": "Select nationality",
         "toasts": {
           "fetchNationalitiesError": {
             "summary": "Error",
-            "detail": "An error occurred. Countries could not be loaded."
+            "detail": "An error occurred. Failed to load countries."
           },
           "fetchLifeExpectancyError": {
             "summary": "Error",
-            "detail": "An error occurred. Life expectancy could not be loaded."
+            "detail": "An error occurred. Failed to load life expectancy estimate."
           },
           "birthDateNotSet": {
             "summary": "Error",
@@ -300,25 +320,42 @@
         "nextButton": "Next",
         "saveButton": "Save",
         "stepIsForced": "This step is mandatory, please fill in the field",
-        "youCanSkip": "No answer selected, but you can skip the step",
-        "dateOfBirth": "Date of birth",
+        "youCanSkip": "No option selected, but you can skip the step",
+        "dateOfBirth": "Date of Birth",
         "gender": "Gender",
         "nationality": "Nationality",
         "smoking": "Smoking",
         "alcohol": "Alcohol",
-        "physicalActivity": "Physical activity",
+        "physicalActivity": "Physical Activity",
         "eating": "Eating habits",
         "confirmation": "Confirmation"
       },
       "save": {
         "toastError": "Error",
-        "toastErrorMessage": "Please fill in the date of birth and select the expected age.",
+        "toastErrorMessage": "Please fill in your date of birth and select expected age.",
         "toastErrorSaveMessage": "Failed to submit data.",
-        "confirmMessage": "The calculated life expectancy can no longer be changed. Do you really want to save?",
+        "confirmMessage": "The calculated life expectancy cannot be changed afterwards. Are you sure you want to save?",
         "confirmHeaderTitle": "Save Confirmation",
         "acceptLabel": "Yes",
         "rejectLabel": "No"
       }
+    },
+    "userProfile": {
+      "error": "Error",
+      "enterCurrentPassword": "Enter current password",
+      "enterNewPassword": "Enter new password",
+      "confirmNewPassword": "Confirm new password"
+    },
+    "weeksInLife": {
+      "toast": {
+        "error": "Error",
+        "detail": "Failed to load data."
+      }
+    },
+    "accountVerification": {
+      "successSummary": "Account has been successfully verified.",
+      "errorSummary": "Error",
+      "errorDetail": "Account verification failed."
     }
   }
 }
