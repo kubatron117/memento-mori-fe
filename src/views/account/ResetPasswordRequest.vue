@@ -76,8 +76,8 @@ async function handleResetRequest() {
 
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Reset hesla se nezdařil.',
+      summary: t('app.errors.error'),
+      detail: t('app.errors.reset-password-failed'),
       life: TOAST_DURATION_IN_MS
     });
   } finally {

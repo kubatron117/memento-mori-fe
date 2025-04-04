@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -8,12 +8,13 @@ import Checkbox from 'primevue/checkbox'
 import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import AuthLayout from '@/components/auth/AuthLayout.vue'
 import { useToast } from 'primevue/usetoast'
+import Message from 'primevue/message'
 
 const { t } = useI18n()
 const router = useRouter()
 
-const toast = useToast();
-const TOAST_DURATION_IN_MS = 5000;
+const toast = useToast()
+const TOAST_DURATION_IN_MS = 5000
 
 const firstName = ref('')
 const lastName = ref('')
@@ -26,13 +27,9 @@ const loading = ref(false)
 
 const emailRegex = /^.+@.+\..+$/
 
-
 const passwordLength = computed(() => password.value.length)
-
 const passwordHasDigit = computed(() => /\d/.test(password.value))
-
 const passwordHasSpecial = computed(() => /[^a-zA-Z\d]/.test(password.value))
-
 const passwordsMatch = computed(() => password.value === passwordConfirm.value)
 
 async function handleRegistration() {
@@ -43,7 +40,7 @@ async function handleRegistration() {
     return
   }
   if (firstName.value.trim().length > 50) {
-    errorMessage.value = t('app.registration.firstName-max', { max: 50 }) || 'Jméno může mít maximálně 50 znaků'
+    errorMessage.value = t('app.registration.firstName-max', { max: 50 })
     return
   }
 
@@ -52,33 +49,33 @@ async function handleRegistration() {
     return
   }
   if (lastName.value.trim().length > 50) {
-    errorMessage.value = t('app.registration.lastName-max', { max: 50 }) || 'Příjmení může mít maximálně 50 znaků'
+    errorMessage.value = t('app.registration.lastName-max', { max: 50 })
     return
   }
 
   if (!email.value.trim()) {
-    errorMessage.value = t('app.registration.email-required') || 'Email je povinný'
+    errorMessage.value = t('app.registration.email-required')
     return
   }
   if (!emailRegex.test(email.value)) {
-    errorMessage.value = t('app.errors.invalid-email-format') || 'Email musí být ve tvaru "něco@něco.něco"'
+    errorMessage.value = t('app.errors.invalid-email-format')
     return
   }
 
   if (password.value.length < 8) {
-    errorMessage.value = t('app.registration.password-too-short') || 'Heslo musí mít minimálně 8 znaků'
+    errorMessage.value = t('app.registration.password-too-short')
     return
   }
   if (password.value.length > 64) {
-    errorMessage.value = t('app.registration.password-too-long') || 'Heslo může mít maximálně 64 znaků'
+    errorMessage.value = t('app.registration.password-too-long')
     return
   }
   if (!passwordHasDigit.value || !passwordHasSpecial.value) {
-    errorMessage.value = t('app.registration.password-weak') || 'Heslo musí obsahovat alespoň jedno číslo a jeden speciální znak'
+    errorMessage.value = t('app.registration.password-weak')
     return
   }
   if (!passwordsMatch.value) {
-    errorMessage.value = t('app.registration.password-mismatch') || 'Hesla se neshodují'
+    errorMessage.value = t('app.registration.password-mismatch')
     return
   }
   if (!acceptTerms.value) {
@@ -101,20 +98,19 @@ async function handleRegistration() {
       await router.push('/login')
       toast.add({
         severity: 'success',
-        summary: 'Registrace byla úspěšná',
-        detail: 'Na email Vám příjde potvrzovací email pro dokončení registrace',
+        summary: t('app.registration.registration-success-summary'),
+        detail: t('app.registration.registration-success-detail'),
         life: TOAST_DURATION_IN_MS
-      });
+      })
     }
   } catch (error: any) {
-    errorMessage.value = t('app.registration.registration-failed');
-
+    errorMessage.value = t('app.registration.registration-failed')
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Registrace nebyla úspěšná. Vyskytla se chyba.',
+      summary: t('app.registration.error-summary'),
+      detail: t('app.registration.error-detail'),
       life: TOAST_DURATION_IN_MS
-    });
+    })
   } finally {
     loading.value = false
   }
@@ -188,21 +184,21 @@ async function handleRegistration() {
         />
         <div class="text-sm text-gray-500 mb-4">
           <span v-if="passwordLength < 8">
-            Heslo je příliš krátké ({{ passwordLength }}/8)
+            {{ t('app.registration.password-too-short-info', { current: passwordLength, min: 8 }) }}
           </span>
           <span v-else-if="passwordLength > 64">
-            Heslo je příliš dlouhé ({{ passwordLength }}/64)
+            {{ t('app.registration.password-too-long-info', { current: passwordLength, max: 64 }) }}
           </span>
           <span v-else>
-            Heslo je v pořádku ({{ passwordLength }} znaků)
+            {{ t('app.registration.password-ok', { current: passwordLength }) }}
           </span>
           <br />
           <span v-if="!passwordHasDigit">
-            Heslo musí obsahovat alespoň jedno číslo.
+            {{ t('app.registration.password-no-digit') }}
           </span>
           <br v-if="!passwordHasSpecial" />
           <span v-if="!passwordHasSpecial">
-            Heslo musí obsahovat alespoň jeden speciální znak.
+            {{ t('app.registration.password-no-special') }}
           </span>
         </div>
 
@@ -218,7 +214,7 @@ async function handleRegistration() {
         />
         <div class="text-sm mb-4" :class="passwordsMatch ? 'text-green-600' : 'text-red-600'">
           <span v-if="passwordConfirm">
-            {{ passwordsMatch ? 'Hesla se shodují' : 'Hesla se neshodují' }}
+            {{ passwordsMatch ? t('app.registration.passwords-match') : t('app.registration.passwords-do-not-match') }}
           </span>
         </div>
 

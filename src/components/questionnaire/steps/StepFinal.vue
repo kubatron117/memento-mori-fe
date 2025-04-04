@@ -1,26 +1,34 @@
 <template>
   <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
     <h2 class="text-xl font-semibold text-gray-800 mb-6">
-      Finální krok: Odhadovaný věk dožití
+      {{ t('app.steps.final.title') }}
     </h2>
 
     <div class="bg-gray-50 border border-gray-200 rounded p-4">
-      <h3 class="text-lg font-semibold mb-2">Sumarizace výsledků</h3>
+      <h3 class="text-lg font-semibold mb-2">
+        {{ t('app.steps.final.resultsSummary') }}
+      </h3>
       <ul class="list-disc pl-5 text-gray-700">
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Datum narození: <strong>{{ formatDate(questionnaireStore?.birthDate) }}</strong></span>
+            <span>
+              {{ t('app.steps.final.birthDate') }}
+              <strong>{{ formatDate(questionnaireStore?.birthDate) }}</strong>
+            </span>
           </div>
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Váš aktuální věk: <strong>{{ questionnaireStore.getCurrentAge() }} let</strong></span>
+            <span>
+              {{ t('app.steps.final.currentAge') }}
+              <strong>{{ questionnaireStore.getCurrentAge() }} {{ t('app.steps.final.years') }}</strong>
+            </span>
           </div>
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Základní očekávaná délka života: <strong>{{ roundedBaseLifeExpectancy }} let</strong></span>
-            <InfoModal label="Základní očekávaná délka života"
+            <span>{{ t('app.steps.final.baseLifeExpectancy') }} <strong>{{ roundedBaseLifeExpectancy }} {{ t('app.steps.final.years') }}</strong></span>
+            <InfoModal :label="t('app.steps.final.baseLifeExpectancy')"
                        :studyTitle="t('app.steps.final.tooltips.baseLifeExpectancy')"
                        studyLink="https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format"
             />
@@ -28,8 +36,8 @@
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Přínos vlivem fyzické aktivity: <strong class="text-green-600">+{{ roundedActivityLifeGain }} let</strong></span>
-            <InfoModal label="Přínos vlivem fyzické aktivity"
+            <span>{{ t('app.steps.final.physicalActivityBenefit') }} <strong class="text-green-600">+{{ roundedActivityLifeGain }} {{ t('app.steps.final.years') }}</strong></span>
+            <InfoModal :label="t('app.steps.final.physicalActivityBenefit')"
                        :studyTitle="t('app.steps.final.tooltips.physicalActivity')"
                        studyLink="https://www.ahajournals.org/doi/10.1161/jaha.117.007725"
             />
@@ -37,8 +45,8 @@
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Přínos vlivem stravy: <strong class="text-green-600">+{{ roundedDietLifeGain }} let</strong></span>
-            <InfoModal label="Přínos vlivem stravy"
+            <span>{{ t('app.steps.final.dietBenefit') }} <strong class="text-green-600">+{{ roundedDietLifeGain }} {{ t('app.steps.final.years') }}</strong></span>
+            <InfoModal :label="t('app.steps.final.dietBenefit')"
                        :studyTitle="t('app.steps.final.tooltips.food')"
                        studyLink="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003889"
             />
@@ -46,8 +54,8 @@
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Ztráta vlivem alkoholu: <strong class="text-red-600">-{{ roundedAlcoholLifeLoss }} let</strong></span>
-            <InfoModal label="Ztráta vlivem alkoholu"
+            <span>{{ t('app.steps.final.alcoholLoss') }} <strong class="text-red-600">-{{ roundedAlcoholLifeLoss }} {{ t('app.steps.final.years') }}</strong></span>
+            <InfoModal :label="t('app.steps.final.alcoholLoss')"
                        :studyTitle="t('app.steps.final.tooltips.alcohol')"
                        studyLink="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30134-X/fulltext"
             />
@@ -55,8 +63,8 @@
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Ztráta vlivem dosavadního kouření: <strong class="text-red-600">-{{ roundedSmokingLossYears }} let</strong></span>
-            <InfoModal label="Ztráta vlivem dosavadního kouření"
+            <span>{{ t('app.steps.final.smokingLossCurrent') }} <strong class="text-red-600">-{{ roundedSmokingLossYears }} {{ t('app.steps.final.years') }}</strong></span>
+            <InfoModal :label="t('app.steps.final.smokingLossCurrent')"
                        :studyTitle="t('app.steps.final.tooltips.smokingLoss')"
                        studyLink="https://onlinelibrary.wiley.com/doi/10.1111/add.16757"
             />
@@ -64,12 +72,18 @@
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Ztráta vlivem budoucího kouření: <strong class="text-red-600">-{{ roundedAdditionalSmokingLossYears }} let</strong></span>
+            <span>
+              {{ t('app.steps.final.smokingLossFuture') }}
+              <strong class="text-red-600">-{{ roundedAdditionalSmokingLossYears }} {{ t('app.steps.final.years') }}</strong>
+            </span>
           </div>
         </li>
         <li>
           <div class="flex items-center justify-between md:justify-normal gap-x-1">
-            <span>Očekávaná délka života ovlivněna faktory: <strong>{{ roundedExpectedLifeExpectancy }} let</strong></span>
+            <span>
+              {{ t('app.steps.final.adjustedLifeExpectancy') }}
+              <strong>{{ roundedExpectedLifeExpectancy }} {{ t('app.steps.final.years') }}</strong>
+            </span>
           </div>
         </li>
       </ul>
@@ -77,7 +91,7 @@
 
     <div class="mt-6">
       <label for="expectedLifetime" class="block text-gray-700 font-medium mb-2">
-        Zde můžete očekávanou délku života změnit:
+        {{ t('app.steps.final.changeLifeExpectancy') }}
       </label>
       <Slider
         v-model="adjustedExpectedLifetime"
@@ -87,13 +101,13 @@
         class="w-full"
       />
       <p class="mt-2 text-gray-700">
-        Zvolená nová doba: {{ roundedAdjustedExpectedLifetime }} let
+        {{ t('app.steps.final.newSelectedTime') }}: {{ roundedAdjustedExpectedLifetime }} {{ t('app.steps.final.years') }}
       </p>
     </div>
 
     <div class="mt-4">
       <p class="text-lg font-bold text-gray-800">
-        Věk pro který se vygeneruje memonto mori kalendář: {{ roundedAdjustedExpectedLifetime }} let
+        {{ t('app.steps.final.calendarGeneration') }}: {{ roundedAdjustedExpectedLifetime }} {{ t('app.steps.final.years') }}
       </p>
     </div>
   </div>

@@ -10,14 +10,14 @@
       </div>
 
       <p class="mb-4">
-        <strong>Rozsah:</strong>
+        <strong>{{ t("app.weekDialog.range") }}</strong>
         {{ formattedStartDate }} – {{ formattedEndDate }}
       </p>
 
       <div v-if="isEditable">
         <div class="mb-4">
           <label for="message" class="block mb-2 text-sm font-medium text-primary-800">
-            Poznámka <span class="text-red-500">*</span>
+            {{ t("app.weekDialog.note.label") }} <span class="text-red-500">*</span>
           </label>
 
           <div class="relative" style="min-height: 7rem;">
@@ -29,7 +29,7 @@
               required
               class="w-full h-full border border-gray-300 rounded p-2 absolute top-0 left-0 text-black bg-white"
               style="resize: none"
-              placeholder="Write your thoughts here..."
+              :placeholder="t('app.weekDialog.note.placeholder')"
             ></textarea>
           </div>
           <div class="text-right text-sm text-gray-500 mt-1">
@@ -58,13 +58,13 @@
 
         <div class="flex justify-end gap-4 mt-6">
           <Button
-            label="Uložit"
+            :label="t('app.weekDialog.buttons.save')"
             @click="saveMemo"
             :disabled="loading || !isFormValid"
             class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           />
           <Button
-            label="Zrušit"
+            :label="t('app.weekDialog.buttons.cancel')"
             @click="closeDialog"
             :disabled="loading"
             class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
@@ -75,7 +75,7 @@
 
       <div v-else>
         <p class="mb-4 max-h-72 overflow-y-scroll">
-          {{ week.additionalInfo || 'Poznámka není k dispozici.' }}
+          {{ week.additionalInfo || t('app.weekDialog.notAvailable') }}
         </p>
 
         <div
@@ -94,14 +94,14 @@
             />
           </div>
           <div class="flex items-center gap-2">
-            <label class="w-40 text-gray-700">Celkové skóre:</label>
+            <label class="w-40 text-gray-700">{{ t('app.weekDialog.totalScore') }}</label>
             <RatingStars :modelValue="week.total_score" :readonly="true" />
           </div>
         </div>
 
         <div class="flex justify-end">
           <Button
-            label="Zavřít"
+            :label="t('app.weekDialog.buttons.close')"
             @click="closeDialog"
             class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
           />
@@ -117,6 +117,9 @@ import { startOfISOWeek, addWeeks, isSameDay } from 'date-fns';
 import { useLifeStore } from '@/stores/lifeStore';
 import { useToast } from 'primevue/usetoast';
 import RatingStars from './RatingStars.vue';
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const toast = useToast();
 const TOAST_DURATION_IN_MS = 5000;
@@ -151,7 +154,7 @@ watch(visible, (val) => {
 });
 
 const dialogHeader = computed(() => {
-  return `Poznámka pro týden ${props.week.weekNumber}, ${props.week.year}`;
+  return t('app.weekDialog.header', { weekNumber: props.week.weekNumber, year: props.week.year });
 });
 
 const formattedStartDate = ref('');
@@ -197,11 +200,31 @@ const isFormValid = computed(() => {
 });
 
 const ratingFields = [
-  { label: 'Spokojenost', key: 'score_satisfaction', tooltip: 'Hodnocení Vaší spokojenosti během týdne' },
-  { label: 'Emoční rovnováha', key: 'score_emotional_balance', tooltip: 'Hodnocení Vaší emoční rovnováhy během týdne' },
-  { label: 'Produktivita', key: 'score_productivity', tooltip: 'Hodnocení Vaší produktivity během týdne' },
-  { label: 'Vztahy', key: 'score_relationships', tooltip: 'Hodnocení spokojenosti ve Vaších vztazích během týdne' },
-  { label: 'Soulad hodnot', key: 'score_values_alignment', tooltip: 'Hodnocení zda jste jednali v souladu s Vašimi hodnotami během týdne' }
+  {
+    label: t('app.weekDialog.rating.satisfaction'),
+    key: 'score_satisfaction',
+    tooltip: t('app.weekDialog.rating.tooltips.satisfaction')
+  },
+  {
+    label: t('app.weekDialog.rating.emotionalBalance'),
+    key: 'score_emotional_balance',
+    tooltip: t('app.weekDialog.rating.tooltips.emotionalBalance')
+  },
+  {
+    label: t('app.weekDialog.rating.productivity'),
+    key: 'score_productivity',
+    tooltip: t('app.weekDialog.rating.tooltips.productivity')
+  },
+  {
+    label: t('app.weekDialog.rating.relationships'),
+    key: 'score_relationships',
+    tooltip: t('app.weekDialog.rating.tooltips.relationships')
+  },
+  {
+    label: t('app.weekDialog.rating.valuesAlignment'),
+    key: 'score_values_alignment',
+    tooltip: t('app.weekDialog.rating.tooltips.valuesAlignment')
+  }
 ];
 
 const getRating = (key: string): number => {
@@ -245,7 +268,7 @@ const saveMemo = async () => {
   error.value = '';
 
   if (!isFormValid.value) {
-    error.value = 'Vyplňte prosím všechny povinné položky.';
+    error.value = t('app.weekDialog.validation.requiredFields');
     return;
   }
 
@@ -262,17 +285,17 @@ const saveMemo = async () => {
     );
     toast.add({
       severity: 'success',
-      summary: 'Úspěšně uloženo',
-      detail: 'Hodnocení vašeho týdne bylo úspěšně uloženo.',
+      summary: t('app.weekDialog.toast.successSummary'),
+      detail: t('app.weekDialog.toast.successDetail'),
       life: TOAST_DURATION_IN_MS
     });
     closeDialog();
   } catch (e: any) {
-    error.value = 'Chyba při ukládání poznámky.';
+    error.value = t('app.weekDialog.validation.saveError');
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Vyskytla se chyba. Nepodařilo se uložit hodnocení Vašeho týdne.',
+      summary: t('app.weekDialog.toast.errorSummary'),
+      detail: t('app.weekDialog.toast.errorDetail'),
       life: TOAST_DURATION_IN_MS
     });
     console.error(e);

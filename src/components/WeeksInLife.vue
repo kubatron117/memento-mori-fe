@@ -112,7 +112,7 @@
     />
 
     <div class="mt-4">
-      <Button label="Export do PDF 50x70 (cm)" @click="exportPdf" class="!bg-primary-800 text-white hover:!bg-primary-600" />
+      <Button :label="t('app.exportToPDF')" @click="exportPdf" class="!bg-primary-800 text-white hover:!bg-primary-600" />
     </div>
   </div>
 </template>
@@ -155,7 +155,7 @@ const closeModal = () => {
   selectedWeek.value = null;
 };
 
-const visualizationOptions = ref([
+const visualizationOptions = computed(() => [
   { label: t('app.visualization.week'), value: 'week' },
   { label: t('app.visualization.month'), value: 'month' },
   { label: t('app.visualization.year'), value: 'year' },

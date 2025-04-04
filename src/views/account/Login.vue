@@ -30,7 +30,7 @@ async function handleLogin() {
   }
 
   if (!emailRegex.test(email.value)) {
-    errorMessage.value = t('app.errors.invalid-email-format') || 'Email musí být ve tvaru "něco@něco.něco"'
+    errorMessage.value = t('app.errors.invalid-email-format')
     return
   }
 
@@ -49,8 +49,8 @@ async function handleLogin() {
 
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Přihlášení nebylo úspěšné.',
+      summary: t('app.login.errorSummary'),
+      detail: t('app.login.errorDetail'),
       life: TOAST_DURATION_IN_MS
     });
   } finally {

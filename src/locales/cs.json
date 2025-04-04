@@ -8,7 +8,9 @@
       "password": "Heslo",
       "forgot-password": "Zapomenuté heslo",
       "sign-in": "Přihlásit se",
-      "resend-verification-email": "Znova odeslat ověřovací email"
+      "resend-verification-email": "Znova odeslat ověřovací email",
+      "errorSummary": "Chyba",
+      "errorDetail": "Přihlášení nebylo úspěšné."
     },
     "registration": {
       "title": "Registrace",
@@ -25,7 +27,24 @@
       "already-have-account": "Již máte účet?",
       "login": "Přihlásit se",
       "firstName-required": "Musíte vyplnit jméno",
-      "lastName-required": "Musíte vyplnit příjmení"
+      "lastName-required": "Musíte vyplnit příjmení",
+      "firstName-max": "Jméno může mít maximálně {max} znaků",
+      "lastName-max": "Příjmení může mít maximálně {max} znaků",
+      "email-required": "Email je povinný",
+      "password-too-short": "Heslo musí mít minimálně 8 znaků",
+      "password-too-long": "Heslo může mít maximálně 64 znaků",
+      "password-weak": "Heslo musí obsahovat alespoň jedno číslo a jeden speciální znak",
+      "registration-success-summary": "Registrace byla úspěšná",
+      "registration-success-detail": "Na email Vám příjde potvrzovací email pro dokončení registrace",
+      "error-summary": "Chyba",
+      "error-detail": "Registrace nebyla úspěšná. Vyskytla se chyba.",
+      "password-too-short-info": "Heslo je příliš krátké ({current}/{min})",
+      "password-too-long-info": "Heslo je příliš dlouhé ({current}/{max})",
+      "password-ok": "Heslo je v pořádku ({current} znaků)",
+      "password-no-digit": "Heslo musí obsahovat alespoň jedno číslo.",
+      "password-no-special": "Heslo musí obsahovat alespoň jeden speciální znak.",
+      "passwords-match": "Hesla se shodují",
+      "passwords-do-not-match": "Hesla se neshodují"
     },
     "reset-password": {
       "title": "Reset hesla",
@@ -66,7 +85,8 @@
       "change-password-failed": "Změna hesla selhala",
       "password-mismatch": "Hesla se neschodují",
       "missing-password-fields": "Vyplňte chybějicí pole",
-      "invalid-email-format": "Neplatný formát emailu"
+      "invalid-email-format": "Neplatný formát emailu",
+      "error": "Chyba"
     },
     "steps":{
       "insert-date-of-birth": "Zadejte datum narození",
@@ -120,13 +140,33 @@
         "title": "Fyzická aktivita",
         "exerciseType": "Vyberte typ cvičení:",
         "moderateLabel": "Mírná",
+        "moderateExample": "(např. rychlá chůze)",
+        "moderateText": "Aktivita o intenzitě 3–5,9 MET (např. Chůze rychlým tempem (4,8–6,5 km/h), pomalá jízda na kole (15 km/h), malování/dekorování, vysávání, zahradničení (sekání trávníku), golf (tažení holí ve vozíku), tenis (dvojice), společenský tanec a vodní aerobik.). Dýchání je zrychlené, ale umožňuje mluvit v celých větách.",
         "vigorousLabel": "Intenzivní",
+        "vigorousExample": "(např. běh)",
+        "vigorousText": "Aktivita s hodnotou ≥6 MET (např. Závodní chůze, jogging nebo běh, jízda na kole rychlostí nad 15 km/h, náročné zahradničení (nepřetržité kopání nebo orání), plavání bazénem a tenis (singl)). Dýchání je velmi rychlé a mluvení je obtížné.",
         "noActivityLabel": "Žádná aktivita",
         "exerciseMinutes": "Počet minut cvičení za týden",
         "lifeGainYears": "Odhadované prodloužení života",
-        "studyNote": "(Na základě studie: dosažení doporučené úrovně fyzické aktivity může prodloužit život přibližně o 5 let.)"
+        "studyNote": "(Na základě studie: dosažení doporučené úrovně fyzické aktivity může prodloužit život přibližně o 5 let.)",
+        "intensityDefinition": "Definice intenzity cvičení"
       },
       "final": {
+        "title": "Finální krok: Odhadovaný věk dožití",
+        "resultsSummary": "Sumarizace výsledků",
+        "birthDate": "Datum narození:",
+        "currentAge": "Váš aktuální věk:",
+        "baseLifeExpectancy": "Základní očekávaná délka života:",
+        "physicalActivityBenefit": "Přínos vlivem fyzické aktivity:",
+        "dietBenefit": "Přínos vlivem stravy:",
+        "alcoholLoss": "Ztráta vlivem alkoholu:",
+        "smokingLossCurrent": "Ztráta vlivem dosavadního kouření:",
+        "smokingLossFuture": "Ztráta vlivem budoucího kouření:",
+        "adjustedLifeExpectancy": "Očekávaná délka života ovlivněna faktory:",
+        "changeLifeExpectancy": "Zde můžete očekávanou délku života změnit:",
+        "newSelectedTime": "Zvolená nová doba",
+        "calendarGeneration": "Věk pro který se vygeneruje memonto mori kalendář",
+        "years": "let",
         "tooltips": {
           "baseLifeExpectancy": "United Nations - World Population Prospects 2024",
           "physicalActivity": "Physical Activity in the Prevention and Treatment of Coronary Artery Disease",
@@ -164,6 +204,158 @@
       "month": "Po měsících",
       "year": "Po letech"
     },
-    "optional": "volitelně"
+    "optional": "volitelně",
+    "weekDialog": {
+      "header": "Poznámka pro týden {weekNumber}, {year}",
+      "range": "Rozsah:",
+      "note": {
+        "label": "Poznámka",
+        "placeholder": "Napište sem své myšlenky...",
+        "characterCount": "{count}/2000"
+      },
+      "rating": {
+        "satisfaction": "Spokojenost",
+        "emotionalBalance": "Emoční rovnováha",
+        "productivity": "Produktivita",
+        "relationships": "Vztahy",
+        "valuesAlignment": "Soulad hodnot",
+        "tooltips": {
+          "satisfaction": "Hodnocení Vaší spokojenosti během týdne",
+          "emotionalBalance": "Hodnocení Vaší emoční rovnováhy během týdne",
+          "productivity": "Hodnocení Vaší produktivity během týdne",
+          "relationships": "Hodnocení spokojenosti ve Vaších vztazích během týdne",
+          "valuesAlignment": "Hodnocení zda jste jednali v souladu s Vašimi hodnotami během týdne"
+        }
+      },
+      "buttons": {
+        "save": "Uložit",
+        "cancel": "Zrušit",
+        "close": "Zavřít"
+      },
+      "validation": {
+        "requiredFields": "Vyplňte prosím všechny povinné položky.",
+        "saveError": "Chyba při ukládání poznámky."
+      },
+      "toast": {
+        "successSummary": "Úspěšně uloženo",
+        "successDetail": "Hodnocení vašeho týdne bylo úspěšně uloženo.",
+        "errorSummary": "Chyba",
+        "errorDetail": "Vyskytla se chyba. Nepodařilo se uložit hodnocení Vašeho týdne."
+      },
+      "totalScore": "Celkové skóre:",
+      "notAvailable": "Poznámka není k dispozici."
+    },
+    "infoDialog": {
+      "header": "Informace",
+      "studyBasedOn": "Na základě:",
+      "studyLink": "Odkaz na studii:",
+      "linkLabel": "odkaz",
+      "close": "Zavřít"
+    },
+    "infoTextBox": {
+      "text": "Vaše odpověď se uchovává jen lokálně pro výpočet, není nikam odesílána."
+    },
+    "nav": {
+      "userProfile": "Uživatelský profil",
+      "logout": "Odhlásit se"
+    },
+    "stepEatingHabits": {
+      "title": "Kalkulačka stravy a prodloužení života",
+      "question": "Jakou stravu máte?",
+      "dietOptions": {
+        "typical": "Typická západní dieta",
+        "feasible": "Proveditelná dieta",
+        "optimal": "Optimalizovaná dieta"
+      },
+      "dietStartAgeLabel": "Od jakého věku tuto dietu používáte?",
+      "table": {
+        "title": "Srovnání doporučených denních příjmů (g/den)",
+        "headers": {
+          "food": "Potravina",
+          "typical": "Typická",
+          "feasible": "Proveditelná",
+          "optimal": "Optimalizovaná"
+        }
+      },
+      "dietComparisonFoods": {
+        "wholeGrains": "Obiloviny celozrnné",
+        "vegetables": "Zelenina",
+        "fruits": "Ovoce",
+        "nuts": "Ořechy",
+        "legumes": "Luštěniny",
+        "fish": "Ryby",
+        "eggs": "Vejce",
+        "dairy": "Mléko/mléčné výrobky",
+        "refinedGrains": "Rafinované obiloviny",
+        "redMeat": "Červené maso",
+        "processedMeat": "Zpracované maso",
+        "whiteMeat": "Bílé maso",
+        "sweetenedBeverages": "Slazené nápoje",
+        "addedOils": "Přidané rostlinné oleje"
+      },
+      "nationalityStep": {
+        "title": "Vyberte národnost",
+        "placeholder": "Vyberte národnost",
+        "toasts": {
+          "fetchNationalitiesError": {
+            "summary": "Chyba",
+            "detail": "Vyskytla se chyba. Nepodařilo se načíst státy."
+          },
+          "fetchLifeExpectancyError": {
+            "summary": "Chyba",
+            "detail": "Vyskytla se chyba. Nepodařilo se načíst odhad věku."
+          },
+          "birthDateNotSet": {
+            "summary": "Chyba",
+            "detail": "Vyskytla se chyba. Není zadáno datum narození."
+          }
+        }
+      }
+    },
+    "exportToPDF": "Exportovat do PDF 50x70 (cm)",
+    "stepper": {
+      "stepPanel": {
+        "backButton": "Zpět",
+        "skipButton": "Přeskočit",
+        "nextButton": "Další",
+        "saveButton": "Uložit",
+        "stepIsForced": "Tento krok je povinný, vyplňte pole",
+        "youCanSkip": "Není zvolena odpověď, ale krok můžete přeskočit",
+        "dateOfBirth": "Datum narození",
+        "gender": "Pohlaví",
+        "nationality": "Národnost",
+        "smoking": "Kouření",
+        "alcohol": "Alkohol",
+        "physicalActivity": "Fyzická aktivita",
+        "eating": "Stravovací návyky",
+        "confirmation": "Potvrzení"
+      },
+      "save": {
+        "toastError": "Chyba",
+        "toastErrorMessage": "Prosím, vyplňte datum narození a zvolte očekávaný věk.",
+        "toastErrorSaveMessage": "Nepodařilo se odeslat data.",
+        "confirmMessage": "Vypočtený věk dožití již nebude možné změnit. Opravdu chcete uložit?",
+        "confirmHeaderTitle": "Potvrzení uložení",
+        "acceptLabel": "Ano",
+        "rejectLabel": "Ne"
+      }
+    },
+    "userProfile": {
+      "error": "Chyba",
+      "enterCurrentPassword": "Zadejte aktuální heslo",
+      "enterNewPassword": "Zadejte nové heslo",
+      "confirmNewPassword": "Zadejte nové heslo"
+    },
+    "weeksInLife": {
+      "toast": {
+        "error": "Chyba",
+        "detail": "Nepodařilo se načíst data."
+      }
+    },
+    "accountVerification": {
+      "successSummary": "Účet byl úspěšně ověřen.",
+      "errorSummary": "Chyba",
+      "errorDetail": "Nepodařilo se účet ověřit."
+    }
   }
 }

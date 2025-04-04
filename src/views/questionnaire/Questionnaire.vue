@@ -22,7 +22,7 @@
             <Button
               v-if="step.id !== steps[0].id"
               class="p-button-secondary mr-2"
-              label="Zpět"
+              :label="t('app.stepper.stepPanel.backButton')"
               icon="pi pi-arrow-left"
               @click="activateCallback(getPreviousStepId(step.id))"
             />
@@ -30,21 +30,21 @@
             <Button
               v-if="step.skippable !== false"
               class="p-button-secondary mr-2"
-              label="Přeskočit"
+              :label="t('app.stepper.stepPanel.skipButton')"
               @click="onSkipStep(step, activateCallback)"
             />
             <Button
               v-if="step.id !== steps[steps.length - 1].id"
-              label="Další"
+              :label="t('app.stepper.stepPanel.nextButton')"
               icon="pi pi-arrow-right"
               iconPos="right"
               :disabled="!isStepValid(step)"
-              v-tooltip.top="!isStepValid(step) ? (step.skippable === false ? 'Tento krok je povinný, vyplňte pole' : 'Není zvolena odpověď, ale krok můžete přeskočit') : ''"
+              v-tooltip.top="!isStepValid(step) ? (step.skippable === false ? t('app.stepper.stepPanel.stepIsForced') : t('app.stepper.stepPanel.youCanSkip')) : ''"
               @click="onNextStep(step, activateCallback)"
             />
             <Button
               v-else
-              label="Uložit"
+              :label="t('app.stepper.stepPanel.saveButton')"
               icon="pi pi-check"
               iconPos="right"
               :disabled="!isStepValid(step)"
@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue'
 import Stepper from 'primevue/stepper';
 import StepList from 'primevue/steplist';
 import Step from 'primevue/step';
@@ -87,6 +87,7 @@ import { useAlcoholStore } from '@/stores/lifeLossAlcoholStore';
 import { useActivityStore } from '@/stores/lifeGainActivityStore';
 import { useDietStore } from '@/stores/lifeGainEatingStore';
 import { useToast } from 'primevue/usetoast'
+import { useI18n } from 'vue-i18n'
 
 interface StepConfig {
   id: number;
@@ -98,6 +99,8 @@ interface StepConfig {
   skip?: () => void;
 }
 
+const { t } = useI18n();
+
 const questionnaireStore = useQuestionnaireStore();
 const loginStore = useLoginStore();
 const confirm = useConfirm();
@@ -105,17 +108,17 @@ const confirm = useConfirm();
 const toast = useToast();
 const TOAST_DURATION_IN_MS = 5000;
 
-const steps: StepConfig[] = [
+const steps = computed((): StepConfig[] => [
   {
     id: 1,
-    title: 'Datum narození',
+    title: t('app.stepper.stepPanel.dateOfBirth'),
     component: StepBirthDate,
     skippable: false,
     requiredField: 'birthDate'
   },
   {
     id: 2,
-    title: 'Pohlaví',
+    title: t('app.stepper.stepPanel.gender'),
     component: StepGender,
     skip: () => {
       questionnaireStore.updateField('gender', null);
@@ -124,14 +127,14 @@ const steps: StepConfig[] = [
   },
   {
     id: 3,
-    title: 'Národnost',
+    title: t('app.stepper.stepPanel.nationality'),
     component: StepNationality,
     skippable: false,
     requiredField: 'nationality'
   },
   {
     id: 4,
-    title: 'Kouření',
+    title: t('app.stepper.stepPanel.smoking'),
     component: StepSmoking,
     skip: () => {
       const store = useLifeLossSmokingStore();
@@ -144,7 +147,7 @@ const steps: StepConfig[] = [
   },
   {
     id: 5,
-    title: 'Alkohol',
+    title: t('app.stepper.stepPanel.alcohol'),
     component: StepAlcohol,
     skip: () => {
       const store = useAlcoholStore();
@@ -157,7 +160,7 @@ const steps: StepConfig[] = [
   },
   {
     id: 6,
-    title: 'Fyzická aktivita',
+    title: t('app.stepper.stepPanel.physicalActivity'),
     component: StepPhysicalActivity,
     skip: () => {
       const store = useActivityStore();
@@ -170,7 +173,7 @@ const steps: StepConfig[] = [
   },
   {
     id: 7,
-    title: 'Stravovací návyky',
+    title: t('app.stepper.stepPanel.eating'),
     component: StepEatingHabits,
     skip: () => {
       const store = useDietStore();
@@ -183,27 +186,27 @@ const steps: StepConfig[] = [
   },
   {
     id: 8,
-    title: 'Potvrzení',
+    title: t('app.stepper.stepPanel.confirmation'),
     component: StepFinal,
     skippable: false,
     requiredField: 'desiredAge'
   },
-];
+]);
 
 const activeStep = ref(1);
 
 function getNextStepId(currentId: number): number {
-  const currentIndex = steps.findIndex((step) => step.id === currentId);
-  if (currentIndex < steps.length - 1) {
-    return steps[currentIndex + 1].id;
+  const currentIndex = steps.value.findIndex((step) => step.id === currentId);
+  if (currentIndex < steps.value.length - 1) {
+    return steps.value[currentIndex + 1].id;
   }
   return currentId;
 }
 
 function getPreviousStepId(currentId: number): number {
-  const currentIndex = steps.findIndex((step) => step.id === currentId);
+  const currentIndex = steps.value.findIndex((step) => step.id === currentId);
   if (currentIndex > 0) {
-    return steps[currentIndex - 1].id;
+    return steps.value[currentIndex - 1].id;
   }
   return currentId;
 }
@@ -235,19 +238,19 @@ async function onSubmit() {
   if (!questionnaireStore.birthDate || !questionnaireStore.desiredAge) {
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Prosím, vyplňte datum narození a zvolte očekávaný věk.',
+      summary: t('app.stepper.save.toastError'),
+      detail: t('app.stepper.save.toastErrorMessage'),
       life: TOAST_DURATION_IN_MS
     });
     return;
   }
 
   confirm.require({
-    message: 'Vypočtený věk dožití již nebude možné změnit. Opravdu chcete uložit?',
-    header: 'Potvrzení uložení',
+    message: t('app.stepper.save.confirmMessage'),
+    header: t('app.stepper.save.confirmHeaderTitle'),
     icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Ano',
-    rejectLabel: 'Ne',
+    acceptLabel: t('app.stepper.save.acceptLabel'),
+    rejectLabel: t('app.stepper.save.rejectLabel'),
     accept: async () => {
       const birth = new Date(questionnaireStore.birthDate);
       const estimatedLifespanDate = new Date(
@@ -276,8 +279,8 @@ async function onSubmit() {
       } else {
         toast.add({
           severity: 'error',
-          summary: 'Chyba',
-          detail: 'Nepodařilo se odeslat data.',
+          summary: t('app.stepper.save.toastError'),
+          detail: t('app.stepper.save.toastErrorSaveMessage'),
           life: TOAST_DURATION_IN_MS
         });
       }
