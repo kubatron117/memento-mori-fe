@@ -3,14 +3,14 @@
 
   <div class="bg-white shadow rounded p-6 max-w-md mx-auto">
     <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">
-      {{ t('app.nationalityStep.title') }}
+      {{ t('app.stepEatingHabits.nationalityStep.title') }}
     </h2>
     <Select
       v-model="selectedNationality"
       :options="nationalities"
       optionLabel="location"
       optionValue="id"
-      :placeholder="t('app.nationalityStep.placeholder')"
+      :placeholder="t('app.stepEatingHabits.nationalityStep.placeholder')"
       class="w-full"
       filter
     />
@@ -48,8 +48,8 @@ onMounted(async () => {
     console.error('Error fetching nationalities:', error);
     toast.add({
       severity: 'error',
-      summary: t('app.nationalityStep.toasts.fetchNationalitiesError.summary'),
-      detail: t('app.nationalityStep.toasts.fetchNationalitiesError.detail'),
+      summary: t('app.stepEatingHabits.nationalityStep.toasts.fetchNationalitiesError.summary'),
+      detail: t('app.stepEatingHabits.nationalityStep.toasts.fetchNationalitiesError.detail'),
       life: 3000
     });
   }
