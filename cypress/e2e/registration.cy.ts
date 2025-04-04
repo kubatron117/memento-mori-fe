@@ -25,7 +25,7 @@ describe('Registration and verification', () => {
 
     cy.wait(1500);
 
-    // Načteme emaily z MailHog
+    // Load emails from mailhoq
     cy.request('GET', 'http://localhost:8025/api/v2/messages')
       .its('body')
       .then((body) => {
@@ -34,7 +34,7 @@ describe('Registration and verification', () => {
           return headers.To && headers.To.includes(email) &&
             headers.Subject && headers.Subject.includes("Verify Account");
         });
-        expect(foundEmail, 'Email s verifikačním odkazem byl nalezen').to.exist;
+        expect(foundEmail, 'Email with verification link was found').to.exist;
 
         const decodedBody = foundEmail.Content.Body
           .replace(/=\r\n/g, "")
@@ -42,10 +42,10 @@ describe('Registration and verification', () => {
 
         const linkRegex = /http:\/\/localhost:3111\/verify-account\?key=\S+/;
         const match = decodedBody.match(linkRegex);
-        expect(match, 'Verifikační odkaz je v emailu přítomen').to.exist;
+        expect(match, 'Verification link is present').to.exist;
         const verificationLink = match[0];
 
-        cy.log('Nalezený verifikační odkaz: ' + verificationLink);
+        cy.log('Founded link: ' + verificationLink);
 
         cy.visit(verificationLink);
       });
