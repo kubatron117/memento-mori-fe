@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue'
 import Stepper from 'primevue/stepper';
 import StepList from 'primevue/steplist';
 import Step from 'primevue/step';
@@ -108,7 +108,7 @@ const confirm = useConfirm();
 const toast = useToast();
 const TOAST_DURATION_IN_MS = 5000;
 
-const steps: StepConfig[] = [
+const steps = computed((): StepConfig[] => [
   {
     id: 1,
     title: t('app.stepper.stepPanel.dateOfBirth'),
@@ -191,22 +191,22 @@ const steps: StepConfig[] = [
     skippable: false,
     requiredField: 'desiredAge'
   },
-];
+]);
 
 const activeStep = ref(1);
 
 function getNextStepId(currentId: number): number {
-  const currentIndex = steps.findIndex((step) => step.id === currentId);
-  if (currentIndex < steps.length - 1) {
-    return steps[currentIndex + 1].id;
+  const currentIndex = steps.value.findIndex((step) => step.id === currentId);
+  if (currentIndex < steps.value.length - 1) {
+    return steps.value[currentIndex + 1].id;
   }
   return currentId;
 }
 
 function getPreviousStepId(currentId: number): number {
-  const currentIndex = steps.findIndex((step) => step.id === currentId);
+  const currentIndex = steps.value.findIndex((step) => step.id === currentId);
   if (currentIndex > 0) {
-    return steps[currentIndex - 1].id;
+    return steps.value[currentIndex - 1].id;
   }
   return currentId;
 }
