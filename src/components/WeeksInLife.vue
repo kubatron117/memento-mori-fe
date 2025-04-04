@@ -155,7 +155,7 @@ const closeModal = () => {
   selectedWeek.value = null;
 };
 
-const visualizationOptions = ref([
+const visualizationOptions = computed(() => [
   { label: t('app.visualization.week'), value: 'week' },
   { label: t('app.visualization.month'), value: 'month' },
   { label: t('app.visualization.year'), value: 'year' },
