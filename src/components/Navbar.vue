@@ -6,6 +6,7 @@
       </router-link>
 
       <div class="flex items-center md:order-2 space-x-3">
+        <ChangeLanguage></ChangeLanguage>
         <div class="relative">
           <button
             @click="toggleUserDropdown"
@@ -71,6 +72,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLoginStore } from '@/stores/loginStore';
 import { useI18n } from 'vue-i18n'
+import ChangeLanguage from '@/components/ChangeLanguage.vue'
 
 const mobileMenuOpen = ref(false);
 const userDropdownOpen = ref(false);

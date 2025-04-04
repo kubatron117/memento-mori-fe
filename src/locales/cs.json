@@ -8,7 +8,9 @@
       "password": "Heslo",
       "forgot-password": "Zapomenuté heslo",
       "sign-in": "Přihlásit se",
-      "resend-verification-email": "Znova odeslat ověřovací email"
+      "resend-verification-email": "Znova odeslat ověřovací email",
+      "errorSummary": "Chyba",
+      "errorDetail": "Přihlášení nebylo úspěšné."
     },
     "registration": {
       "title": "Registrace",
@@ -25,7 +27,24 @@
       "already-have-account": "Již máte účet?",
       "login": "Přihlásit se",
       "firstName-required": "Musíte vyplnit jméno",
-      "lastName-required": "Musíte vyplnit příjmení"
+      "lastName-required": "Musíte vyplnit příjmení",
+      "firstName-max": "Jméno může mít maximálně {max} znaků",
+      "lastName-max": "Příjmení může mít maximálně {max} znaků",
+      "email-required": "Email je povinný",
+      "password-too-short": "Heslo musí mít minimálně 8 znaků",
+      "password-too-long": "Heslo může mít maximálně 64 znaků",
+      "password-weak": "Heslo musí obsahovat alespoň jedno číslo a jeden speciální znak",
+      "registration-success-summary": "Registrace byla úspěšná",
+      "registration-success-detail": "Na email Vám příjde potvrzovací email pro dokončení registrace",
+      "error-summary": "Chyba",
+      "error-detail": "Registrace nebyla úspěšná. Vyskytla se chyba.",
+      "password-too-short-info": "Heslo je příliš krátké ({current}/{min})",
+      "password-too-long-info": "Heslo je příliš dlouhé ({current}/{max})",
+      "password-ok": "Heslo je v pořádku ({current} znaků)",
+      "password-no-digit": "Heslo musí obsahovat alespoň jedno číslo.",
+      "password-no-special": "Heslo musí obsahovat alespoň jeden speciální znak.",
+      "passwords-match": "Hesla se shodují",
+      "passwords-do-not-match": "Hesla se neshodují"
     },
     "reset-password": {
       "title": "Reset hesla",
@@ -66,7 +85,8 @@
       "change-password-failed": "Změna hesla selhala",
       "password-mismatch": "Hesla se neschodují",
       "missing-password-fields": "Vyplňte chybějicí pole",
-      "invalid-email-format": "Neplatný formát emailu"
+      "invalid-email-format": "Neplatný formát emailu",
+      "error": "Chyba"
     },
     "steps":{
       "insert-date-of-birth": "Zadejte datum narození",
@@ -291,6 +311,51 @@
           }
         }
       }
+    },
+    "exportToPDF": "Exportovat do PDF 50x70 (cm)",
+    "stepper": {
+      "stepPanel": {
+        "backButton": "Zpět",
+        "skipButton": "Přeskočit",
+        "nextButton": "Další",
+        "saveButton": "Uložit",
+        "stepIsForced": "Tento krok je povinný, vyplňte pole",
+        "youCanSkip": "Není zvolena odpověď, ale krok můžete přeskočit",
+        "dateOfBirth": "Datum narození",
+        "gender": "Pohlaví",
+        "nationality": "Národnost",
+        "smoking": "Kouření",
+        "alcohol": "Alkohol",
+        "physicalActivity": "Fyzická aktivita",
+        "eating": "Stravovací návyky",
+        "confirmation": "Potvrzení"
+      },
+      "save": {
+        "toastError": "Chyba",
+        "toastErrorMessage": "Prosím, vyplňte datum narození a zvolte očekávaný věk.",
+        "toastErrorSaveMessage": "Nepodařilo se odeslat data.",
+        "confirmMessage": "Vypočtený věk dožití již nebude možné změnit. Opravdu chcete uložit?",
+        "confirmHeaderTitle": "Potvrzení uložení",
+        "acceptLabel": "Ano",
+        "rejectLabel": "Ne"
+      }
+    },
+    "userProfile": {
+      "error": "Chyba",
+      "enterCurrentPassword": "Zadejte aktuální heslo",
+      "enterNewPassword": "Zadejte nové heslo",
+      "confirmNewPassword": "Zadejte nové heslo"
+    },
+    "weeksInLife": {
+      "toast": {
+        "error": "Chyba",
+        "detail": "Nepodařilo se načíst data."
+      }
+    },
+    "accountVerification": {
+      "successSummary": "Účet byl úspěšně ověřen.",
+      "errorSummary": "Chyba",
+      "errorDetail": "Nepodařilo se účet ověřit."
     }
   }
 }

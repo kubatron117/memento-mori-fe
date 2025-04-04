@@ -1,8 +1,324 @@
 {
   "app": {
-
-  },
-  "errors": {
-    "test": "This is an error, bro!"
+    "login": {
+      "welcome-back": "Welcome back",
+      "dont-have-account": "Don't have an account yet?",
+      "create-today": "Create one today!",
+      "email": "Email",
+      "password": "Password",
+      "forgot-password": "Forgot password",
+      "sign-in": "Sign in",
+      "resend-verification-email": "Resend verification email"
+    },
+    "registration": {
+      "title": "Registration",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "password": "Password",
+      "passwordConfirm": "Confirm password",
+      "terms": "I agree to the terms and conditions",
+      "register": "Register",
+      "password-mismatch": "Password and confirmation do not match",
+      "accept-terms": "You must agree to the terms",
+      "registration-failed": "Registration failed",
+      "already-have-account": "Already have an account?",
+      "login": "Sign in",
+      "firstName-required": "First name is required",
+      "lastName-required": "Last name is required"
+    },
+    "reset-password": {
+      "title": "Reset Password",
+      "subtitle": "Enter your new password and confirm it",
+      "new-password": "New password",
+      "new-password-placeholder": "Enter new password",
+      "confirm-password": "Confirm password",
+      "confirm-password-placeholder": "Re-enter new password",
+      "submit": "Submit",
+      "no-key": "No reset key provided.",
+      "success": "Password has been successfully reset.",
+      "reset": "Reset password",
+      "email-was-send": "Password reset email has been successfully sent."
+    },
+    "change-password": {
+      "title": "Change Password",
+      "old-password": "Old password",
+      "new-password": "New password",
+      "confirm-password": "Confirm new password",
+      "submit": "Change password",
+      "success": "Password has been successfully changed"
+    },
+    "resend-verification-email": {
+      "title": "Resend Verification Email",
+      "subtitle": "Enter your email and we will send you a new verification link.",
+      "email": "Email",
+      "resend": "Resend verification email",
+      "email-required": "Email is required",
+      "email-sent": "Verification email has been sent",
+      "failed": "Sending verification email failed"
+    },
+    "errors": {
+      "missing-email-password": "Please enter both email and password.",
+      "missing-email": "Please enter your email.",
+      "missing-password": "Please enter your password.",
+      "login-failed": "Login failed.",
+      "reset-password-failed": "Password reset failed.",
+      "change-password-failed": "Password change failed",
+      "password-mismatch": "Passwords do not match",
+      "missing-password-fields": "Please fill in the missing fields",
+      "invalid-email-format": "Invalid email format"
+    },
+    "steps": {
+      "insert-date-of-birth": "Enter your date of birth",
+      "date-of-birth": "Date of birth",
+      "choose-gender": "Select your gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Prefer not to say",
+      "smoking": "Smoking",
+      "do-you-smoke": "Do you smoke?",
+      "plan-to-quit": "Are you planning to quit?",
+      "yes": "Yes",
+      "no": "No",
+      "start-age-smoking": "At what age did you start smoking?",
+      "cigarettes-per-day": "How many cigarettes per day?",
+      "stop-age-smoking": "At what age did you stop smoking?",
+      "quit-timeframe": "When do you plan to quit?",
+      "in-3-months": "Within 3 months",
+      "in-6-months": "Within 6 months",
+      "in-1-year": "Within 1 year",
+      "past-smoker": "No, but I used to smoke",
+      "alcohol": {
+        "title": "Alcohol Consumption",
+        "drinksAlcohol": "Do you drink alcohol?",
+        "yes": "Yes",
+        "no": "No",
+        "instruction": "Enter the number of drinks you have per week.",
+        "smallBeer10": "SMALL beer 10°",
+        "largeBeer10": "LARGE beer 10°",
+        "smallBeer12": "SMALL beer 12°",
+        "largeBeer12": "LARGE beer 12°",
+        "shot": "Shot",
+        "wine": "Wine",
+        "totalAlcohol": "Total alcohol amount:",
+        "lifeLost": "Life shortening from age 40:",
+        "noLoss": "no losses recorded",
+        "year": "year",
+        "years": "years",
+        "studyNote": "(According to the study: baseline is ≤100 g/week; >100–≤200 g reduces by 6 months, >200–≤350 g by 1–2 years, and >350 g by 4–5 years.)",
+        "noConsumption": "User does not report alcohol consumption.",
+        "tooltips": {
+          "smallBeer10": "1 drink (0.33 l) = 10 g of alcohol",
+          "largeBeer10": "1 drink (0.5 l) = 16 g of alcohol",
+          "smallBeer12": "1 drink (0.33 l) = 13.2 g of alcohol",
+          "largeBeer12": "1 drink (0.5 l) = 20 g of alcohol",
+          "shot": "1 drink (0.04 l) = 12.8 g of alcohol",
+          "wine": "1 drink (0.2 l) = 19.2 g of alcohol"
+        }
+      },
+      "physical-activity": {
+        "title": "Physical Activity",
+        "exerciseType": "Select type of exercise:",
+        "moderateLabel": "Moderate",
+        "moderateExample": "(e.g., brisk walking)",
+        "moderateText": "Activity with an intensity of 3–5.9 MET (e.g., fast walking (4.8–6.5 km/h), slow cycling (15 km/h), painting/decorating, vacuuming, gardening (mowing the lawn), golf (pushing a cart), tennis (doubles), social dancing, and water aerobics). Breathing is accelerated but allows for speaking in full sentences.",
+        "vigorousLabel": "Vigorous",
+        "vigorousExample": "(e.g., running)",
+        "vigorousText": "Activity with an intensity of ≥6 MET (e.g., power walking, jogging or running, cycling over 15 km/h, strenuous gardening (continuous digging or plowing), swimming in a pool, and tennis (singles)). Breathing is very rapid and speaking is difficult.",
+        "noActivityLabel": "No activity",
+        "exerciseMinutes": "Number of exercise minutes per week",
+        "lifeGainYears": "Estimated life extension",
+        "studyNote": "(Based on the study: achieving the recommended level of physical activity can extend life by approximately 5 years.)",
+        "intensityDefinition": "Definition of exercise intensity"
+      },
+      "final": {
+        "title": "Final Step: Estimated Lifespan",
+        "resultsSummary": "Results summary",
+        "birthDate": "Date of birth:",
+        "currentAge": "Your current age:",
+        "baseLifeExpectancy": "Basic life expectancy:",
+        "physicalActivityBenefit": "Benefit from physical activity:",
+        "dietBenefit": "Benefit from diet:",
+        "alcoholLoss": "Loss due to alcohol:",
+        "smokingLossCurrent": "Loss from current smoking:",
+        "smokingLossFuture": "Loss from future smoking:",
+        "adjustedLifeExpectancy": "Life expectancy adjusted by factors:",
+        "changeLifeExpectancy": "Here you can change the expected lifespan:",
+        "newSelectedTime": "Newly selected time",
+        "calendarGeneration": "Age for which the memento mori calendar is generated",
+        "years": "years",
+        "tooltips": {
+          "baseLifeExpectancy": "United Nations - World Population Prospects 2024",
+          "physicalActivity": "Physical Activity in the Prevention and Treatment of Coronary Artery Disease",
+          "food": "Estimating impact of food choices on life expectancy: A modeling study",
+          "alcohol": "Risk thresholds for alcohol consumption...",
+          "smokingLoss": "The price of a cigarette: 20 minutes of life?"
+        }
+      }
+    },
+    "life": {
+      "percentageOfLifeLived": "Percentage of life lived",
+      "daysLived": "Days lived",
+      "daysRemaining": "Days remaining",
+      "timeUntilExpectedLifespan": "Time until expected lifespan",
+      "noExpectedDate": "No expected lifespan date set.",
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds",
+      "congratulationsMessage": "Congratulations, you have lived longer than expected."
+    },
+    "weeks": {
+      "weekSize": "Size:",
+      "noData": "No week data found.",
+      "year": "Year:",
+      "week": "Week:",
+      "range": "Range:",
+      "info": "Info:",
+      "scoreVisualization": "Score visualization",
+      "totalScore": "Satisfaction score:"
+    },
+    "visualization": {
+      "label": "Display",
+      "week": "By weeks",
+      "month": "By months",
+      "year": "By years"
+    },
+    "optional": "optional",
+    "weekDialog": {
+      "header": "Note for week {weekNumber}, {year}",
+      "range": "Range:",
+      "note": {
+        "label": "Note",
+        "placeholder": "Write your thoughts here...",
+        "characterCount": "{count}/2000"
+      },
+      "rating": {
+        "satisfaction": "Satisfaction",
+        "emotionalBalance": "Emotional balance",
+        "productivity": "Productivity",
+        "relationships": "Relationships",
+        "valuesAlignment": "Values alignment",
+        "tooltips": {
+          "satisfaction": "Rating of your satisfaction during the week",
+          "emotionalBalance": "Rating of your emotional balance during the week",
+          "productivity": "Rating of your productivity during the week",
+          "relationships": "Rating of satisfaction in your relationships during the week",
+          "valuesAlignment": "Rating of whether you acted in accordance with your values during the week"
+        }
+      },
+      "buttons": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "close": "Close"
+      },
+      "validation": {
+        "requiredFields": "Please fill in all required items.",
+        "saveError": "Error saving the note."
+      },
+      "toast": {
+        "successSummary": "Successfully saved",
+        "successDetail": "Your weekly rating has been saved successfully.",
+        "errorSummary": "Error",
+        "errorDetail": "An error occurred. Your weekly rating could not be saved."
+      },
+      "totalScore": "Total score:",
+      "notAvailable": "Note is not available."
+    },
+    "infoDialog": {
+      "header": "Information",
+      "studyBasedOn": "Based on:",
+      "studyLink": "Link to study:",
+      "linkLabel": "link",
+      "close": "Close"
+    },
+    "infoTextBox": {
+      "text": "Your response is stored locally for calculation only and is not sent anywhere."
+    },
+    "nav": {
+      "userProfile": "User profile",
+      "logout": "Logout"
+    },
+    "stepEatingHabits": {
+      "title": "Diet and Life Extension Calculator",
+      "question": "What kind of diet do you follow?",
+      "dietOptions": {
+        "typical": "Typical Western diet",
+        "feasible": "Feasible diet",
+        "optimal": "Optimized diet"
+      },
+      "dietStartAgeLabel": "At what age did you start this diet?",
+      "table": {
+        "title": "Comparison of recommended daily intakes (g/day)",
+        "headers": {
+          "food": "Food",
+          "typical": "Typical",
+          "feasible": "Feasible",
+          "optimal": "Optimized"
+        }
+      },
+      "dietComparisonFoods": {
+        "wholeGrains": "Whole grains",
+        "vegetables": "Vegetables",
+        "fruits": "Fruits",
+        "nuts": "Nuts",
+        "legumes": "Legumes",
+        "fish": "Fish",
+        "eggs": "Eggs",
+        "dairy": "Milk/dairy products",
+        "refinedGrains": "Refined grains",
+        "redMeat": "Red meat",
+        "processedMeat": "Processed meat",
+        "whiteMeat": "White meat",
+        "sweetenedBeverages": "Sweetened beverages",
+        "addedOils": "Added vegetable oils"
+      },
+      "nationalityStep": {
+        "title": "Select Nationality",
+        "placeholder": "Select Nationality",
+        "toasts": {
+          "fetchNationalitiesError": {
+            "summary": "Error",
+            "detail": "An error occurred. Countries could not be loaded."
+          },
+          "fetchLifeExpectancyError": {
+            "summary": "Error",
+            "detail": "An error occurred. Life expectancy could not be loaded."
+          },
+          "birthDateNotSet": {
+            "summary": "Error",
+            "detail": "An error occurred. Date of birth is not set."
+          }
+        }
+      }
+    },
+    "exportToPDF": "Export to PDF 50x70 (cm)",
+    "stepper": {
+      "stepPanel": {
+        "backButton": "Back",
+        "skipButton": "Skip",
+        "nextButton": "Next",
+        "saveButton": "Save",
+        "stepIsForced": "This step is mandatory, please fill in the field",
+        "youCanSkip": "No answer selected, but you can skip the step",
+        "dateOfBirth": "Date of birth",
+        "gender": "Gender",
+        "nationality": "Nationality",
+        "smoking": "Smoking",
+        "alcohol": "Alcohol",
+        "physicalActivity": "Physical activity",
+        "eating": "Eating habits",
+        "confirmation": "Confirmation"
+      },
+      "save": {
+        "toastError": "Error",
+        "toastErrorMessage": "Please fill in the date of birth and select the expected age.",
+        "toastErrorSaveMessage": "Failed to submit data.",
+        "confirmMessage": "The calculated life expectancy can no longer be changed. Do you really want to save?",
+        "confirmHeaderTitle": "Save Confirmation",
+        "acceptLabel": "Yes",
+        "rejectLabel": "No"
+      }
+    }
   }
 }

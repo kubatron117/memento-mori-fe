@@ -5,7 +5,9 @@ import { AccountLoginApiService } from '@/api/accountLoginApiService'
 import router from '@/router'
 import { useLoginStore } from '@/stores/loginStore'
 import { useToast } from 'primevue/usetoast'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const route = useRoute()
 
 const verificationKey = ref<string>('')
@@ -26,18 +28,17 @@ onMounted(() => {
       .then((status) => {
         toast.add({
           severity: 'success',
-          summary: 'Účet byl úspěšně ověřen.',
+          summary: t('app.accountVerification.successSummary'),
           detail: '',
           life: TOAST_DURATION_IN_MS
         });
         router.push('/login')
       })
       .catch((error) => {
-        console.error('Chyba při ověřování účtu:', error)
         toast.add({
           severity: 'error',
-          summary: 'Chyba',
-          detail: 'Nepodařilo se účet ověřit.',
+          summary: t('app.accountVerification.errorSummary'),
+          detail: t('app.accountVerification.errorDetail'),
           life: TOAST_DURATION_IN_MS
         });
       })

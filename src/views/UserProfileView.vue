@@ -26,12 +26,12 @@ async function handleChangePassword() {
   successMessage.value = ''
 
   if (!oldPassword.value || !newPassword.value || !confirmNewPassword.value) {
-    errorMessage.value = t('app.errors.missing-password-fields') || 'Vyplňte prosím všechna pole.'
+    errorMessage.value = t('app.errors.missing-password-fields')
     return
   }
 
   if (newPassword.value !== confirmNewPassword.value) {
-    errorMessage.value = t('app.errors.password-mismatch') || 'Nová hesla se neshodují.'
+    errorMessage.value = t('app.errors.password-mismatch')
     return
   }
 
@@ -44,15 +44,15 @@ async function handleChangePassword() {
     })
 
     if (status === 200 || status === 201) {
-      successMessage.value = t('app.change-password.success') || 'Heslo bylo úspěšně změněno.'
+      successMessage.value = t('app.change-password.success')
     }
   } catch (error: any) {
-    errorMessage.value = error.message || t('app.errors.change-password-failed') || 'Změna hesla selhala.'
+    errorMessage.value = error.message || t('app.errors.change-password-failed')
 
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Změna hesla selhala.',
+      summary: t('app.userProfile.error'),
+      detail: t('app.errors.change-password-failed'),
       life: TOAST_DURATION_IN_MS
     });
   } finally {
@@ -66,7 +66,7 @@ async function handleChangePassword() {
     <Navbar />
     <div class="max-w-md mx-auto mt-8 p-4">
       <h1 class="text-2xl font-bold mb-4">
-        {{ t('app.change-password.title') || 'Změna hesla' }}
+        {{ t('app.change-password.title') }}
       </h1>
 
       <div v-if="errorMessage" class="mb-4 text-red-600">
@@ -78,12 +78,12 @@ async function handleChangePassword() {
 
       <div class="mb-4">
         <label for="oldPassword" class="block text-surface-900 font-medium mb-2">
-          {{ t('app.change-password.old-password') || 'Stávající heslo' }}
+          {{ t('app.change-password.old-password') }}
         </label>
         <InputText
           id="oldPassword"
           type="password"
-          placeholder="Zadejte aktuální heslo"
+          :placeholder="t('app.userProfile.enterCurrentPassword')"
           class="w-full"
           v-model="oldPassword"
         />
@@ -91,12 +91,12 @@ async function handleChangePassword() {
 
       <div class="mb-4">
         <label for="newPassword" class="block text-surface-900 font-medium mb-2">
-          {{ t('app.change-password.new-password') || 'Nové heslo' }}
+          {{ t('app.change-password.new-password') }}
         </label>
         <InputText
           id="newPassword"
           type="password"
-          placeholder="Zadejte nové heslo"
+          :placeholder="t('app.userProfile.enterNewPassword')"
           class="w-full"
           v-model="newPassword"
         />
@@ -104,19 +104,19 @@ async function handleChangePassword() {
 
       <div class="mb-4">
         <label for="confirmNewPassword" class="block text-surface-900 font-medium mb-2">
-          {{ t('app.change-password.confirm-password') || 'Potvrzení nového hesla' }}
+          {{ t('app.change-password.confirm-password') }}
         </label>
         <InputText
           id="confirmNewPassword"
           type="password"
-          placeholder="Potvrďte nové heslo"
+          :placeholder="t('app.userProfile.confirmNewPassword')"
           class="w-full"
           v-model="confirmNewPassword"
         />
       </div>
 
       <Button
-        :label="t('app.change-password.submit') || 'Změnit heslo'"
+        :label="t('app.change-password.submit')"
         class="w-full"
         :loading="loading"
         @click="handleChangePassword"

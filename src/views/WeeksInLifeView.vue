@@ -3,8 +3,11 @@ import { ref, onMounted, defineAsyncComponent } from 'vue';
 import { useLifeStore } from '@/stores/lifeStore';
 import { useLoginStore } from '@/stores/loginStore';
 import { useToast } from 'primevue/usetoast';
+import { useI18n } from 'vue-i18n'
 
 const ProgressSpinner = defineAsyncComponent(() => import('primevue/progressspinner'));
+
+const { t } = useI18n();
 
 const toast = useToast();
 const TOAST_DURATION_IN_MS = 5000;
@@ -23,8 +26,8 @@ onMounted(async () => {
   } else {
     toast.add({
       severity: 'error',
-      summary: 'Chyba',
-      detail: 'Nepodařilo se načíst data.',
+      summary: t('app.weeksInLife.toast.error'),
+      detail: t('app.weeksInLife.toast.detail'),
       life: TOAST_DURATION_IN_MS
     });
   }
