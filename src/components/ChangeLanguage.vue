@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { usePrimeVue } from 'primevue/config';
 
 const localStorageKey = 'locale';
 
@@ -28,6 +29,37 @@ const { locale } = useI18n();
 locale.value = savedLocale;
 
 const currentLocale = ref(locale.value);
+
+const primevue = usePrimeVue();
+
+watch(locale, (newLocale) => {
+  if (newLocale === 'en') {
+    primevue.config.locale.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    primevue.config.locale.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    primevue.config.locale.dayNamesMin = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    primevue.config.locale.monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    primevue.config.locale.monthNamesShort = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    primevue.config.locale.today = "Today";
+    primevue.config.locale.clear = "Clear";
+  } else {
+    primevue.config.locale.dayNames = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    primevue.config.locale.dayNamesShort = ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"];
+    primevue.config.locale.dayNamesMin = ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"];
+    primevue.config.locale.monthNames = [
+      "Leden", "Únor", "Březen", "Duben", "Květen", "Červen",
+      "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
+    ];
+    primevue.config.locale.monthNamesShort = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čer", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"];
+    primevue.config.locale.today = "Dnes";
+    primevue.config.locale.clear = "Vymazat";
+  }
+}, { immediate: true });
 
 function setLanguage(lang: string) {
   currentLocale.value = lang;
