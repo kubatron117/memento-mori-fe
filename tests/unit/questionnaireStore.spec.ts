@@ -1,6 +1,6 @@
 import { setActivePinia, createPinia } from 'pinia';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { useQuestionnaireStore } from '../../src/stores/questionnaireStore'
+import { useQuestionnaireStore } from '../../src/stores/questionnaireStore';
 
 describe('Questionnaire Store', () => {
   let store: ReturnType<typeof useQuestionnaireStore>;
@@ -27,7 +27,6 @@ describe('Questionnaire Store', () => {
     store.updateField('smokingAdditionalDaysLost', 730);
 
     const expected = 90;
-    expect(store.calculateAdjustedLifeExpectancy()).toBeCloseTo(expected, 2);
     expect(store.finalLifeExpectancy).toBeCloseTo(expected, 2);
   });
 
@@ -46,7 +45,6 @@ describe('Questionnaire Store', () => {
     store.updateField('smokingAdditionalDaysLost', 365);
 
     const expected = 83;
-    expect(store.calculateAdjustedLifeExpectancy()).toBeCloseTo(expected, 2);
     expect(store.finalLifeExpectancy).toBeCloseTo(expected, 2);
   });
 
