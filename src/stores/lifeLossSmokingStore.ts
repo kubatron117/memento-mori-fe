@@ -98,8 +98,6 @@ export const useLifeLossSmokingStore = defineStore('lifeLossSmoking', () => {
   function updateMainStore(): void {
     questionnaireStore.updateField('smokingDaysLost', daysLost.value);
     questionnaireStore.updateField('smokingAdditionalDaysLost', additionalDaysLost.value);
-    console.log('smokingDaysLost', questionnaireStore.smokingDaysLost);
-    console.log('smokingAdditionalDaysLost', questionnaireStore.smokingAdditionalDaysLost);
   }
 
   watch(

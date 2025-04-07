@@ -51,7 +51,6 @@ export const useAlcoholStore = defineStore('lifeLossAlcohol', () => {
   function updateMainStore() {
     const questionnaireStore = useQuestionnaireStore();
     questionnaireStore.updateField('alcoholLifeLoss', lifeLostYears.value);
-    console.log('alcoholLifeLoss', questionnaireStore.alcoholLifeLoss)
   }
 
   watch(lifeLostYears, () => {

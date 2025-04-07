@@ -27,11 +27,8 @@ export const useLifeStore = defineStore('lifeStore', () => {
     const rawBirthDate = loginStore.dateOfBirth;
     const rawDeathDate = loginStore.estimatedLifespan;
 
-    console.log('rawBirthDate:', rawBirthDate, typeof rawBirthDate);
-    console.log('rawDeathDate:', rawDeathDate, typeof rawDeathDate);
-
     if (!rawBirthDate || !rawDeathDate) {
-      console.error('Datum narození nebo očekávané datum úmrtí není nastaveno.');
+      console.error('Date of birth or expected date of death is not set.');
       weeks.value = [];
       return;
     }
@@ -40,13 +37,13 @@ export const useLifeStore = defineStore('lifeStore', () => {
     const deathDate = toDate(rawDeathDate);
 
     if (isNaN(birthDate.getTime()) || isNaN(deathDate.getTime())) {
-      console.error('Neplatné datum narození nebo úmrtí.', { birthDate, deathDate });
+      console.error('Invalid date of birth or death.', { birthDate, deathDate });
       weeks.value = [];
       return;
     }
 
     if (birthDate >= deathDate) {
-      console.error('Datum úmrtí musí být po datu narození.');
+      console.error('Date of death must be after the date of birth.');
       weeks.value = [];
       return;
     }
@@ -73,7 +70,6 @@ export const useLifeStore = defineStore('lifeStore', () => {
         endDate: new Date(adjustedWeekEnd),
         isCurrentWeek: isCurrent,
         additionalInfo: undefined,
-        // Inicializace nových hodnocení (pokud ještě nejsou z BE)
         score_satisfaction: 0,
         score_emotional_balance: 0,
         score_productivity: 0,
@@ -86,18 +82,15 @@ export const useLifeStore = defineStore('lifeStore', () => {
       currentWeekEnd = endOfISOWeek(currentWeekStart);
     }
 
-    console.log('Generated weeks:', computedWeeks.length);
 
     try {
       const backendWeeks = await WeeksApiService.getWeeksInLives();
-      console.log('Fetched backend weeks:', backendWeeks.length);
 
       const backendMap = new Map<string, typeof backendWeeks[number]>();
       backendWeeks.forEach((bw) => {
         const key = `${bw.year}-${bw.week_number}`;
         backendMap.set(key, bw);
       });
-      console.log('Backend map:', backendMap);
 
       computedWeeks.forEach((week) => {
         const key = `${week.year}-${week.weekNumber}`;
@@ -114,10 +107,9 @@ export const useLifeStore = defineStore('lifeStore', () => {
         }
       });
     } catch (error) {
-      console.error('Chyba při načítání týdnů z BE:', error);
+      console.error('Error loading weeks from BE:', error);
     }
 
-    console.log('Final computedWeeks:', computedWeeks.length);
     weeks.value = computedWeeks;
   };
 
@@ -135,16 +127,16 @@ export const useLifeStore = defineStore('lifeStore', () => {
     const startOfPrevWeek = addWeeks(startOfCurrentWeek, -1);
 
     if (!week.backendId) {
-      console.error('Backend id chybí pro tento týden, není možné aktualizovat memo.');
-      throw new Error('Backend id chybí pro tento týden.');
+      console.error('Backend id is missing for this week, memo cannot be updated.');
+      throw new Error('Backend id is missing for this week.');
     }
 
     if (
       week.startDate.getTime() !== startOfCurrentWeek.getTime() &&
       week.startDate.getTime() !== startOfPrevWeek.getTime()
     ) {
-      console.error('Aktualizace memo je povolena pouze pro aktuální nebo předchozí týden.');
-      throw new Error('Aktualizace memo je povolena pouze pro aktuální nebo předchozí týden.');
+      console.error('Memo update is allowed only for the current or previous week.');
+      throw new Error('Memo update is allowed only for the current or previous week.');
     }
 
     try {
@@ -170,7 +162,7 @@ export const useLifeStore = defineStore('lifeStore', () => {
         weeks.value[idx].total_score = updatedBackendWeek.total_score;
       }
     } catch (error) {
-      console.error('Chyba při aktualizaci memo:', error);
+      console.error('Error updating memo:', error);
       throw error;
     }
   };

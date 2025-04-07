@@ -35,8 +35,6 @@ function piecewiseInterpolate(
   return points[points.length - 1].value;
 }
 
-// Constants for life gain estimates (typical -> optimal / typical -> feasible)
-// based on study data (for the US population)
 const GAINS_FEMALE_OPTIMAL = [
   { age: 20, value: 10.7 },
   { age: 60, value: 8.0 },
@@ -48,11 +46,6 @@ const GAINS_MALE_OPTIMAL = [
   { age: 80, value: 3.4 },
 ];
 
-// For the feasible diet, values are provided directly for age 20,
-// while for ages 60 and 80 the values are calculated as a ratio to the "optimal" diet.
-//
-// According to the study: a 20-year-old woman gains +6.2 years, and a man gains +7.3 years.
-// The study does not explicitly provide values for ages 60 and 80, so the ratio to optimal is used.
 const GAINS_FEMALE_FEASIBLE = [
   { age: 20, value: 6.2 }, // (from the study)
   { age: 60, value: 6.2 * (8.0 / 10.7) },  // ~4.63
