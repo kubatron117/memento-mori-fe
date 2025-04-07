@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { nextTick } from 'vue';
-import { useQuestionnaireStore } from '../../src/stores/questionnaireStore'
-import { useActivityStore } from '../../src/stores/lifeGainActivityStore'
+import { useQuestionnaireStore } from '../../src/stores/questionnaireStore';
+import { useActivityStore } from '../../src/stores/lifeGainActivityStore';
 
 vi.mock('@/stores/questionnaireStore', () => ({
   useQuestionnaireStore: vi.fn(),
@@ -22,6 +22,7 @@ describe('lifeGainActivityStore', () => {
 
   it('calculates lifeGainYears correctly for moderate exercise', async () => {
     const activityStore = useActivityStore();
+    activityStore.exerciseType = 'moderate';
     await nextTick();
     expect(activityStore.exerciseType).toBe('moderate');
     expect(activityStore.exerciseMinutes).toBe(0);
@@ -51,6 +52,7 @@ describe('lifeGainActivityStore', () => {
 
   it('calls updateField when lifeGainYears changes', async () => {
     const activityStore = useActivityStore();
+    activityStore.exerciseType = 'moderate';
     await nextTick();
     mockQuestionnaireStore.updateField.mockClear();
     activityStore.exerciseMinutes = 150;
