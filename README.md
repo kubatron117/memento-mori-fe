@@ -44,6 +44,8 @@ npm run test:unit
 npm run test:e2e:dev
 ```
 
+npx cypress open
+
 This runs the end-to-end tests against the Vite development server.
 It is much faster than the production build.
 
