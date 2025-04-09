@@ -44,7 +44,7 @@ export const useLoginStore = defineStore('loginStore', {
         this.accountInfo = accountData;
         this.isAuthenticated = true;
       } catch (error) {
-        console.error('Chyba při načítání uživatele:', error);
+        console.error('Error loading user:', error);
         await this.logoutUser();
       }
     },
@@ -60,7 +60,7 @@ export const useLoginStore = defineStore('loginStore', {
         }
         return status === 200 || status === 201;
       } catch (error) {
-        console.error('Chyba při odhlašování:', error);
+        console.error('Error during logout:', error);
         return false;
       }
     },
@@ -78,7 +78,7 @@ export const useLoginStore = defineStore('loginStore', {
         this.accountInfo = accountData;
         return true;
       } catch (error) {
-        console.error('Chyba při aktualizaci data narození a dožití:', error);
+        console.error('Error updating date of birth and expected date of death:', error);
         return false;
       }
     },

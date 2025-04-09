@@ -47,11 +47,13 @@ describe('Diet Store', () => {
 
   it('should return 0 life gain for "typical" eating habits', () => {
     mockQuestionnaireStore.eatingHabits = 'typical'
+    mockQuestionnaireStore.dietStartAge = mockQuestionnaireStore.getCurrentAge()
     const dietStore = useDietStore()
     expect(dietStore.lifeGainYears).toEqual(0)
   })
 
   it('should calculate optimal diet life gain for a female', () => {
+    mockQuestionnaireStore.dietStartAge = mockQuestionnaireStore.getCurrentAge() // 25
     const dietStore = useDietStore()
     expect(dietStore.lifeGainYears).toBeCloseTo(10.3625, 3)
   })
@@ -60,6 +62,7 @@ describe('Diet Store', () => {
     mockQuestionnaireStore.gender = 'male'
     mockQuestionnaireStore.eatingHabits = 'feasible'
     mockQuestionnaireStore.birthDate = new Date('1975-01-01')
+    mockQuestionnaireStore.dietStartAge = mockQuestionnaireStore.getCurrentAge() // 50
     const dietStore = useDietStore()
     expect(dietStore.lifeGainYears).toBeCloseTo(5.53, 2)
   })
@@ -68,11 +71,12 @@ describe('Diet Store', () => {
     mockQuestionnaireStore.birthDate = new Date('1995-01-01')
     mockQuestionnaireStore.gender = 'female'
     mockQuestionnaireStore.eatingHabits = 'optimal'
+    mockQuestionnaireStore.dietStartAge = mockQuestionnaireStore.getCurrentAge() // 30
     const dietStore = useDietStore()
     await nextTick()
     expect(mockUpdateField).toHaveBeenCalledWith('dietLifeGain', dietStore.lifeGainYears)
-
     mockQuestionnaireStore.birthDate = new Date('1990-01-01')
+    mockQuestionnaireStore.dietStartAge = mockQuestionnaireStore.getCurrentAge() // 35
     await nextTick()
     const call = mockUpdateField.mock.calls[mockUpdateField.mock.calls.length - 1]
     expect(call).toBeDefined()

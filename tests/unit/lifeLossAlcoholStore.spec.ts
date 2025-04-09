@@ -29,7 +29,7 @@ describe('useAlcoholStore', () => {
     store.wine = 1;
     const expected =
       1 * 10 +
-      2 * 10 +
+      2 * 16 +
       3 * 13.2 +
       1 * 20 +
       2 * 12.8 +

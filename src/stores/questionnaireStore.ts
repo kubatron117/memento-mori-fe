@@ -18,7 +18,6 @@ export interface QuestionnaireState {
   desiredAgeCalculated: number | null;
   desiredAge: number | null;
   lifeExpectancy: LifeExpectancyData;
-  // Výsledky výpočtů:
   smokingDaysLost: number;
   smokingAdditionalDaysLost: number;
   activityLifeGain: number;
@@ -99,7 +98,6 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     ) {
       if ((field === 'desiredAgeCalculated' || field === 'desiredAge') && typeof value === 'number') {
         if (value > 139) {
-          console.log('Maximum je 139 let');
           value = 139 as QuestionnaireState[K];
         }
       }
@@ -108,30 +106,6 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     updateGender(newGender: string) {
       this.gender = newGender;
     },
-    // calculateAdjustedLifeExpectancy(): number {
-    //   let base = 0;
-    //   if (this.desiredAgeCalculated !== null) {
-    //     base = this.desiredAgeCalculated;
-    //   } else if (this.lifeExpectancy) {
-    //     if (this.normalizedGender === 'male' && this.lifeExpectancy.male !== null) {
-    //       base = this.lifeExpectancy.male;
-    //     } else if (this.normalizedGender === 'female' && this.lifeExpectancy.female !== null) {
-    //       base = this.lifeExpectancy.female;
-    //     } else {
-    //       base = this.lifeExpectancy.both || 0;
-    //     }
-    //   }
-    //   const smokingLossYears = this.smokingDaysLost / 365;
-    //   const additionalSmokingLossYears = this.smokingAdditionalDaysLost / 365;
-    //   return (
-    //     base +
-    //     this.activityLifeGain +
-    //     this.dietLifeGain -
-    //     this.alcoholLifeLoss -
-    //     smokingLossYears -
-    //     additionalSmokingLossYears
-    //   );
-    // },
     getCurrentAge(): number {
       if (!this.birthDate) {
         return 0;

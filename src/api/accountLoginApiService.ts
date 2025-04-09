@@ -49,10 +49,10 @@ const PostVerifyAccountPasswordChangeSchema = z.object({
 const PutAccountDatesDataSchema = z.object({
   date_of_birth: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Neplatný formát data, očekává se YYYY-MM-DD"),
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format, expected YYYY-MM-DD"),
   estimated_lifespan: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Neplatný formát data, očekává se YYYY-MM-DD")
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format, expected YYYY-MM-DD")
 })
 
 const backendApi = axios.create({
