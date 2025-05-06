@@ -95,7 +95,7 @@
           </div>
           <div class="flex items-center gap-2">
             <label class="w-40 text-gray-700">{{ t('app.weekDialog.totalScore') }}</label>
-            <RatingStars :modelValue="week.total_score" :readonly="true" />
+            <RatingStars :modelValue="week.total_score / 5" :readonly="true" />
           </div>
         </div>
 
